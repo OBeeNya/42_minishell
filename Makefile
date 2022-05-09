@@ -6,7 +6,7 @@
 #    By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/20 11:51:21 by baubigna          #+#    #+#              #
-#    Updated: 2022/04/28 14:39:01 by baubigna         ###   ########.fr        #
+#    Updated: 2022/05/05 16:27:05 by baubigna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,14 @@ NAME	= minishell
 
 SRCS	= srcs/main.c \
 			srcs/builtins.c \
+			srcs/cleaning.c \
+			srcs/execute.c \
 			srcs/files.c \
 			srcs/initialize.c \
 			srcs/parse_utils.c \
-			srcs/paths.c \
+			srcs/quotes.c \
 			srcs/signals.c \
+			srcs/token_creation.c \
 			srcs/tokenize.c
 
 OBJS	= ${SRCS:.c=.o}

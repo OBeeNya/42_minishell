@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   cleaning.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/22 15:36:01 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/04 14:13:54 by baubigna         ###   ########.fr       */
+/*   Created: 2022/04/30 17:44:30 by baubigna          #+#    #+#             */
+/*   Updated: 2022/05/03 14:23:46 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ctrl_handler(int signum)
+void	ft_free_all(t_bash *bash)
 {
-	if (signum == SIGINT)
-		printf("\n>> ");
-	else if (signum == SIGSEGV)
+	free(bash->input);
+	while (bash->first_token->next)
 	{
-		ft_putstr_fd("exit\n", 1);
-		exit(1);
+		bash->first_token = bash->first_token->next;
+		free(bash->first_token->previous);
 	}
+	free(bash->first_token);
 }

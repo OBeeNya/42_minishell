@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:47:04 by baubigna          #+#    #+#             */
-/*   Updated: 2022/04/25 17:15:33 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/05/02 17:01:55 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_echo(char *input)
 			i++;
 		}
 		echo[i] = '\0';
-		printf("%s", ft_trim(echo));
+		printf("%s", ft_strtrim(echo, " "));
 		free(echo);
 	}
 	else if (!ft_strcmp(cmd1, "echo "))
@@ -61,7 +61,7 @@ void	ft_echo(char *input)
 			i++;
 		}
 		echo[i] = '\0';
-		printf("%s\n", ft_trim(echo));
+		printf("%s\n", ft_strtrim(echo, " "));
 		free(echo);
 	}
 }

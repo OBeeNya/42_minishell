@@ -6,30 +6,35 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 17:09:08 by baubigna          #+#    #+#             */
-/*   Updated: 2022/04/27 13:28:52 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/05/04 17:40:26 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*ft_trim(char *s)
+int	ft_is_token_sep(t_token *token)
 {
-	int		i;
-	int		j;
-	char	*t;
+	if (token->type == T_RED_I_SGL || token->type == T_RED_I_DBL
+		|| token->type == T_RED_O_SGL || token->type == T_RED_I_SGL)
+		return (1);
+	return (0);
+}
 
-	i = 0;
-	while (s[i] == 32)
-		i++;
-	j = ft_strlen(s);
-	while (s[j] == 32)
-		j--;
-	t = malloc(sizeof(char) * (j - i + 1));
-	while (i < j)
+char	*ft_cpy_from_input(t_bash *bash, size_t i, size_t j)
+{
+	char	*cpy;
+	size_t	c;
+
+	c = 0;
+	cpy = malloc(sizeof(char) * (i - j + 1));
+	if (cpy)
 	{
-		t[i] = s[i];
-		i++;
+		while (j + c < i)
+		{
+			cpy[c] = bash->input[j + c];
+			c++;
+		}
+		cpy[c] = '\0';
 	}
-	t[i] = '\0';
-	return (t);
+	return (cpy);
 }
