@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 15:58:23 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/05 17:03:01 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/05/18 15:54:11 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,18 @@ int	ft_get_nb_of_files(char **directories, DIR *dir, struct dirent *entry)
 	return (j);
 }
 
-void	ft_copy_exec(t_bash *bash, t_env *env, DIR *dir, struct dirent *entry)
+void	ft_copy_exec(t_bash *bash, char **paths, DIR *dir, struct dirent *entry)
 {
 	int				i;
 	int				j;
 
 	i = 0;
 	j = 0;
-	while (env->values[i])
+	while (paths[i])
 	{
-		if (ft_strncmp(env->values[i], "/mnt", 4))
+		if (ft_strncmp(paths[i], "/mnt", 4))
 		{
-			dir = opendir(env->values[i]);
+			dir = opendir(paths[i]);
 			entry = readdir(dir);
 			while (entry)
 			{
@@ -82,18 +82,22 @@ void	ft_get_exec(t_bash *bash)
 	struct dirent	*entry;
 	int				j;
 	t_env			*env;
+	char			**paths;
 
 	dir = NULL;
 	entry = NULL;
-	env = malloc(sizeof(t_env));
-	if (!env)
-		return ;
 	env = bash->env;
 	while (ft_strcmp(env->key, "PATH"))
 		env = env->next;
-	j = ft_get_nb_of_files(env->values, dir, entry);
-	bash->exec = malloc(sizeof(char *) * (j + 1));
+	paths = ft_split(env->string, ":");
+	j = ft_get_nb_of_files(paths, dir, entry);
+	bash->exec = calloc(j + 1, sizeof(char *));
 	if (!bash->exec)
 		return ;
-	ft_copy_exec(bash, env, dir, entry);
+	ft_copy_exec(bash, paths, dir, entry);
+	j = 0;
+	while (paths[j])
+		free(paths[j++]);
+	free(paths[j]);
+	free(paths);
 }

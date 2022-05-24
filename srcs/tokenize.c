@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 17:21:56 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/05 18:26:15 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/05/24 15:17:07 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,18 @@ int	ft_check_first_and_last_token(t_token *token)
 
 int	ft_check_middle_tokens(t_token *token)
 {
+	char	*s1;
+	char	*s2;
+
+	s1 = NULL;
+	s2 = NULL;
 	if (ft_is_token_sep(token) && ft_is_token_sep(token->next))
 	{
-		ft_putstr_fd(ft_strjoin(ft_strjoin("syntar error near unexpected '", \
-			token->next->str), "'\n"), 2);
+		s1 = ft_strjoin("syntar error near unexpected '", token->next->str);
+		s2 = ft_strjoin(s1, "'\n");
+		ft_putstr_fd(s2, 2);
+		free(s1);
+		free(s2);
 		return (0);
 	}
 	else if ((ft_is_token_sep(token) || token->type == T_PIPE)
@@ -75,79 +83,39 @@ void	ft_check_tokens(t_bash *bash)
 	bash->first_token = ft_first_token(bash);
 }
 
-/*
-size_t	ft_tokenize_redirections(t_bash *bash, size_t i)
+int	ft_analyze_quotes(t_bash *bash)
 {
-	if (bash->input[i] == PIPE)
+	if (ft_are_there_quotes(bash) && !ft_check_quotes(bash))
 	{
-		ft_new_token(bash, i, i + 1, T_PIPE);
-		return (i + 1);
+		ft_putstr_fd("quotes not closed\n", 2);
+		return (0);
 	}
-	else if (bash->input[i] == RED_I && bash->input[i + 1] == RED_I)
-	{
-		ft_new_token(bash, i, i + 2, T_RED_I_DBL);
-		return (i + 2);
-	}
-	else if (bash->input[i] == RED_I)
-	{
-		ft_new_token(bash, i, i + 1, T_RED_I_SGL);
-		return (i + 1);
-	}
-	else if (bash->input[i] == RED_O && bash->input[i + 1] == RED_O)
-	{
-		ft_new_token(bash, i, i + 2, T_RED_O_DBL);
-		return (i + 2);
-	}
-	else if (bash->input[i] == RED_O)
-		ft_new_token(bash, i, i + 1, T_RED_O_SGL);
-	return (i + 1);
+	return (1);
 }
-*/
 
-int	ft_tokenize(t_bash *bash)
+void	ft_tokenize(t_bash *bash)
 {
 	size_t	i;
 	size_t	j;
+	char	*trim;
+	char	*cpy;
 
 	i = 0;
-	if (ft_are_there_quotes(bash))
-	{
-		if (!ft_check_quotes(bash))
-		{
-			ft_putstr_fd("quotes not closed\n", 2);
-			return (0);
-		}
-	}
+	if (!ft_analyze_quotes(bash))
+		return ;
+	ft_quotes_doll(bash);
 	while (i < ft_strlen(bash->input))
 	{
 		j = i;
 		while (bash->input[i] != ' ' && i < ft_strlen(bash->input))
-			i = ft_ignore_quotes(bash, i);
-		if (ft_strcmp(ft_strtrim(ft_cpy_from_input(bash, i, j), " "), ""))
+			i = ft_ignore_quotes(bash->input, i);
+		cpy = ft_cpy_from_input(bash, i, j);
+		trim = ft_strtrim(cpy, " ");
+		if (ft_strcmp(trim, ""))
 			ft_new_token(bash, j, i);
+		free(trim);
+		free(cpy);
 		i++;
 	}
 	ft_check_tokens(bash);
-	return (1);
 }
-
-/*
-void	ft_transform_args(t_token *first_token)
-{
-	t_token	*cursor;
-
-	cursor = first_token;
-	while (cursor)
-	{
-		while(*cursor->str)
-		{
-			if (*cursor->str == '$')
-			{
-				
-			}
-			*cursor->str++;
-		}
-		cursor = cursor.next;
-	}
-}
-*/

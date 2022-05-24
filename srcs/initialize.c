@@ -6,18 +6,18 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:33:55 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/05 17:07:01 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/05/19 19:22:13 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ft_new_env(t_bash *bash, char *key, char **values)
+void	ft_new_env(t_bash *bash, char *key, char *string)
 {
 	t_env	*last;
 	t_env	*new;
 
-	new = malloc(sizeof(t_env));
+	new = calloc(1, sizeof(t_env));
 	if (!new)
 		return ;
 	last = bash->env;
@@ -26,41 +26,45 @@ void	ft_new_env(t_bash *bash, char *key, char **values)
 	last->next = new;
 	new->next = NULL;
 	new->key = key;
-	new->values = values;
+	new->string = string;
 }
 
 void	ft_create_first_env(t_bash *bash)
 {
-	bash->env = malloc(sizeof(t_env));
+	bash->env = calloc(1, sizeof(t_env));
 	if (!bash->env)
 		return ;
 	bash->env->key = ft_strdup(" === BEG OF ENV === ");
-	bash->env->values = NULL;
+	bash->env->string = NULL;
 	bash->env->next = NULL;
 }
 
 void	ft_get_env(t_bash *bash, char **envp)
 {
 	int		i;
+	int		j;
 	char	*key;
+	char	*string;
 	char	**temp;
-	char	**values;
 
 	i = 0;
 	temp = NULL;
-	values = NULL;
+	string = NULL;
 	ft_create_first_env(bash);
 	while (envp[i])
 	{
-		temp = ft_split(envp[i], '=');
-		key = temp[0];
-		values = ft_split(temp[1], ':');
-		ft_new_env(bash, key, values);
+		j = 0;
+		temp = ft_split(envp[i], "=");
+		key = ft_strdup(temp[0]);
+		string = ft_substr(envp[i], ft_strlen(temp[0]) + 1,
+				ft_strlen(envp[i]) - ft_strlen(temp[0]) - 1);
+		ft_new_env(bash, key, string);
+		while (temp[j])
+			free(temp[j++]);
+		free(temp[j]);
+		free(temp);
 		i++;
 	}
-	free(temp);
-	free(key);
-	free(values);
 }
 
 void	ft_initialize_bash(t_bash *bash, char **envp)
@@ -68,6 +72,7 @@ void	ft_initialize_bash(t_bash *bash, char **envp)
 	bash->input = NULL;
 	bash->env = NULL;
 	bash->exec = NULL;
+	bash->first_token = NULL;
 	ft_create_first_token(bash);
 	ft_get_env(bash, envp);
 	ft_get_exec(bash);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+         #
+#    By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/02 10:03:37 by hcherpre          #+#    #+#              #
-#    Updated: 2022/04/22 13:58:39 by baubigna         ###   ########.fr        #
+#    Updated: 2022/05/16 14:31:20 by hcherpre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRCS     = ft_isalpha.c ft_isdigit.c ft_isalnum.c\
     ft_memcmp.c ft_strnstr.c ft_atoi.c ft_calloc.c ft_strdup.c\
 	ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c\
 	ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c\
-	ft_putendl_fd.c ft_putnbr_fd.c ft_strcmp.c
+	ft_putendl_fd.c ft_putnbr_fd.c ft_strcmp.c ft_strndup.c
 
 SRCS_BONUS		= ft_lstnew.c\
 				ft_lstadd_front.c\

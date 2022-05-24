@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/05 17:02:44 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/05/24 15:36:29 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,36 +56,48 @@ typedef struct s_token
 typedef struct s_env
 {
 	char			*key;
-	char			**values;
+	char			*string;
 	struct s_env	*next;
 }	t_env;
+
+typedef struct s_pipe
+{
+	char	*cmd;
+	char	**args;	
+}	t_pipe;
 
 typedef struct s_bash
 {
 	char	**exec;
 	char	*input;
-	char	**paths;
 	t_env	*env;
 	t_token	*first_token;
 }	t_bash;
+
+/*--------------------------------------------------------------------------------------------------------------*/
 
 /* builtins.c */
 void	ft_echo(char *input);
 void	builtins(char *input);
 
 /* cleaning.c */
+void	ft_free_env(t_bash *bash);
+void	ft_free_tokens(t_bash *bash);
 void	ft_free_all(t_bash *bash);
+
+/* dollars_utils.c */
+char	*ft_manage_doll(char *str, size_t *i, t_bash *bash, int qt);
+char	*ft_manage_doll_2(char *str, size_t *i, t_bash *bash);
+char	*ft_is_var(t_bash *bash, char *str);
+void	ft_quotes_doll(t_bash *bash);
 
 /* execute.c */
 int		ft_get_nb_of_files(char **directories, DIR *dir, struct dirent *entry);
-void	ft_copy_exec(t_bash *bash, t_env *env, DIR *dir, struct dirent *entry);
+void	ft_copy_exec(t_bash *bash, char **paths, DIR *dir, struct dirent *entry);
 void	ft_get_exec(t_bash *bash);
 
-/* files.c */
-int		ft_check_file(char *filepath);
-
 /* initialize.c */
-void	ft_new_env(t_bash *bash, char *key, char **values);
+void	ft_new_env(t_bash *bash, char *key, char *string);
 void	ft_create_first_env(t_bash *bash);
 void	ft_get_env(t_bash *bash, char **envp);
 void	ft_initialize_bash(t_bash *bash, char **envp);
@@ -93,11 +105,23 @@ void	ft_initialize_bash(t_bash *bash, char **envp);
 /* parse_utils.c */
 int		ft_is_token_sep(t_token *token);
 char	*ft_cpy_from_input(t_bash *bash, size_t i, size_t j);
+int		ft_is_just_spaces(char *input);
+
+/* quotes_dollars.c */
+char	*ft_double(char *str, size_t *i, t_bash *bash, char *final_str);
+char	*ft_single(char *str, size_t *i, char *final_str);
+char	*ft_dollars(char *str, size_t *i, t_bash *bash, char *final_str);
+char	*ft_else(char *str, size_t *i, char *final_str);
+char	*ft_is_quotes(char *str, t_bash *bash);
+
+/* quotes_utils.c */
+char	*ft_dbl_quotes(char *str, size_t *i, t_bash *bash, char *final_str);
+char	*ft_sgl_quotes(char *str, size_t *i, char *final_str);
 
 /* quotes.c */
 int		ft_check_quotes(t_bash *bash);
 int		ft_are_there_quotes(t_bash *bash);
-size_t	ft_ignore_quotes(t_bash *bash, size_t i);
+size_t	ft_ignore_quotes(char *str, size_t i);
 
 /* signals.c */
 void	ctrl_handler(int signum);
@@ -105,14 +129,15 @@ void	ctrl_handler(int signum);
 /* token_creation.c */
 void	ft_create_first_token(t_bash *bash);
 t_token	*ft_first_token(t_bash *bash);
-void	ft_print_tokens(t_bash *bash);
 t_token	*ft_last_token(t_bash *bash);
+void	ft_get_token_type(t_token *new);
 void	ft_new_token(t_bash *bash, size_t j, size_t i);
 
 /* tokenize.c */
 int		ft_check_first_and_last_token(t_token *token);
 int		ft_middle_tokens(t_bash *bash);
 void	ft_check_tokens(t_bash *bash);
-int		ft_tokenize(t_bash *bash);
+int		ft_analyze_quotes(t_bash *bash);
+void	ft_tokenize(t_bash *bash);
 
 #endif

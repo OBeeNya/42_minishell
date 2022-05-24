@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:00:06 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/05 16:48:39 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/05/24 14:53:17 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,23 @@ int	ft_are_there_quotes(t_bash *bash)
 	return (0);
 }
 
-size_t	ft_ignore_quotes(t_bash *bash, size_t i)
+size_t	ft_ignore_quotes(char *str, size_t i)
 {
-	if (bash->input[i] == SGL_QT)
+	if (str[i] == SGL_QT)
 	{
 		i++;
-		while (bash->input[i] != SGL_QT)
+		while (str[i] != SGL_QT)
 			i++;
 		i++;
 	}
-	else if (bash->input[i] == DBL_QT)
+	else if (str[i] == DBL_QT)
 	{
 		i++;
-		while (bash->input[i] != DBL_QT)
+		while (str[i] != DBL_QT)
 			i++;
 		i++;
 	}
-	else if (i < ft_strlen(bash->input))
+	else if (i < ft_strlen(str))
 		i++;
 	return (i);
 }

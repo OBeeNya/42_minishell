@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:47:04 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/02 17:01:55 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/05/24 15:22:47 by hcherpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ void	ft_echo(char *input)
 	}
 }
 
-void	builtins(char *input)
-{
-	ft_echo(input);
-//	cd(input);
-//	pwd(input);
-//	export(input);
-//	unset(input);
-//	env(input);
-//	exit(input);
-}
+// void	builtins(char *input)
+// {
+// 	ft_echo(input);
+// //	cd(input);
+// //	pwd(input);
+// //	export(input);
+// //	unset(input);
+// //	env(input);
+// //	exit(input);
+// }

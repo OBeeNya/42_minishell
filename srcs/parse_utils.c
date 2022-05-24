@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 17:09:08 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/04 17:40:26 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/05/19 16:50:59 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_cpy_from_input(t_bash *bash, size_t i, size_t j)
 	size_t	c;
 
 	c = 0;
-	cpy = malloc(sizeof(char) * (i - j + 1));
+	cpy = calloc(i - j + 1, sizeof(char));
 	if (cpy)
 	{
 		while (j + c < i)
@@ -34,7 +34,20 @@ char	*ft_cpy_from_input(t_bash *bash, size_t i, size_t j)
 			cpy[c] = bash->input[j + c];
 			c++;
 		}
-		cpy[c] = '\0';
 	}
 	return (cpy);
+}
+
+int	ft_is_just_spaces(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
 }
