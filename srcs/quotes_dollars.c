@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 14:48:42 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/05/24 15:34:21 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/03 19:36:24 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,37 @@ char	*ft_single(char *str, size_t *i, char *final_str)
 
 char	*ft_dollars(char *str, size_t *i, t_bash *bash, char *final_str)
 {
+	char	*temp;
+
 	if (!*i)
-		final_str = ft_strjoin("", ft_manage_doll(str, i, bash, 0));
+	{
+		temp = ft_manage_doll(str, i, bash, 0);
+		final_str = ft_strjoin("", temp);
+		// free(temp);
+	}
 	else
-		final_str = ft_strjoin(final_str, \
-		ft_manage_doll(str, i, bash, 0));
+	{
+		temp = ft_manage_doll(str, i, bash, 0);
+		final_str = ft_strjoin(final_str, temp);
+		// free(temp);
+	}
 	(*i)++;
 	return (final_str);
 }
 
 char	*ft_else(char *str, size_t *i, char *final_str)
 {
+	char	*temp;
+
 	if (!*i)
 		final_str = ft_strjoin_char("", str[*i]);
 	else
-		final_str = ft_strjoin_char(final_str, str[*i]);
+	{
+		temp = ft_strdup(final_str);
+		free(final_str);
+		final_str = ft_strjoin_char(temp, str[*i]);
+		free(temp);
+	}
 	(*i)++;
 	return (final_str);
 }

@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:33:55 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/19 19:22:13 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/03 19:23:20 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,34 @@ void	ft_get_env(t_bash *bash, char **envp)
 	}
 }
 
+void	ft_cpy_env(t_bash *bash, char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	bash->envp = calloc(i + 1, sizeof(char *));
+	if (!bash->envp)
+		return ;
+	i = 0;
+	while (envp[i])
+	{
+		bash->envp[i] = ft_strdup(envp[i]);
+		i++;
+	}
+}
+
 void	ft_initialize_bash(t_bash *bash, char **envp)
 {
 	bash->input = NULL;
 	bash->env = NULL;
 	bash->exec = NULL;
 	bash->first_token = NULL;
+	bash->pipes = NULL;
+	ft_create_first_pipe(bash);
 	ft_create_first_token(bash);
+	ft_cpy_env(bash, envp);
 	ft_get_env(bash, envp);
 	ft_get_exec(bash);
 }

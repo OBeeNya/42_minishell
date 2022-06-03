@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 15:36:01 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/18 16:56:04 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/03 16:14:19 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void	ctrl_handler(int signum)
 {
 	if (signum == SIGINT)
-		printf("\nminishell ~ ");
+	{
+		rl_replace_line("", 0);
+		ft_putstr_fd("\nminishell ~ ", 1);
+	}
 	else if (signum == SIGSEGV)
 	{
 		ft_putstr_fd("exit\n", 1);

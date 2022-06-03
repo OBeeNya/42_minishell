@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollars_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 17:23:20 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/05/24 15:34:18 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/05/26 14:38:00 by hcherpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,28 @@ char	*ft_manage_doll(char *str, size_t *i, t_bash *bash, int qt)
 {
 	char	*temp;
 
-	if ((str[*i - 1] == DBL_QT || str[*i - 1] == SGL_QT) && \
-		(str[*i + 1] == DBL_QT || str[*i + 1] == SGL_QT) && qt)
+	if ((*i) < ft_strlen(str))
 	{
-		temp = ft_strjoin_char("", str[*i]);
-		return (temp);
+		if ((((*i) > 0 && str[*i - 1] == DBL_QT) || \
+			((*i) > 0 && str[*i - 1] == SGL_QT)) && \
+			(str[*i + 1] == DBL_QT || str[*i + 1] == SGL_QT) && qt)
+		{
+			temp = ft_strjoin_char("", str[*i]);
+			return (temp);
+		}
+		else if ((((*i) > 0 && str[*i - 1] == DBL_QT) || \
+			((*i) > 0 && str[*i - 1] == SGL_QT)) && \
+			(str[*i + 1] == DBL_QT || str[*i + 1] == SGL_QT) && !qt)
+			return ("");
+		else if (str[*i + 1] == 32 || str[*i + 1] == '\0' \
+			|| (str[*i + 1] >= 0 && str[*i + 1] < 48) \
+			|| (str[*i + 1] > 57 && str[*i + 1] < 65) \
+			|| (str[*i + 1] > 90 && str[*i + 1] < 95) \
+			|| str[*i + 1] > 122 || str[*i + 1] == 96)
+			return ("$");
+		else
+			return (ft_manage_doll_2(str, i, bash));
 	}
-	else if ((str[*i - 1] == DBL_QT || str[*i - 1] == SGL_QT) && \
-		(str[*i + 1] == DBL_QT || str[*i + 1] == SGL_QT) && !qt)
-		return ("");
-	else if (str[*i + 1] == 32 || str[*i + 1] == '\0'
-		|| (str[*i + 1] >= 0 && str[*i + 1] < 48)
-		|| (str[*i + 1] > 57 && str[*i + 1] < 65)
-		|| (str[*i + 1] > 90 && str[*i + 1] < 95)
-		|| str[*i + 1] > 122 || str[*i + 1] == 96)
-		return (ft_strdup("$"));
-	else
-		return (ft_manage_doll_2(str, i, bash));
 	return (NULL);
 }
 
@@ -75,9 +80,12 @@ char	*ft_is_var(t_bash *bash, char *str)
 void	ft_quotes_doll(t_bash *bash)
 {
 	char	*temp;
+	char	*temp2;
 
 	temp = ft_is_quotes(bash->input, bash);
 	free(bash->input);
-	bash->input = ft_strtrim(ft_strdup(temp), " ");
+	temp2 = ft_strdup(temp);
 	free(temp);
+	bash->input = ft_strtrim(temp2, " ");
+	free(temp2);
 }

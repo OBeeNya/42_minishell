@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 17:09:08 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/19 16:50:59 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/05/27 19:46:14 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,24 @@ int	ft_is_just_spaces(char *input)
 		i++;
 	}
 	return (1);
+}
+
+void	ft_trim_quotes(t_token *new)
+{
+	char	*temp;
+
+	if (new->str[0] == '"')
+	{
+		temp = ft_strdup(new->str);
+		free(new->str);
+		new->str = ft_strtrim(temp, "\"");
+		free(temp);
+	}
+	else if (new->str[0] == '\'')
+	{
+		temp = ft_strdup(new->str);
+		free(new->str);
+		new->str = ft_strtrim(temp, "\'");
+		free(temp);
+	}
 }

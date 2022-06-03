@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/30 17:00:15 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/19 19:57:16 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/03 14:56:18 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_create_first_token(t_bash *bash)
 {
-	bash->first_token = calloc(1, sizeof(t_token));
+	bash->first_token = ft_calloc(1, sizeof(t_token));
 	if (!bash->first_token)
 		return ;
 	bash->first_token->str = ft_strdup(" === BEG OF TOKENS === ");
@@ -23,18 +23,18 @@ void	ft_create_first_token(t_bash *bash)
 	bash->first_token->next = NULL;
 }
 
-t_token	*ft_first_token(t_bash *bash)
+t_token	*ft_first_token(t_token *token)
 {
-	while (bash->first_token->previous)
-		bash->first_token = bash->first_token->previous;
-	return (bash->first_token);
+	while (token->previous)
+		token = token->previous;
+	return (token);
 }
 
-t_token	*ft_last_token(t_bash *bash)
+t_token	*ft_last_token(t_token *token)
 {
-	while (bash->first_token->next)
-		bash->first_token = bash->first_token->next;
-	return (bash->first_token);
+	while (token->next)
+		token = token->next;
+	return (token);
 }
 
 void	ft_get_token_type(t_token *new)
@@ -59,10 +59,10 @@ void	ft_new_token(t_bash *bash, size_t j, size_t i)
 	t_token	*last;
 	char	*cpy;
 
-	new = calloc(1, sizeof(t_token));
+	new = ft_calloc(1, sizeof(t_token));
 	if (!new)
 		return ;
-	last = ft_last_token(bash);
+	last = ft_last_token(bash->first_token);
 	last->next = new;
 	new->previous = last;
 	new->next = NULL;

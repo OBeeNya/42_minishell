@@ -6,91 +6,62 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 17:21:56 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/24 15:17:07 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/03 18:34:07 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	ft_check_first_and_last_token(t_token *token)
+size_t	ft_gather_trim(t_bash *bash, char *trim, size_t j, size_t k)
 {
-	if (token->previous->type == T_BEG)
+	size_t	l;
+
+	l = k;
+	while (1)
 	{
-		if (token->type == '|')
-		{
-			ft_putstr_fd("syntax error near unexpected token '|'\n", 2);
-			return (0);
-		}
-		else if (token->type == T_RED_O_SGL || token->type == T_RED_O_DBL
-			|| token->type == T_RED_I_SGL || token->type == T_RED_I_DBL)
-		{
-			ft_putstr_fd("syntax error near unexpected token 'newline'\n", 2);
-			return (0);
-		}
+		while (trim[l] && trim[l] != SGL_QT && trim[l] != DBL_QT
+			&& trim[l] != RED_I && trim[l] != RED_O && trim[l] != PIPE)
+			l++;
+		if (trim[l] == SGL_QT || trim[l] == DBL_QT)
+			l = ft_ignore_quotes(trim, l);
+		if (trim[l] == PIPE || trim[l] == RED_I || trim[l] == RED_O
+			|| l == ft_strlen(trim))
+			break ;
 	}
-	else
-	{
-		if (token->type == T_RED_I_SGL || token->type == T_RED_I_DBL
-			|| token->type == T_RED_O_SGL || token->type == T_RED_I_DBL)
-		{
-			ft_putstr_fd("syntax error near unexpected token 'newline'\n", 2);
-			return (0);
-		}
-	}
-	return (1);
+	ft_new_token(bash, j + k, j + l);
+	return (l);
 }
 
-int	ft_check_middle_tokens(t_token *token)
+void	ft_token_separators(t_bash *bash, char *trim, size_t j)
 {
-	char	*s1;
-	char	*s2;
+	size_t	k;
 
-	s1 = NULL;
-	s2 = NULL;
-	if (ft_is_token_sep(token) && ft_is_token_sep(token->next))
+	k = 0;
+	while (k < ft_strlen(trim))
 	{
-		s1 = ft_strjoin("syntar error near unexpected '", token->next->str);
-		s2 = ft_strjoin(s1, "'\n");
-		ft_putstr_fd(s2, 2);
-		free(s1);
-		free(s2);
-		return (0);
+		if ((trim[k] == RED_I && trim[k + 1] == RED_I)
+			|| (trim[k] == RED_O && trim[k + 1] == RED_O))
+		{
+			ft_new_token(bash, j + k, j + k + 2);
+			k += 2;
+		}
+		else if (trim[k] == PIPE || trim[k] == RED_I || trim[k] == RED_O)
+		{
+			ft_new_token(bash, j + k, j + k + 1);
+			k++;
+		}
+		else
+			k = ft_gather_trim(bash, trim, j, k);
 	}
-	else if ((ft_is_token_sep(token) || token->type == T_PIPE)
-		&& token->next->type == T_PIPE)
-	{
-		ft_putstr_fd("syntax error near unexpected token '|'\n", 2);
-		return (0);
-	}
-	return (1);
 }
 
-void	ft_check_tokens(t_bash *bash)
+void	ft_do_we_pipe(t_bash *bash)
 {
-	bash->first_token = ft_first_token(bash);
-	bash->first_token = bash->first_token->next;
-	if (!ft_check_first_and_last_token(bash->first_token))
-		return ;
-	while (bash->first_token->next)
+	if (bash->first_token->next)
 	{
-		if (!ft_check_middle_tokens(bash->first_token))
-			return ;
-		bash->first_token = bash->first_token->next;
+		if (!ft_check_tokens(bash))
+			ft_create_pipe_list(bash);
 	}
-	if (bash->first_token->previous->type != T_BEG)
-		if (!ft_check_first_and_last_token(bash->first_token))
-			return ;
-	bash->first_token = ft_first_token(bash);
-}
-
-int	ft_analyze_quotes(t_bash *bash)
-{
-	if (ft_are_there_quotes(bash) && !ft_check_quotes(bash))
-	{
-		ft_putstr_fd("quotes not closed\n", 2);
-		return (0);
-	}
-	return (1);
 }
 
 void	ft_tokenize(t_bash *bash)
@@ -104,7 +75,7 @@ void	ft_tokenize(t_bash *bash)
 	if (!ft_analyze_quotes(bash))
 		return ;
 	ft_quotes_doll(bash);
-	while (i < ft_strlen(bash->input))
+	while (i < ft_strlen(bash->input) && bash->input != NULL)
 	{
 		j = i;
 		while (bash->input[i] != ' ' && i < ft_strlen(bash->input))
@@ -112,10 +83,10 @@ void	ft_tokenize(t_bash *bash)
 		cpy = ft_cpy_from_input(bash, i, j);
 		trim = ft_strtrim(cpy, " ");
 		if (ft_strcmp(trim, ""))
-			ft_new_token(bash, j, i);
+			ft_token_separators(bash, trim, j);
 		free(trim);
 		free(cpy);
 		i++;
 	}
-	ft_check_tokens(bash);
+	ft_do_we_pipe(bash);
 }

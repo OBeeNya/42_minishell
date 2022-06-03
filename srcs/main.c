@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:26:44 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/24 15:28:34 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/03 19:31:00 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_print_tokens(t_bash *bash)
 {
 	t_token	*print;
 
-	print = ft_first_token(bash);
+	print = ft_first_token(bash->first_token);
 	while (print)
 	{
 		printf("TOKEN: %s TOKEN TYPE: %c\n", print->str, print->type);
@@ -33,6 +33,32 @@ void	ft_print_env(t_bash *bash, char *key)
 		print = print->next;
 	if (print)
 		printf("%s\n", print->string);
+}
+
+void	ft_print_pipes(t_bash *bash)
+{
+	t_pipe	*pipe;
+
+	pipe = bash->pipes;
+	while (pipe)
+	{
+		printf("NEW PIPE\n");
+		while (pipe->first_token)
+		{
+			printf("%s /TYPE = %c\n", pipe->first_token->str, pipe->first_token->type);
+			pipe->first_token = pipe->first_token->next;
+		}
+		pipe = pipe->next;
+	}
+}
+
+void	ft_print_envp(t_bash *bash)
+{
+	int	i;
+
+	i = 0;
+	while (bash->envp[i])
+		printf("%s\n", bash->envp[i++]);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -60,10 +86,15 @@ int	main(int ac, char **av, char **envp)
 			exit(1);
 		}
 		if (!ft_is_just_spaces(bash.input))
+		{
 			ft_tokenize(&bash);
-		ft_print_tokens(&bash);
-		bash.first_token = ft_first_token(&bash);
+			ft_check_cmd(&bash);
+			// ft_print_pipes(&bash);
+		}
+		// ft_print_envp(&bash);
+		// ft_print_tokens(&bash);
 		// ft_print_env(&bash, "XMODIFIERS");
+		bash.first_token = ft_first_token(bash.first_token);
 		ft_free_all(&bash);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 #    By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/20 11:51:21 by baubigna          #+#    #+#              #
-#    Updated: 2022/05/24 15:29:41 by baubigna         ###   ########.fr        #
+#    Updated: 2022/06/03 18:34:59 by baubigna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,12 +19,15 @@ SRCS	= srcs/main.c \
 			srcs/execute.c \
 			srcs/initialize.c \
 			srcs/parse_utils.c \
+			srcs/pipes.c \
 			srcs/quotes.c \
 			srcs/signals.c \
+			srcs/token_check.c \
 			srcs/token_creation.c \
 			srcs/tokenize.c \
 			srcs/quotes_dollars.c \
-			srcs/quotes_utils.c
+			srcs/quotes_utils.c \
+			srcs/commands.c
 
 OBJS	= ${SRCS:.c=.o}
 

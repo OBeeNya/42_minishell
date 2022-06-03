@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:00:06 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/24 14:53:17 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/05/31 21:11:42 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,14 @@ size_t	ft_ignore_quotes(char *str, size_t i)
 	else if (i < ft_strlen(str))
 		i++;
 	return (i);
+}
+
+int	ft_analyze_quotes(t_bash *bash)
+{
+	if (ft_are_there_quotes(bash) && !ft_check_quotes(bash))
+	{
+		ft_putstr_fd("quotes not closed\n", 2);
+		return (0);
+	}
+	return (1);
 }
