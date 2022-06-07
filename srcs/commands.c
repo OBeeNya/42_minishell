@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 17:13:58 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/06/03 19:08:32 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/07 16:13:24 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	ft_check_cmd(t_bash *bash)
 	int		cmd;
 
 	next = bash->pipes->next;
+	chev = 0;
+	cmd = 0;
 	while (next)
 	{
 		lst = next->first_token;
@@ -84,7 +86,7 @@ void	ft_check_cmd_exec(t_bash *bash)
 			}
 			i++;
 		}
-		if (!comp)
+		if (!comp && ft_strcmp(list->cmd, "") && ft_strcmp(list->cmd, "$"))
 			ft_cmd_err(list);
 		list = list->next;
 	}

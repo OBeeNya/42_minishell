@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollars_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 17:23:20 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/05/26 14:38:00 by hcherpre         ###   ########.fr       */
+/*   Updated: 2022/06/07 16:06:12 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,15 @@ char	*ft_manage_doll(char *str, size_t *i, t_bash *bash, int qt)
 			(str[*i + 1] == DBL_QT || str[*i + 1] == SGL_QT) && !qt)
 			return ("");
 		else if (str[*i + 1] == 32 || str[*i + 1] == '\0' \
-			|| (str[*i + 1] >= 0 && str[*i + 1] < 48) \
+			|| (str[*i + 1] >= 0 && str[*i + 1] < DBL_QT) \
+			|| (str[*i + 1] >= 35 && str[*i + 1] < SGL_QT) \
+			|| (str[*i + 1] >= 40 && str[*i + 1] < 48) \
 			|| (str[*i + 1] > 57 && str[*i + 1] < 65) \
 			|| (str[*i + 1] > 90 && str[*i + 1] < 95) \
 			|| str[*i + 1] > 122 || str[*i + 1] == 96)
 			return ("$");
+		else if (str[*i + 1] == DBL_QT || str[*i + 1] == SGL_QT)
+			return ("");
 		else
 			return (ft_manage_doll_2(str, i, bash));
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 15:50:26 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/31 15:28:26 by hcherpre         ###   ########.fr       */
+/*   Updated: 2022/06/07 15:34:01 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,14 @@ void	ft_create_pipe_list(t_bash *bash)
 	count = ft_count_pipes(token) + 1;
 	while (count)
 	{
-		ft_create_new_pipe(bash, token);
-		while (token->next && token->type != T_PIPE)
-			token = token->next;
-		if (token->type == T_PIPE)
-			token = token->next;
+		if (token)
+		{
+			ft_create_new_pipe(bash, token);
+			while (token->next && token->type != T_PIPE)
+				token = token->next;
+			if (token->type == T_PIPE)
+				token = token->next;
+		}
 		count--;
 	}
 }

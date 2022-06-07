@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/06/03 19:25:46 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/07 15:46:47 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,8 @@ char	*ft_is_quotes(char *str, t_bash *bash);
 char	*ft_dbl_quotes(char *str, size_t *i, t_bash *bash, char *final_str);
 char	*ft_sgl_quotes(char *str, size_t *i, char *final_str);
 int		ft_count(char *str, int i);
+int		ft_count_quotes(char *str);
+size_t	ft_index_closing_quote(char *str, size_t i);
 
 /* quotes.c */
 int		ft_check_quotes(t_bash *bash);
@@ -155,6 +157,7 @@ void	ctrl_handler(int signum);
 int		ft_check_first_and_last_token(t_token *token);
 int		ft_check_middle_tokens(t_token *token);
 int		ft_check_tokens(t_bash *bash);
+void	ft_do_we_pipe(t_bash *bash);
 
 /* token_creation.c */
 void	ft_create_first_token(t_bash *bash);
@@ -166,7 +169,6 @@ void	ft_new_token(t_bash *bash, size_t j, size_t i);
 /* tokenize.c */
 size_t	ft_gather_trim(t_bash *bash, char *trim, size_t j, size_t k);
 void	ft_token_separators(t_bash *bash, char *trim, size_t j);
-void	ft_do_we_pipe(t_bash *bash);
 void	ft_tokenize(t_bash *bash);
 
 #endif

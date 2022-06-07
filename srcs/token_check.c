@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:33:11 by baubigna          #+#    #+#             */
-/*   Updated: 2022/06/03 18:33:38 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/07 15:46:38 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,13 @@ int	ft_check_tokens(t_bash *bash)
 			return (1);
 	bash->first_token = ft_first_token(bash->first_token);
 	return (0);
+}
+
+void	ft_do_we_pipe(t_bash *bash)
+{
+	if (bash->first_token->next)
+	{
+		if (!ft_check_tokens(bash))
+			ft_create_pipe_list(bash);
+	}
 }

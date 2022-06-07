@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:26:44 by baubigna          #+#    #+#             */
-/*   Updated: 2022/06/03 19:31:00 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/04 17:36:14 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,17 @@ void	ft_print_env(t_bash *bash, char *key)
 void	ft_print_pipes(t_bash *bash)
 {
 	t_pipe	*pipe;
+	t_token	*print;
 
 	pipe = bash->pipes;
 	while (pipe)
 	{
 		printf("NEW PIPE\n");
-		while (pipe->first_token)
+		print = pipe->first_token;
+		while (print)
 		{
-			printf("%s /TYPE = %c\n", pipe->first_token->str, pipe->first_token->type);
-			pipe->first_token = pipe->first_token->next;
+			printf("%s / TYPE: %c\n", print->str, print->type);
+			print = print->next;
 		}
 		pipe = pipe->next;
 	}
@@ -89,7 +91,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			ft_tokenize(&bash);
 			ft_check_cmd(&bash);
-			// ft_print_pipes(&bash);
+			ft_print_pipes(&bash);
 		}
 		// ft_print_envp(&bash);
 		// ft_print_tokens(&bash);

@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 17:21:56 by baubigna          #+#    #+#             */
-/*   Updated: 2022/06/03 18:34:07 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/07 15:59:30 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,56 @@ void	ft_token_separators(t_bash *bash, char *trim, size_t j)
 	}
 }
 
-void	ft_do_we_pipe(t_bash *bash)
+void	ft_unquoting(char *token, char *str)
 {
-	if (bash->first_token->next)
+	size_t	i;
+	size_t	j;
+	size_t	k;
+
+	i = 0;
+	j = 0;
+	while (i < ft_strlen(str))
 	{
-		if (!ft_check_tokens(bash))
-			ft_create_pipe_list(bash);
+		if (str[i] == SGL_QT || str[i] == DBL_QT)
+		{
+			k = ft_index_closing_quote(str, i);
+			i++;
+			while (i < k)
+			{
+				token[j] = str[i];
+				i++;
+				j++;
+			}
+			i++;
+		}
+		else
+			token[j++] = str[i++];
+	}
+}
+
+void	ft_unquote_tokens(t_bash *bash)
+{
+	t_token	*pass;
+	char	*token;
+	size_t	l;
+
+	pass = bash->first_token->next;
+	while (pass)
+	{
+		if (pass->previous->type == T_RED_I_DBL)
+			pass = pass->next;
+		else
+		{
+			l = ft_strlen(pass->str) - ft_count_quotes(pass->str) + 1;
+			token = calloc(l, sizeof(char));
+			if (!token)
+				return ;
+			ft_unquoting(token, pass->str);
+			free(pass->str);
+			pass->str = ft_strdup(token);
+			free(token);
+			pass = pass->next;
+		}
 	}
 }
 
@@ -88,5 +132,6 @@ void	ft_tokenize(t_bash *bash)
 		free(cpy);
 		i++;
 	}
+	ft_unquote_tokens(bash);
 	ft_do_we_pipe(bash);
 }
