@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 12:11:09 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/05/25 18:04:57 by hcherpre         ###   ########.fr       */
+/*   Updated: 2022/06/09 16:13:16 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strdup(const char *s1)
 	size = 0;
 	while (s1[size])
 		size++;
-	new = malloc(sizeof(char) * size + 1);
+	new = ft_calloc(size + 2, sizeof(char));
 	if (!new)
 		return (NULL);
 	i = 0;

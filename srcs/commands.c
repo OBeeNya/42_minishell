@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 17:13:58 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/06/07 16:13:24 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/09 17:44:52 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,18 @@ void	ft_assign_cmd(t_pipe *next, t_token *lst, int *chev, int *cmd)
 	}
 }
 
-void	ft_check_cmd(t_bash *bash)
+int	ft_check_cmd(t_bash *bash)
 {
 	t_pipe	*next;
 	t_token	*lst;
 	int		chev;
 	int		cmd;
+	int		err;
 
 	next = bash->pipes->next;
 	chev = 0;
 	cmd = 0;
+	err = 0;
 	while (next)
 	{
 		lst = next->first_token;
@@ -54,7 +56,8 @@ void	ft_check_cmd(t_bash *bash)
 		next = next->next;
 	}
 	if (cmd)
-		ft_check_cmd_exec(bash);
+		err = ft_check_cmd_exec(bash);
+	return (err);
 }
 
 void	ft_cmd_err(t_pipe *list)
@@ -66,17 +69,17 @@ void	ft_cmd_err(t_pipe *list)
 	free(temp);
 }
 
-void	ft_check_cmd_exec(t_bash *bash)
+int	ft_is_it_exec(t_bash *bash, t_pipe *list)
 {
-	t_pipe	*list;
-	int		i;
-	int		comp;
+	int	i;
+	int	comp;
+	int	err;
 
-	list = bash->pipes->next;
-	while (list)
+	i = 0;
+	comp = 0;
+	err = 0;
+	if (!ft_is_builtin(list->cmd))
 	{
-		i = 0;
-		comp = 0;
 		while (bash->exec[i])
 		{
 			if (!ft_strcmp(list->cmd, bash->exec[i]))
@@ -87,7 +90,25 @@ void	ft_check_cmd_exec(t_bash *bash)
 			i++;
 		}
 		if (!comp && ft_strcmp(list->cmd, "") && ft_strcmp(list->cmd, "$"))
+		{
 			ft_cmd_err(list);
+			err++;
+		}
+	}
+	return (err);
+}
+
+int	ft_check_cmd_exec(t_bash *bash)
+{
+	t_pipe	*list;
+	int		err;
+
+	err = 0;
+	list = bash->pipes->next;
+	while (list)
+	{
+		err += ft_is_it_exec(bash, list);
 		list = list->next;
 	}
+	return (err);
 }

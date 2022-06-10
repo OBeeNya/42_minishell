@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 17:09:08 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/27 19:46:14 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/09 12:45:02 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,19 @@ void	ft_trim_quotes(t_token *new)
 		free(new->str);
 		new->str = ft_strtrim(temp, "\'");
 		free(temp);
+	}
+}
+
+void	ft_free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	if (split)
+	{
+		while (split[i])
+			free(split[i++]);
+		free(split[i]);
+		free(split);
 	}
 }

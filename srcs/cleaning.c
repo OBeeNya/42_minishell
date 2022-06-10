@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/30 17:44:30 by baubigna          #+#    #+#             */
-/*   Updated: 2022/06/03 19:25:03 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/09 12:46:02 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,7 @@ void	ft_free_pipes(t_bash *bash)
 			next = temp->next;
 			if (temp->cmd)
 				free(temp->cmd);
-			if (temp->args)
-			{
-				while (*temp->args)
-					free(*temp->args++);
-				free(*temp->args);
-			}
+			ft_free_split(temp->args);
 			ft_free_tokens(temp->first_token);
 			free(temp);
 			temp = next;

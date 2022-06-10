@@ -6,25 +6,45 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 15:58:23 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/18 15:54:11 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/09 18:04:17 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-/*
-int	main(int ac, char **av, char **env)
+char	*ft_get_exec_path(char **paths, char *cmd)
 {
-	char	*a[] = {"./ls", "-la", NULL};
-	int		e = execve("/usr/bin/ls", a, env);
-	return (0);
+	char			*path;
+	DIR				*dir;
+	struct dirent	*entry;
+
+	while (*paths)
+	{
+		if (ft_strncmp(*paths, "/mnt", 4))
+		{
+			dir = opendir(*paths);
+			entry = readdir(dir);
+			while (entry)
+			{
+				if (!ft_strcmp(entry->d_name, cmd))
+				{
+					path = ft_strjoin(*paths, "/");
+					closedir(dir);
+					return (path);
+				}
+				entry = readdir(dir);
+			}
+			closedir(dir);
+		}
+		paths++;
+	}
+	return (NULL);
 }
-*/
 
 int	ft_get_nb_of_files(char **directories, DIR *dir, struct dirent *entry)
 {
-	int				i;
-	int				j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -49,8 +69,8 @@ int	ft_get_nb_of_files(char **directories, DIR *dir, struct dirent *entry)
 
 void	ft_copy_exec(t_bash *bash, char **paths, DIR *dir, struct dirent *entry)
 {
-	int				i;
-	int				j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -91,7 +111,7 @@ void	ft_get_exec(t_bash *bash)
 		env = env->next;
 	paths = ft_split(env->string, ":");
 	j = ft_get_nb_of_files(paths, dir, entry);
-	bash->exec = calloc(j + 1, sizeof(char *));
+	bash->exec = ft_calloc(j + 1, sizeof(char *));
 	if (!bash->exec)
 		return ;
 	ft_copy_exec(bash, paths, dir, entry);

@@ -6,11 +6,35 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 17:23:20 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/06/07 16:06:12 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/09 12:53:55 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	ft_which_doll_case(char *str, size_t *i, int qt)
+{
+	if ((((*i) > 0 && str[*i - 1] == DBL_QT) || \
+		((*i) > 0 && str[*i - 1] == SGL_QT)) && \
+		(str[*i + 1] == DBL_QT || str[*i + 1] == SGL_QT) && qt)
+		return (1);
+	else if ((((*i) > 0 && str[*i - 1] == DBL_QT) || \
+		((*i) > 0 && str[*i - 1] == SGL_QT)) && \
+		(str[*i + 1] == DBL_QT || str[*i + 1] == SGL_QT) && !qt)
+		return (2);
+	else if (str[*i + 1] == 32 || str[*i + 1] == '\0' \
+		|| (str[*i + 1] >= 0 && str[*i + 1] < DBL_QT) \
+		|| (str[*i + 1] >= 35 && str[*i + 1] < SGL_QT) \
+		|| (str[*i + 1] >= 40 && str[*i + 1] < 48) \
+		|| (str[*i + 1] > 57 && str[*i + 1] < 65) \
+		|| (str[*i + 1] > 90 && str[*i + 1] < 95) \
+		|| str[*i + 1] > 122 || str[*i + 1] == 96)
+		return (3);
+	else if (str[*i + 1] == DBL_QT || str[*i + 1] == SGL_QT)
+		return (4);
+	else
+		return (5);
+}
 
 char	*ft_manage_doll(char *str, size_t *i, t_bash *bash, int qt)
 {
@@ -18,28 +42,18 @@ char	*ft_manage_doll(char *str, size_t *i, t_bash *bash, int qt)
 
 	if ((*i) < ft_strlen(str))
 	{
-		if ((((*i) > 0 && str[*i - 1] == DBL_QT) || \
-			((*i) > 0 && str[*i - 1] == SGL_QT)) && \
-			(str[*i + 1] == DBL_QT || str[*i + 1] == SGL_QT) && qt)
+		if (ft_which_doll_case(str, i, qt) == 1)
 		{
 			temp = ft_strjoin_char("", str[*i]);
 			return (temp);
 		}
-		else if ((((*i) > 0 && str[*i - 1] == DBL_QT) || \
-			((*i) > 0 && str[*i - 1] == SGL_QT)) && \
-			(str[*i + 1] == DBL_QT || str[*i + 1] == SGL_QT) && !qt)
+		else if (ft_which_doll_case(str, i, qt) == 2)
 			return ("");
-		else if (str[*i + 1] == 32 || str[*i + 1] == '\0' \
-			|| (str[*i + 1] >= 0 && str[*i + 1] < DBL_QT) \
-			|| (str[*i + 1] >= 35 && str[*i + 1] < SGL_QT) \
-			|| (str[*i + 1] >= 40 && str[*i + 1] < 48) \
-			|| (str[*i + 1] > 57 && str[*i + 1] < 65) \
-			|| (str[*i + 1] > 90 && str[*i + 1] < 95) \
-			|| str[*i + 1] > 122 || str[*i + 1] == 96)
+		else if (ft_which_doll_case(str, i, qt) == 3)
 			return ("$");
-		else if (str[*i + 1] == DBL_QT || str[*i + 1] == SGL_QT)
+		else if (ft_which_doll_case(str, i, qt) == 4)
 			return ("");
-		else
+		else if (ft_which_doll_case(str, i, qt) == 5)
 			return (ft_manage_doll_2(str, i, bash));
 	}
 	return (NULL);

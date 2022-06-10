@@ -6,28 +6,33 @@
 #    By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/20 11:51:21 by baubigna          #+#    #+#              #
-#    Updated: 2022/06/03 18:34:59 by baubigna         ###   ########.fr        #
+#    Updated: 2022/06/09 18:03:25 by baubigna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
 
 SRCS	= srcs/main.c \
+			srcs/args.c \
 			srcs/builtins.c \
+			srcs/cd.c \
 			srcs/cleaning.c \
+			srcs/commands.c \
 			srcs/dollars_utils.c \
+			srcs/echo.c \
 			srcs/execute.c \
+			srcs/fork.c \
 			srcs/initialize.c \
 			srcs/parse_utils.c \
-			srcs/pipes.c \
+			srcs/pipe_creation.c \
+			srcs/print.c \
+			srcs/quotes_dollars.c \
+			srcs/quotes_utils.c \
 			srcs/quotes.c \
 			srcs/signals.c \
 			srcs/token_check.c \
 			srcs/token_creation.c \
-			srcs/tokenize.c \
-			srcs/quotes_dollars.c \
-			srcs/quotes_utils.c \
-			srcs/commands.c
+			srcs/tokenize.c
 
 OBJS	= ${SRCS:.c=.o}
 

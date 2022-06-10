@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/06/07 15:46:47 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/09 18:04:31 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ typedef struct s_pipe
 	char			*cmd;
 	char			**args;
 	t_token			*first_token;
+	int				fdin;
+	int				fdout;
 	struct s_pipe	*next;
 }	t_pipe;
 
@@ -81,9 +83,17 @@ typedef struct s_bash
 
 /*---------------------------------------------------------------------------*/
 
+/* args.c */
+int		ft_count_args(t_token *token);
+void	ft_cpy_args(t_pipe *pipe);
+void	ft_get_args(t_bash *bash);
+
 /* builtins.c */
-void	ft_echo(char *input);
-void	builtins(char *input);
+int		ft_is_builtin(char *cmd);
+void	ft_dispatch_builtins(t_pipe *pipe);
+
+/* cd.c */
+void	ft_cd(t_pipe *pipe);
 
 /* cleaning.c */
 void	ft_free_bash_env(t_bash *bash);
@@ -94,21 +104,33 @@ void	ft_free_all(t_bash *bash);
 
 /* commands.c */
 void	ft_assign_cmd(t_pipe *next, t_token *lst, int *chev, int *cmd);
-void	ft_check_cmd(t_bash *bash);
+int		ft_check_cmd(t_bash *bash);
 void	ft_cmd_err(t_pipe *list);
-void	ft_check_cmd_exec(t_bash *bash);
+int		ft_is_it_exec(t_bash *bash, t_pipe *list);
+int		ft_check_cmd_exec(t_bash *bash);
 
 /* dollars_utils.c */
+int		ft_which_doll_case(char *str, size_t *i, int qt);
 char	*ft_manage_doll(char *str, size_t *i, t_bash *bash, int qt);
 char	*ft_manage_doll_2(char *str, size_t *i, t_bash *bash);
 char	*ft_is_var(t_bash *bash, char *str);
 void	ft_quotes_doll(t_bash *bash);
 
+/* echo.c */
+void	ft_echo(t_pipe *pipe);
+
 /* execute.c */
+char	*ft_get_exec_path(char **paths, char *cmd);
 int		ft_get_nb_of_files(char **directories, DIR *dir, struct dirent *entry);
 void	ft_copy_exec(t_bash *bash, char **paths, DIR *dir, \
 	struct dirent *entry);
 void	ft_get_exec(t_bash *bash);
+
+/* fork.c */
+char	*ft_get_path_str(char *cmd, t_bash *bash);
+char	**ft_join_args(t_pipe *pipe);
+void	ft_execute_cmd(t_pipe *pipe, t_bash *bash);
+void	ft_forking(t_bash *bash);
 
 /* initialize.c */
 void	ft_new_env(t_bash *bash, char *key, char *string);
@@ -122,13 +144,20 @@ int		ft_is_token_sep(t_token *token);
 char	*ft_cpy_from_input(t_bash *bash, size_t i, size_t j);
 int		ft_is_just_spaces(char *input);
 void	ft_trim_quotes(t_token *new);
+void	ft_free_split(char **split);
 
-/* pipes.c */
+/* pipe_creation.c */
 void	ft_create_first_pipe(t_bash *bash);
 void	ft_add_back_token(t_pipe *pipe, t_token *token);
 void	ft_create_new_pipe(t_bash *bash, t_token *token);
 int		ft_count_pipes(t_token *first);
 void	ft_create_pipe_list(t_bash *bash);
+
+/* print.c */
+void	ft_print_tokens(t_bash *bash);
+void	ft_print_env(t_bash *bash, char *key);
+void	ft_print_pipes(t_bash *bash);
+void	ft_print_envp(t_bash *bash);
 
 /* quotes_dollars.c */
 char	*ft_double(char *str, size_t *i, t_bash *bash, char *final_str);

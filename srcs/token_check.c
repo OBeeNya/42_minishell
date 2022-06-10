@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:33:11 by baubigna          #+#    #+#             */
-/*   Updated: 2022/06/07 15:46:38 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/08 17:54:28 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_check_first_and_last_token(t_token *token)
 	else
 	{
 		if (token->type == T_RED_I_SGL || token->type == T_RED_I_DBL
-			|| token->type == T_RED_O_SGL || token->type == T_RED_I_DBL)
+			|| token->type == T_RED_O_SGL || token->type == T_RED_O_DBL)
 		{
 			ft_putstr_fd("syntax error near unexpected token 'newline'\n", 2);
 			return (0);

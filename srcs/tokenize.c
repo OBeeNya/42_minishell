@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 17:21:56 by baubigna          #+#    #+#             */
-/*   Updated: 2022/06/07 15:59:30 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/09 17:20:37 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	ft_unquote_tokens(t_bash *bash)
 		else
 		{
 			l = ft_strlen(pass->str) - ft_count_quotes(pass->str) + 1;
-			token = calloc(l, sizeof(char));
+			token = ft_calloc(l, sizeof(char));
 			if (!token)
 				return ;
 			ft_unquoting(token, pass->str);

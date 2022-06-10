@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:33:55 by baubigna          #+#    #+#             */
-/*   Updated: 2022/06/03 19:23:20 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/08 18:37:08 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_new_env(t_bash *bash, char *key, char *string)
 	t_env	*last;
 	t_env	*new;
 
-	new = calloc(1, sizeof(t_env));
+	new = ft_calloc(1, sizeof(t_env));
 	if (!new)
 		return ;
 	last = bash->env;
@@ -31,7 +31,7 @@ void	ft_new_env(t_bash *bash, char *key, char *string)
 
 void	ft_create_first_env(t_bash *bash)
 {
-	bash->env = calloc(1, sizeof(t_env));
+	bash->env = ft_calloc(1, sizeof(t_env));
 	if (!bash->env)
 		return ;
 	bash->env->key = ft_strdup(" === BEG OF ENV === ");
@@ -74,7 +74,7 @@ void	ft_cpy_env(t_bash *bash, char **envp)
 	i = 0;
 	while (envp[i])
 		i++;
-	bash->envp = calloc(i + 1, sizeof(char *));
+	bash->envp = ft_calloc(i + 1, sizeof(char *));
 	if (!bash->envp)
 		return ;
 	i = 0;
