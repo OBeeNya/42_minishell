@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 17:13:58 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/06/09 17:44:52 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/06 14:40:03 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,42 +56,40 @@ int	ft_check_cmd(t_bash *bash)
 		next = next->next;
 	}
 	if (cmd)
+	{
 		err = ft_check_cmd_exec(bash);
-	return (err);
+		return (err);
+	}
+	return (1);
 }
 
-void	ft_cmd_err(t_pipe *list)
+void	ft_cmd_err(t_pipe *list, t_bash *bash)
 {
 	char	*temp;
 
-	temp = ft_strjoin(list->cmd, ": command not found\n");
-	ft_putstr_fd(temp, 2);
-	free(temp);
+	if (list->cmd[0] != '.' && list->cmd[0] != '/')
+	{
+		temp = ft_strjoin(list->cmd, ": command not found\n");
+		ft_putstr_fd(temp, 2);
+		free(temp);
+		bash->err = 127;
+	}
 }
 
 int	ft_is_it_exec(t_bash *bash, t_pipe *list)
 {
-	int	i;
 	int	comp;
 	int	err;
 
-	i = 0;
 	comp = 0;
 	err = 0;
 	if (!ft_is_builtin(list->cmd))
 	{
-		while (bash->exec[i])
+		if (bash->exec)
+			ft_check_exec(bash, list, &comp, &err);
+		else
 		{
-			if (!ft_strcmp(list->cmd, bash->exec[i]))
-			{
-				comp = 1;
-				break ;
-			}
-			i++;
-		}
-		if (!comp && ft_strcmp(list->cmd, "") && ft_strcmp(list->cmd, "$"))
-		{
-			ft_cmd_err(list);
+			ft_cmd_err(list, bash);
 			err++;
 		}
 	}

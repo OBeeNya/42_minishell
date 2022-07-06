@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollars_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 17:23:20 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/06/09 12:53:55 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/04 17:45:35 by hcherpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*ft_manage_doll(char *str, size_t *i, t_bash *bash, int qt)
 		else if (ft_which_doll_case(str, i, qt) == 2)
 			return ("");
 		else if (ft_which_doll_case(str, i, qt) == 3)
-			return ("$");
+			return (ft_strdup("$"));
 		else if (ft_which_doll_case(str, i, qt) == 4)
 			return ("");
 		else if (ft_which_doll_case(str, i, qt) == 5)
@@ -74,7 +74,7 @@ char	*ft_manage_doll_2(char *str, size_t *i, t_bash *bash)
 	temp = ft_strndup(str, (*i), (k - (*i)));
 	(*i) = k - 1;
 	if (!ft_is_var(bash, temp))
-		final_str = ft_strdup("");
+		final_str = "";
 	else
 		final_str = ft_strdup(ft_is_var(bash, temp));
 	free(temp);
@@ -99,8 +99,12 @@ void	ft_quotes_doll(t_bash *bash)
 {
 	char	*temp;
 	char	*temp2;
+	int		sgl;
+	int		dbl;
 
-	temp = ft_is_quotes(bash->input, bash);
+	sgl = 0;
+	dbl = 0;
+	temp = ft_is_quotes(bash->input, bash, sgl, dbl);
 	free(bash->input);
 	temp2 = ft_strdup(temp);
 	free(temp);

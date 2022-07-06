@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 10:45:06 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/05/19 10:59:39 by hcherpre         ###   ########.fr       */
+/*   Updated: 2022/06/24 17:59:03 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,27 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (final_str);
 }
 
-char	*ft_strjoin_char(char const *s1, char c)
+char	*ft_strjoin_char(char *s1, char c)
 {
-	char		*final_str;
-	size_t		i;
+	char	*dest;
+	int		i;
 
 	if (!s1)
-		return (NULL);
-	final_str = malloc(sizeof(char) * (ft_strlen((char *)s1)
-				+ 2));
-	if (!final_str)
+	{
+		s1 = malloc(sizeof(char) * 1);
+		s1[0] = '\0';
+	}
+	dest = ft_calloc(sizeof(char), (ft_strlen(s1) + 2));
+	if (!dest)
 		return (NULL);
 	i = 0;
-	while (i < ft_strlen((char *)s1))
+	while (s1[i] != '\0')
 	{
-		final_str[i] = s1[i];
+		dest[i] = s1[i];
 		i++;
 	}
-	final_str[i] = c;
-	final_str[i + 1] = '\0';
-	return (final_str);
+	dest[i] = c;
+	i++;
+	dest[i] = '\0';
+	return (dest);
 }

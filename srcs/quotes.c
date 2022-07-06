@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:00:06 by baubigna          #+#    #+#             */
-/*   Updated: 2022/05/31 21:11:42 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/05 18:37:07 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ int	ft_check_quotes(t_bash *bash)
 	return (1);
 }
 
-int	ft_are_there_quotes(t_bash *bash)
+int	ft_are_there_quotes(char *input)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < ft_strlen(bash->input))
+	while (i < ft_strlen(input))
 	{
-		if (bash->input[i] == SGL_QT || bash->input[i] == DBL_QT)
+		if (input[i] == SGL_QT || input[i] == DBL_QT)
 			return (1);
 		i++;
 	}
@@ -76,9 +76,10 @@ size_t	ft_ignore_quotes(char *str, size_t i)
 
 int	ft_analyze_quotes(t_bash *bash)
 {
-	if (ft_are_there_quotes(bash) && !ft_check_quotes(bash))
+	if (ft_are_there_quotes(bash->input) && !ft_check_quotes(bash))
 	{
 		ft_putstr_fd("quotes not closed\n", 2);
+		bash->err = 2;
 		return (0);
 	}
 	return (1);

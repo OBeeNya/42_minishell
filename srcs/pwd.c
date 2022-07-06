@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/23 12:01:54 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/06/08 14:28:59 by hcherpre         ###   ########.fr       */
+/*   Created: 2022/06/15 13:04:31 by benjamin          #+#    #+#             */
+/*   Updated: 2022/06/15 13:10:23 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/minishell.h"
 
-size_t	ft_strlen(char	*c)
+void	ft_pwd(void)
 {
-	size_t	i;
+	char	buf[MAX_LINE_LEN];
+	char	*cwd;
 
-	i = 0;
-	while (c[i])
-		i++;
-	return (i);
+	cwd = getcwd(buf, MAX_LINE_LEN);
+	cwd = ft_strjoin(cwd, "\n");
+	ft_putstr_fd(cwd, 2);
+	free(cwd);
 }

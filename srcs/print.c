@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 11:50:45 by baubigna          #+#    #+#             */
-/*   Updated: 2022/06/09 11:51:12 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/06/15 13:30:45 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ void	ft_print_env(t_bash *bash, char *key)
 	while (ft_strcmp(print->key, key))
 		print = print->next;
 	if (print)
+	{
+		printf("%s ", key);
 		printf("%s\n", print->string);
+	}
 }
 
 void	ft_print_pipes(t_bash *bash)
@@ -54,11 +57,12 @@ void	ft_print_pipes(t_bash *bash)
 	}
 }
 
-void	ft_print_envp(t_bash *bash)
+void	ft_print_envp(t_bash *bash, char *key)
 {
 	int	i;
 
 	i = 0;
-	while (bash->envp[i])
-		printf("%s\n", bash->envp[i++]);
+	while (ft_strncmp(bash->envp[i], key, ft_strlen(key)))
+		i++;
+	printf("envp: %s\n", bash->envp[i]);
 }

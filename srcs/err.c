@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   err.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/23 12:01:54 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/06/08 14:28:59 by hcherpre         ###   ########.fr       */
+/*   Created: 2022/07/06 14:27:54 by baubigna          #+#    #+#             */
+/*   Updated: 2022/07/06 14:28:16 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/minishell.h"
 
-size_t	ft_strlen(char	*c)
+void	ft_fd_in_err_no(t_token *token)
 {
-	size_t	i;
-
-	i = 0;
-	while (c[i])
-		i++;
-	return (i);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(token->next->str, 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
 }

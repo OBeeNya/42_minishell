@@ -6,117 +6,92 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 18:02:47 by baubigna          #+#    #+#             */
-/*   Updated: 2022/06/09 18:15:03 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/06 14:37:32 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ft_cd_here(t_token *token, char buf[MAX_LINE_LEN], int c)
+void	ft_cd_msg_err(char *str, t_bash *bash)
 {
 	char	*temp;
 	char	*temp2;
 
-	temp = ft_calloc(ft_strlen(token->str), sizeof(char));
-	if (!temp)
-		return ;
-	c = 0;
-	while (token->str[c + 1])
-	{
-		temp[c] = token->str[c + 1];
-		c++;
-	}
-	temp2 = ft_strjoin(getcwd(buf, MAX_LINE_LEN), temp);
+	temp = ft_strjoin("cd: ", str);
+	temp2 = ft_strjoin(temp, ": No such file or directory\n");
 	free(temp);
-	c = chdir(temp2);
+	ft_putstr_fd(temp2, 2);
 	free(temp2);
-	if (c)
-	{
-		temp = ft_strjoin("cd: ", token->str);
-		temp2 = ft_strjoin(temp, ": Not a directory\n");
-		free(temp);
-		ft_putstr_fd(temp2, 2);
-		free(temp2);
-	}
-	(void) c;
+	bash->err = 1;
 }
 
-void	ft_cd(t_pipe *pipe)
+void	ft_update_old_pwd(t_bash *bash, char *old)
 {
-	t_token	*token;
+	t_env	*env;
 	char	*temp;
-	char	*temp2;
-	char	buf[MAX_LINE_LEN];
-	int		c;
+	int		i;
 
+	i = 0;
+	env = bash->env;
+	while (ft_strcmp(env->key, "OLDPWD"))
+		env = env->next;
+	free(env->string);
+	env->string = ft_strdup(old);
+	while (ft_strncmp(bash->envp[i], "OLDPWD=", 7))
+		i++;
+	free(bash->envp[i]);
+	temp = ft_strjoin("OLDPWD=", old);
+	bash->envp[i] = ft_strdup(temp);
+	free(temp);
+}
+
+void	ft_update_pwd(t_bash *bash, char *old, char *new)
+{
+	int		i;
+	char	*temp;
+	t_env	*env;
+
+	i = 0;
+	env = bash->env;
+	while (ft_strcmp(env->key, "PWD"))
+		env = env->next;
+	free(env->string);
+	env->string = ft_strdup(new);
+	i = 0 ;
+	while (ft_strncmp(bash->envp[i], "PWD=", 4))
+		i++;
+	free(bash->envp[i]);
+	temp = ft_strjoin("PWD=", new);
+	bash->envp[i] = ft_strdup(temp);
+	free(temp);
+	ft_update_old_pwd(bash, old);
+}
+
+void	ft_cd(t_pipe *pipe, t_bash *bash)
+{
+	int		c;
+	char	*old;
+	char	*new;
+	char	buf[MAX_LINE_LEN];
+	t_token	*token;
+
+	old = ft_strdup(getcwd(buf, MAX_LINE_LEN));
 	token = pipe->first_token;
 	while (token->type != T_CMD)
 		token = token->next;
-	if (!token->next || token->next->type != T_STR)
+	if (!token->next || (token->next && token->next->type != T_STR))
 	{
 		ft_putstr_fd("this command only takes relative or absolute paths\n", 2);
 		return ;
 	}
 	token = token->next;
-	c = 0;
-	if (!ft_strncmp(token->str, "./", 2))
-		ft_cd_here(token, buf, c);
-	// {
-	// 	temp = ft_calloc(ft_strlen(token->str), sizeof(char));
-	// 	if (!temp)
-	// 		return ;
-	// 	c = 0;
-	// 	while (token->str[c + 1])
-	// 	{
-	// 		temp[c] = token->str[c + 1];
-	// 		c++;
-	// 	}
-	// 	temp2 = ft_strjoin(getcwd(buf, MAX_LINE_LEN), temp);
-	// 	free(temp);
-	// 	c = chdir(temp2);
-	// 	free(temp2);
-	// 	if (c)
-	// 	{
-	// 		temp = ft_strjoin("cd: ", token->str);
-	// 		temp2 = ft_strjoin(temp, ": Not a directory\n");
-	// 		free(temp);
-	// 		ft_putstr_fd(temp2, 2);
-	// 		free(temp2);
-	// 	}
-	// 	(void) c;
-	// }
-	else if (!ft_strncmp(token->str, "..", 2))
-	{
-		temp = getcwd(buf, MAX_LINE_LEN);
-	}
-	else if (token->str[0] == '/')
-	{
-		c = chdir(token->str);
-		if (c)
-		{
-			temp = ft_strjoin("cd: ", token->str);
-			temp2 = ft_strjoin(temp, ": Not a directory\n");
-			free(temp);
-			ft_putstr_fd(temp2, 2);
-			free(temp2);
-		}
-		(void) c;
-	}
+	c = chdir(token->str);
+	if (c)
+		ft_cd_msg_err(token->str, bash);
 	else
 	{
-		temp2 = ft_strjoin(getcwd(buf, MAX_LINE_LEN), "/");
-		temp = ft_strjoin(temp2, token->str);
-		free(temp2);
-		c = chdir(temp);
-		free(temp);
-		if (c)
-		{
-			temp = ft_strjoin("cd: ", token->str);
-			temp2 = ft_strjoin(temp, ": Not a directory\n");
-			free(temp);
-			ft_putstr_fd(temp2, 2);
-			free(temp2);
-		}
-		(void) c;
+		new = getcwd(buf, MAX_LINE_LEN);
+		ft_update_pwd(bash, old, new);
 	}
+	free(old);
 }

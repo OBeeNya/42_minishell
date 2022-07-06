@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:33:11 by baubigna          #+#    #+#             */
-/*   Updated: 2022/06/08 17:54:28 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/02 16:38:53 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,35 @@ int	ft_check_tokens(t_bash *bash)
 	return (0);
 }
 
-void	ft_do_we_pipe(t_bash *bash)
+void	ft_type_io(t_bash *bash)
+{
+	t_token	*token;
+
+	token = bash->first_token;
+	while (token)
+	{
+		if (token->previous && token->previous->type == T_RED_I_DBL)
+			token->type = T_HEREDOC;
+		else if (token->previous && token->previous->type == T_RED_I_SGL)
+			token->type = T_INPUT;
+		else if (token->previous && token->previous->type == T_RED_O_DBL)
+			token->type = T_APPEND;
+		else if (token->previous && token->previous->type == T_RED_O_SGL)
+			token->type = T_OUTPUT;
+		token = token->next;
+	}
+}
+
+int	ft_do_we_pipe(t_bash *bash)
 {
 	if (bash->first_token->next)
 	{
 		if (!ft_check_tokens(bash))
+		{
+			ft_type_io(bash);
 			ft_create_pipe_list(bash);
+			return (1);
+		}
 	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 17:21:56 by baubigna          #+#    #+#             */
-/*   Updated: 2022/06/09 17:20:37 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/06 14:29:21 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	ft_unquote_tokens(t_bash *bash)
 	}
 }
 
-void	ft_tokenize(t_bash *bash)
+int	ft_tokenize(t_bash *bash)
 {
 	size_t	i;
 	size_t	j;
@@ -117,7 +117,7 @@ void	ft_tokenize(t_bash *bash)
 
 	i = 0;
 	if (!ft_analyze_quotes(bash))
-		return ;
+		return (0);
 	ft_quotes_doll(bash);
 	while (i < ft_strlen(bash->input) && bash->input != NULL)
 	{
@@ -133,5 +133,5 @@ void	ft_tokenize(t_bash *bash)
 		i++;
 	}
 	ft_unquote_tokens(bash);
-	ft_do_we_pipe(bash);
+	return (ft_do_we_pipe(bash));
 }

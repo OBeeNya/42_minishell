@@ -6,11 +6,32 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 15:58:23 by baubigna          #+#    #+#             */
-/*   Updated: 2022/06/09 18:04:17 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/06 14:40:40 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	ft_check_exec(t_bash *bash, t_pipe *list, int *comp, int *err)
+{
+	int	i;
+
+	i = 0;
+	while (bash->exec[i])
+	{
+		if (!ft_strcmp(list->cmd, bash->exec[i]))
+		{
+			*comp = 1;
+			break ;
+		}
+		i++;
+	}
+	if (!(*comp) && ft_strcmp(list->cmd, "") && ft_strcmp(list->cmd, "$"))
+	{
+		ft_cmd_err(list, bash);
+		(*err)++;
+	}
+}
 
 char	*ft_get_exec_path(char **paths, char *cmd)
 {
@@ -107,17 +128,20 @@ void	ft_get_exec(t_bash *bash)
 	dir = NULL;
 	entry = NULL;
 	env = bash->env;
-	while (ft_strcmp(env->key, "PATH"))
+	while (ft_strcmp(env->key, "PATH") && env->next)
 		env = env->next;
-	paths = ft_split(env->string, ":");
-	j = ft_get_nb_of_files(paths, dir, entry);
-	bash->exec = ft_calloc(j + 1, sizeof(char *));
-	if (!bash->exec)
-		return ;
-	ft_copy_exec(bash, paths, dir, entry);
-	j = 0;
-	while (paths[j])
-		free(paths[j++]);
-	free(paths[j]);
-	free(paths);
+	if (!ft_strcmp(env->key, "PATH"))
+	{
+		paths = ft_split(env->string, ":");
+		j = ft_get_nb_of_files(paths, dir, entry);
+		bash->exec = ft_calloc(j + 1, sizeof(char *));
+		if (!bash->exec)
+			return ;
+		ft_copy_exec(bash, paths, dir, entry);
+		j = 0;
+		while (paths[j])
+			free(paths[j++]);
+		free(paths[j]);
+		free(paths);
+	}
 }
