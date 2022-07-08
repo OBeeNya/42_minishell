@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 17:13:58 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/07/06 14:40:03 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/07 18:08:16 by hcherpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	ft_check_cmd(t_bash *bash)
 	}
 	if (cmd)
 	{
+		ft_executable(bash);
 		err = ft_check_cmd_exec(bash);
 		return (err);
 	}
@@ -83,6 +84,8 @@ int	ft_is_it_exec(t_bash *bash, t_pipe *list)
 
 	comp = 0;
 	err = 0;
+	if (list->cmd[0] == '/')
+		return (err);
 	if (!ft_is_builtin(list->cmd))
 	{
 		if (bash->exec)

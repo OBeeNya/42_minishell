@@ -6,7 +6,7 @@
 /*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 17:23:20 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/07/04 17:45:35 by hcherpre         ###   ########.fr       */
+/*   Updated: 2022/07/06 17:52:15 by hcherpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	ft_which_doll_case(char *str, size_t *i, int qt)
 		|| (str[*i + 1] >= 0 && str[*i + 1] < DBL_QT) \
 		|| (str[*i + 1] >= 35 && str[*i + 1] < SGL_QT) \
 		|| (str[*i + 1] >= 40 && str[*i + 1] < 48) \
-		|| (str[*i + 1] > 57 && str[*i + 1] < 65) \
+		|| (str[*i + 1] > 57 && str[*i + 1] < 63) \
+		|| (str[*i + 1] > 63 && str[*i + 1] < 65) \
 		|| (str[*i + 1] > 90 && str[*i + 1] < 95) \
 		|| str[*i + 1] > 122 || str[*i + 1] == 96)
 		return (3);
@@ -39,7 +40,9 @@ int	ft_which_doll_case(char *str, size_t *i, int qt)
 char	*ft_manage_doll(char *str, size_t *i, t_bash *bash, int qt)
 {
 	char	*temp;
+	size_t	k;
 
+	k = 0;
 	if ((*i) < ft_strlen(str))
 	{
 		if (ft_which_doll_case(str, i, qt) == 1)
@@ -54,31 +57,38 @@ char	*ft_manage_doll(char *str, size_t *i, t_bash *bash, int qt)
 		else if (ft_which_doll_case(str, i, qt) == 4)
 			return ("");
 		else if (ft_which_doll_case(str, i, qt) == 5)
-			return (ft_manage_doll_2(str, i, bash));
+			return (ft_manage_doll_2(str, i, bash, k));
 	}
 	return (NULL);
 }
 
-char	*ft_manage_doll_2(char *str, size_t *i, t_bash *bash)
+char	*ft_manage_doll_2(char *str, size_t *i, t_bash *bash, size_t k)
 {
-	size_t	k;
 	char	*temp;
 	char	*final_str;
 
-	(*i)++;
-	k = (*i);
-	while ((str[k] && str[k] != '$') && ((str[k] >= 48 && str[k] <= 57)
-			|| (str[k] >= 65 && str[k] <= 90)
-			|| (str[k] >= 97 && str[k] <= 122) || str[k] == 95))
-		k++;
-	temp = ft_strndup(str, (*i), (k - (*i)));
-	(*i) = k - 1;
-	if (!ft_is_var(bash, temp))
-		final_str = "";
+	if (str[(*i)] == '$' && str[(*i) + 1] == '?')
+	{
+		(*i)++;
+		return (ft_itoa(bash->err));
+	}
 	else
-		final_str = ft_strdup(ft_is_var(bash, temp));
-	free(temp);
-	return (final_str);
+	{
+		(*i)++;
+		k = (*i);
+		while ((str[k] && str[k] != '$') && ((str[k] >= 48 && str[k] <= 57)
+				|| (str[k] >= 65 && str[k] <= 90)
+				|| (str[k] >= 97 && str[k] <= 122) || str[k] == 95))
+			k++;
+		temp = ft_strndup(str, (*i), (k - (*i)));
+		(*i) = k - 1;
+		if (!ft_is_var(bash, temp))
+			final_str = "";
+		else
+			final_str = ft_strdup(ft_is_var(bash, temp));
+		free(temp);
+		return (final_str);
+	}
 }
 
 char	*ft_is_var(t_bash *bash, char *str)

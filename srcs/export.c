@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 15:24:13 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/06 14:44:33 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/06 17:41:43 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	ft_export(t_pipe *pipe, t_bash *bash)
 	{
 		token = token->next;
 		i = 0;
-		if (token->str[i] == '_' || ft_isalpha(token->str[i]))
+		if (!ft_check_export(token->str))
 		{
 			while (token->str[i] != '=' && i < ft_strlen(token->str))
 				i++;

@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:38:15 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/05 17:03:36 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/08 11:10:21 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,46 +25,73 @@ char	*ft_unquote_delim(char *delim)
 	return (unquoted);
 }
 
-char	*ft_expand_heredoc(char *line)
+int	ft_is_there_dolls(char *line)
 {
-	(void) line;
-	return (NULL);
+	int	i;
+	int	k;
+
+	i = 0;
+	k = 0;
+	if (line && *line)
+	{
+		while (line[k + 1])
+		{
+			if (line[k] == '$')
+				i++;
+			k++;
+		}
+	}
+	if (!i)
+		return (0);
+	else
+		return (1);
 }
 
-void	ft_heredoc(t_pipe *pipe, char *delim)
+void	ft_fork_heredoc(t_bash *bash, int quotes, char *unquoted, int fd)
 {
 	char	*line;
-	char	*filename;
-	char	*unquoted;
 	// pid_t	pid;
-	int		fd;
 
 	// pid = fork();
 	// if (pid == -1)
 	// 	return ;
 	// else if (!pid)
 	// {
-		filename = ft_strdup("h");
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 00644);
-		unquoted = ft_unquote_delim(delim);
 		while (1)
 		{
 			line = readline("> ");
-			// if (!ft_are_there_quotes(line))
-			// 	line = ft_expand_heredoc(line);
+			if (!line)
+				exit(0);
+			line = ft_expand_heredoc(line, bash, quotes);
 			if (!ft_strcmp(line, unquoted))
 				break ;
 			write(fd, line, ft_strlen(line) * sizeof(char));
 			write(fd, "\n", 1);
+			free(line);
 		}
-		if (pipe->fdin)
-			close(pipe->fdin);
-		pipe->fdin = open(filename, O_RDONLY);
-		if (pipe->fdin == -1)
-			return ;
-		free(filename);
-		free(unquoted);
 	// }
-	// else
-	// 	wait(0);
+	// if (0 < waitpid(pid, &bash->err, 0) && WIFEXITED(bash->err))
+	// 	bash->err = WEXITSTATUS(bash->err);
+	// close(pid);
+}
+
+void	ft_heredoc(t_pipe *pipe, char *delim, t_bash *bash)
+{
+	char	*filename;
+	char	*unquoted;
+	int		fd;
+	int		quotes;
+
+	filename = ft_strdup("h");
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 00644);
+	quotes = ft_are_there_quotes(delim);
+	unquoted = ft_unquote_delim(delim);
+	ft_fork_heredoc(bash, quotes, unquoted, fd);
+	if (pipe->fdin)
+		close(pipe->fdin);
+	pipe->fdin = open(filename, O_RDONLY);
+	if (pipe->fdin == -1)
+		return ;
+	free(filename);
+	free(unquoted);
 }

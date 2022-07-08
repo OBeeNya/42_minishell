@@ -6,7 +6,7 @@
 #    By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/27 14:40:09 by hcherpre          #+#    #+#              #
-#    Updated: 2022/07/06 14:38:19 by baubigna         ###   ########.fr        #
+#    Updated: 2022/07/07 18:44:55 by baubigna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS    = srcs/main.c \
             srcs/err.c \
             srcs/executable.c \
             srcs/execute.c \
+            srcs/exit.c \
             srcs/export.c \
             srcs/fd.c \
             srcs/fork.c \
@@ -34,6 +35,7 @@ SRCS    = srcs/main.c \
             srcs/pipe_exec.c \
             srcs/pipe_utils.c \
             srcs/print.c \
+            srcs/prompt.c \
             srcs/pwd.c \
             srcs/quotes_dollars.c \
             srcs/quotes_utils.c \
@@ -42,7 +44,8 @@ SRCS    = srcs/main.c \
             srcs/token_check.c \
             srcs/token_creation.c \
             srcs/tokenize.c \
-            srcs/unset.c
+            srcs/unset.c \
+            srcs/expand_heredoc.c
 
 OBJS    = ${SRCS:.c=.o}
 

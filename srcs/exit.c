@@ -1,42 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_utils.c                                       :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/04 17:23:42 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/07/08 12:57:19 by hcherpre         ###   ########.fr       */
+/*   Created: 2022/07/06 17:53:41 by baubigna          #+#    #+#             */
+/*   Updated: 2022/07/06 18:40:10 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	nb_pipes(t_pipe *pass)
+int	ft_is_str_num(char *s)
 {
 	int	i;
 
 	i = 0;
-	while (pass->next)
+	while (s[i])
 	{
+		if (s[i] < 48 || s[i] > 57)
+			return (0);
 		i++;
-		pass = pass->next;
 	}
-	return (i);
+	return (1);
 }
 
-void	ft_close(t_bash *bash, int i)
+void	ft_exit(t_pipe *pipe)
 {
-	int		j;
-	t_pipe	*pass;
-	
-	pass = bash->pipes->next;
-	j = 0;
-	while (j < i)
+	if (pipe->args)
 	{
-		close(pass->fd[0]);
-		close(pass->fd[1]);
-		pass = pass->next;
-		j++;
+		if (!ft_is_str_num(pipe->args[0]))
+		{
+			ft_putstr_fd("bash: exit: ", 2);
+			ft_putstr_fd(pipe->args[0], 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
+		}
 	}
+	exit(1);
 }

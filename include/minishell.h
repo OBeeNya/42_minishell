@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/06 14:44:51 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/08 13:48:37 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,19 @@ typedef struct s_pipe
 	char			*cmd;
 	char			**args;
 	t_token			*first_token;
+	int				fd[2];
 	int				fdin;
 	int				fdout;	
 	int				fdin_init;
 	int				fdout_init;
 	struct s_pipe	*next;
+	struct s_pipe	*previous;
 }	t_pipe;
 
 typedef struct s_bash
 {
 	int		err;
+	int		echo;
 	char	**exec;
 	char	**envp;
 	char	*input;
@@ -123,7 +126,7 @@ int		ft_check_cmd_exec(t_bash *bash);
 /* dollars_utils.c */
 int		ft_which_doll_case(char *str, size_t *i, int qt);
 char	*ft_manage_doll(char *str, size_t *i, t_bash *bash, int qt);
-char	*ft_manage_doll_2(char *str, size_t *i, t_bash *bash);
+char	*ft_manage_doll_2(char *str, size_t *i, t_bash *bash, size_t k);
 char	*ft_is_var(t_bash *bash, char *str);
 void	ft_quotes_doll(t_bash *bash);
 
@@ -136,12 +139,16 @@ void	ft_cpy_envp(t_bash *bash, char **cpy);
 void	ft_env(t_bash *bash);
 
 /* err.c */
-void	ft_fd_in_err_no(t_token *token);
+int		ft_err_echo_dir(t_pipe *pipe, t_bash *bash);
+int		ft_check_export(char *str);
+void	ft_clean_err(t_bash *bash);
+void	ft_err_no_exec(char *cmd, t_bash *bash);
+void	ft_fd_in_err_no(t_token *token, t_bash *bash);
 
 /* executable.c */
 void	ft_executable(t_bash *bash);
-char	*ft_executable_2(char *cmd);
-void	ft_execve(char *cwd, t_bash *bash, char *cmd);
+void	ft_executable_2(t_pipe *pass, t_bash *bash);
+char	*ft_executable_3(char *cmd);
 char	*ft_delete_dir(char *cwd);
 
 /* execute.c */
@@ -151,6 +158,16 @@ int		ft_get_nb_of_files(char **directories, DIR *dir, struct dirent *entry);
 void	ft_copy_exec(t_bash *bash, char **paths, DIR *dir, \
 	struct dirent *entry);
 void	ft_get_exec(t_bash *bash);
+
+/* exit.c */
+int		ft_is_str_num(char *s);
+void	ft_exit(t_pipe *pipe);
+
+/* expand_heredoc.c */
+char	*ft_expand_heredoc(char *line, t_bash *bash, int quotes);
+char	*ft_expand_heredoc_2(char *final_str, char *line, int *i, t_bash *bash);
+char	*ft_expand_heredoc_3(char *line, int *i, char *temp2, t_bash *bash);
+char	*ft_expand_heredoc_4(int *i, char *temp2, t_bash *bash);
 
 /* export.c */
 void	ft_update_env(t_bash *bash, char *key, char *value);
@@ -163,17 +180,20 @@ void	ft_export(t_pipe *pipe, t_bash *bash);
 void	ft_dup_fds(t_pipe *pipe);
 void	ft_close_fds(t_pipe *pipe);
 void	ft_update_fdout(t_pipe *pipe, t_token *token);
-void	ft_update_fdin(t_pipe *pipe, t_token *token);
+int		ft_update_fd_in_out(t_pipe *pipe, t_bash *bash);
 int		ft_update_fds(t_bash *bash);
 
 /* fork.c */
 char	*ft_get_path_str(char *cmd, t_bash *bash);
 char	**ft_join_args(t_pipe *pipe);
 void	ft_execute_cmd(t_pipe *pipe, t_bash *bash);
+void	ft_execute_no_pipe(t_bash *bash, t_pipe *pass);
 void	ft_forking(t_bash *bash);
 
 /* heredoc.c */
-void	ft_heredoc(t_pipe *pipe, char *delim);
+void	ft_heredoc(t_pipe *pipe, char *delim, t_bash *bash);
+void	ft_fork_heredoc(t_bash *bash, int quotes, char *unquoted, int fd);
+int		ft_is_there_dolls(char *line);
 
 /* initialize.c */
 void	ft_new_env(t_bash *bash, char *key, char *string);
@@ -198,20 +218,23 @@ void	ft_create_pipe_list(t_bash *bash);
 
 /* pipe_exec.c */
 void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k);
-void	ft_pipe_2(t_pipe *pass, t_bash *bash, int **fd, int i);
-void	ft_pipe_3(int **fd, int i);
-int		**init_pipe(int i);
+void	ft_pipe_2(t_pipe *pass, t_bash *bash, int i);
+void	ft_pipe_3(t_bash *bash, int i);
+void	init_pipe(int i, t_pipe *pass);
 
 /* pipe_utils.c */
 int		nb_pipes(t_pipe *pass);
-void	ft_close(int **fd, int i);
-void	ft_free_fd(int **fd, int i);
+void	ft_close(t_bash *bash, int i);
 
 /* print.c */
 void	ft_print_tokens(t_bash *bash);
 void	ft_print_env(t_bash *bash, char *key);
 void	ft_print_pipes(t_bash *bash);
 void	ft_print_envp(t_bash *bash, char *key);
+
+/* prompt.c */
+void	ft_prompt_2(t_bash *bash);
+void	ft_prompt(t_bash *bash, char **envp, bool first, bool last);
 
 /* pwd.c */
 void	ft_pwd(void);
@@ -240,8 +263,8 @@ int		ft_analyze_quotes(t_bash *bash);
 void	ctrl_handler(int signum);
 
 /* token_check.c */
-int		ft_check_first_and_last_token(t_token *token);
-int		ft_check_middle_tokens(t_token *token);
+int		ft_check_first_and_last_token(t_token *token, t_bash *bash);
+int		ft_check_middle_tokens(t_token *token, t_bash *bash);
 int		ft_check_tokens(t_bash *bash);
 void	ft_type_io(t_bash *bash);
 int		ft_do_we_pipe(t_bash *bash);

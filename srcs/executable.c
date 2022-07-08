@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executable.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 13:44:38 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/07/06 15:16:28 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/07 18:26:10 by hcherpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,38 @@
 
 void	ft_executable(t_bash *bash)
 {
-	char	*cwd;
 	t_pipe	*pass;
 
 	pass = bash->pipes->next;
-	if (pass->cmd[0] == '.')
-		cwd = ft_executable_2(pass->cmd);
-	else if (pass->cmd[0] == '/')
-		cwd = ft_strdup(pass->cmd);
-	else
-		return ;
-	ft_execve(cwd, bash, pass->cmd);
-	free (cwd);
+	while (pass)
+	{
+		if (pass->cmd[0] == '.')
+			ft_executable_2(pass, bash);
+		else if (pass->cmd[0] == '/')
+		{
+			if (access(pass->cmd, F_OK))
+				ft_err_no_exec(pass->cmd, bash);
+		}
+		pass = pass->next;
+	}
 }
 
-char	*ft_executable_2(char *cmd)
+void	ft_executable_2(t_pipe *pass, t_bash *bash)
+{
+	char	*temp;
+
+	temp = ft_executable_3(pass->cmd);
+	if (!access(temp, F_OK))
+	{
+		free(pass->cmd);
+		pass->cmd = ft_strdup(temp);
+	}
+	else
+		ft_err_no_exec(pass->cmd, bash);
+	free(temp);
+}
+
+char	*ft_executable_3(char *cmd)
 {
 	int		i;
 	char	*cwd;
@@ -51,36 +68,6 @@ char	*ft_executable_2(char *cmd)
 		cwd = ft_strjoin(cwd, new);
 	free(new);
 	return (cwd);
-}
-
-void	ft_execve(char *cwd, t_bash *bash, char *cmd)
-{
-	int		k;
-	pid_t	pid;
-	char	*args[2];
-
-	args[0] = "";
-	args[1] = NULL;
-	k = access(cwd, F_OK);
-	if (!k)
-	{
-		pid = fork();
-		if (pid == -1)
-			return ;
-		else if (!pid)
-			execve(cwd, args, bash->envp);
-		else
-			wait(0);
-	}
-	else
-	{
-		// if (cmd[0] == '/' || cmd == '.')
-		// 	ft_err_no_exec(cwd, cmd, bash);
-		if (cmd[0] == '/')
-			printf("%s: No such file or directory\n", cwd);
-		else if (cmd[0] == '.')
-			printf("%s: No such file or directory\n", cmd);
-	}
 }
 
 char	*ft_delete_dir(char *cwd)

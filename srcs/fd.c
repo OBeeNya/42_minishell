@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 17:29:58 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/06 14:28:19 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/08 13:48:23 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,9 @@ void	ft_update_fdout(t_pipe *pipe, t_token *token)
 		pipe->fdout = open(token->next->str, O_WRONLY | O_CREAT | O_APPEND,
 				00644);
 	}
-	if (pipe->fdout == -1)
-		return ;
 }
 
-int	ft_update_fd_in_out(t_pipe *pipe)
+int	ft_update_fd_in_out(t_pipe *pipe, t_bash *bash)
 {
 	t_token	*token;
 
@@ -66,15 +64,15 @@ int	ft_update_fd_in_out(t_pipe *pipe)
 			pipe->fdin = open(token->next->str, O_RDONLY, 00644);
 			if (pipe->fdin == -1)
 			{
-				ft_fd_in_err_no(token);
+				ft_fd_in_err_no(token, bash);
 				return (1);
 			}
 		}
 		else if (token->type == T_RED_I_DBL)
-			ft_heredoc(pipe, token->next->str);
+			ft_heredoc(pipe, token->next->str, bash);
 		else if (token->type == T_RED_O_SGL || token->type == T_RED_O_DBL)
 			ft_update_fdout(pipe, token);
-		if (pipe->fdout == -1)
+		if (ft_err_echo_dir(pipe, bash))
 			return (1);
 		token = token->next;
 	}
@@ -88,7 +86,7 @@ int	ft_update_fds(t_bash *bash)
 	pipe = bash->pipes->next;
 	while (pipe)
 	{
-		if (ft_update_fd_in_out(pipe))
+		if (ft_update_fd_in_out(pipe, bash))
 			return (1);
 		pipe = pipe->next;
 	}

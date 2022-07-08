@@ -6,7 +6,7 @@
 /*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 15:50:26 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/04 15:37:54 by hcherpre         ###   ########.fr       */
+/*   Updated: 2022/07/08 12:39:24 by hcherpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	ft_create_first_pipe(t_bash *bash)
 	bash->pipes->args = NULL;
 	bash->pipes->first_token = NULL;
 	bash->pipes->next = NULL;
+	bash->pipes->previous = NULL;
 }
 
 void	ft_add_back_token(t_pipe *pipe, t_token *token)
@@ -65,6 +66,7 @@ void	ft_create_new_pipe(t_bash *bash, t_token *token)
 	next = bash->pipes;
 	while (next->next)
 		next = next->next;
+	pipe->previous = next;
 	next->next = pipe;
 	pipe->first_token = NULL;
 	while (token && token->type != T_PIPE)

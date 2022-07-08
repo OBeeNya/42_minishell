@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaning.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/30 17:44:30 by baubigna          #+#    #+#             */
-/*   Updated: 2022/06/27 15:13:41 by hcherpre         ###   ########.fr       */
+/*   Updated: 2022/07/06 18:08:01 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	ft_free_all(t_bash *bash, bool last)
 	int	i;
 
 	i = 0;
+	ft_clean_err(bash);
 	if (bash->exec)
 	{
 		while (bash->exec[i])

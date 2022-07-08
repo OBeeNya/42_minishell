@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 17:03:14 by baubigna          #+#    #+#             */
-/*   Updated: 2022/06/24 17:51:57 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/08 13:10:14 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	ft_is_builtin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd")
-		|| !ft_strcmp(cmd, "export")
-		|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "export")
-		|| !ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "env"))
+		|| !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "exit")
+		|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "env")
+		|| !ft_strcmp(cmd, "unset"))
 		return (1);
 	return (0);
 }
@@ -36,4 +36,6 @@ void	ft_dispatch_builtins(t_pipe *pipe, t_bash *bash)
 		ft_unset(pipe, bash);
 	if (!ft_strcmp(pipe->cmd, "env"))
 		ft_env(bash);
+	if (!ft_strcmp(pipe->cmd, "exit"))
+		ft_exit(pipe);
 }

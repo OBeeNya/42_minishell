@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 14:05:04 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/04 17:36:46 by hcherpre         ###   ########.fr       */
+/*   Updated: 2022/07/08 11:54:14 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_get_path_str(char *cmd, t_bash *bash)
 	char	*path;
 	int		i;
 
+	if (cmd[0] == '/')
+		return (ft_strdup(""));
 	env = bash->env;
 	path = NULL;
 	while (ft_strcmp("PATH", env->key) && env->next)
@@ -91,10 +93,29 @@ void	ft_execute_cmd(t_pipe *pipe, t_bash *bash)
 	}
 }
 
+void	ft_execute_no_pipe(t_bash *bash, t_pipe *pass)
+{
+	pid_t	pid;
+
+	ft_dup_fds(pass);
+	if (ft_is_builtin(pass->cmd))
+		ft_dispatch_builtins(pass, bash);
+	else
+	{
+		pid = fork();
+		if (pid == -1)
+			return ;
+		else if (!pid)
+			ft_execute_cmd(pass, bash);
+		if (0 < waitpid(pid, &bash->err, 0) && WIFEXITED(bash->err))
+			bash->err = WEXITSTATUS(bash->err);
+	}
+	ft_close_fds(pass);
+}
+
 void	ft_forking(t_bash *bash)
 {
 	t_pipe	*pass;
-	pid_t	pid;
 	int		i;
 	int		k;
 
@@ -102,20 +123,7 @@ void	ft_forking(t_bash *bash)
 	pass = bash->pipes->next;
 	i = nb_pipes(pass);
 	if (!pass->next)
-	{
-		ft_dup_fds(pass);
-		if (ft_is_builtin(pass->cmd))
-			ft_dispatch_builtins(pass, bash);
-		else
-		{
-			pid = fork();
-			if (pid == -1)
-				return ;
-			else if (!pid)
-				ft_execute_cmd(pass, bash);
-		}
-		ft_close_fds(pass);
-	}
+		ft_execute_no_pipe(bash, pass);
 	else
 		ft_pipe(bash, i, pass, k);
 }
