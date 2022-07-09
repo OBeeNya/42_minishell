@@ -24,6 +24,8 @@ doit supprimer mais si cd
 ctrl-C
 => bash->err = 130
 
+DONE
+
 ////////////////////////////////
 
 exit
@@ -35,6 +37,8 @@ arg = long int
 exit
 too many arguments 
 => ne quitte pas
+
+DONE
 
 ////////////////////////////////
 
