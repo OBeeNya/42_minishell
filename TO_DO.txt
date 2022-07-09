@@ -1,0 +1,49 @@
+////////////////////////////////
+
+valgrind --leak-check=full --show-leak-kinds=all ./minishell
+
+leaks still reachable sur ctrl D avec heredoc ?
+vraiment a gerer ?
+
+////////////////////////////////
+
+heredoc en debut de t_pipe
+=> crash
+
+////////////////////////////////
+
+suppression du dossier dans lequel on se trouve
+rm -rf ../dir
+puis cd
+=> crash
+
+////////////////////////////////
+
+ctrl-C
+=> bash->err = 130
+
+////////////////////////////////
+
+exit
+arg = long int
+=> numeric argument required
+
+////////////////////////////////
+
+exit
+too many arguments 
+=> ne quitte pas
+
+////////////////////////////////
+
+cd
+too many arguments
+=> ne change pas de dir
+
+////////////////////////////////
+
+export+=123
+=> join a valeur
+
+////////////////////////////////
+
