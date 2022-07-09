@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 18:02:47 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 15:59:03 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/09 17:52:00 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,23 @@ void	ft_update_pwd(t_bash *bash, char *old, char *new)
 	ft_update_old_pwd(bash, old);
 }
 
+int	ft_check_cd_args(t_token *token, t_bash *bash)
+{
+	if (!token->next || (token->next && token->next->type != T_STR))
+	{
+		ft_putstr_fd("this command only takes relative or absolute paths\n", 2);
+		return (1);
+	}
+	if (token->next && token->next->type == T_STR && token->next->next
+		&& token->next->next->type == T_STR)
+	{
+		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+		bash->err = 1;
+		return (1);
+	}
+	return (0);
+}
+
 void	ft_cd(t_pipe *pipe, t_bash *bash, char *old, char buf[MAX_LINE_LEN])
 {
 	int		c;
@@ -74,15 +91,12 @@ void	ft_cd(t_pipe *pipe, t_bash *bash, char *old, char buf[MAX_LINE_LEN])
 	t_token	*token;
 	char	*temp;
 
-	temp = ft_strdup(old);
 	token = pipe->first_token;
 	while (token->type != T_CMD)
 		token = token->next;
-	if (!token->next || (token->next && token->next->type != T_STR))
-	{
-		ft_putstr_fd("this command only takes relative or absolute paths\n", 2);
+	if (ft_check_cd_args(token, bash))
 		return ;
-	}
+	temp = ft_strdup(old);
 	token = token->next;
 	c = chdir(token->str);
 	if (c)

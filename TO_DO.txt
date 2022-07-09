@@ -47,6 +47,9 @@ DONE
 cd
 too many arguments
 => ne change pas de dir
+bash->err = 1
+
+DONE
 
 ////////////////////////////////
 

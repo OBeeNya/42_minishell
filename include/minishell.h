@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 15:59:29 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/09 17:51:04 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	ft_dispatch_builtins(t_pipe *pipe, t_bash *bash);
 void	ft_cd_msg_err(char *str, t_bash *bash);
 void	ft_update_old_pwd(t_bash *bash, char *old);
 void	ft_update_pwd(t_bash *bash, char *old, char *new);
+int		ft_check_cd_args(t_token *token, t_bash *bash);
 void	ft_cd(t_pipe *pipe, t_bash *bash, char *old, char buf[MAX_LINE_LEN]);
 
 /* cleaning.c */
