@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 18:01:43 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/08 13:10:50 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/09 14:31:18 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ void	ft_echo(t_pipe *pipe)
 		token = token->next;
 	if (token->next)
 		token = token->next;
-	if (!ft_strcmp(token->str, "-n"))
+	if (!ft_strncmp(token->str, "-n", 2))
 	{
-		token = token->next;
+		while (!ft_strncmp(token->str, "-n", 2))
+			token = token->next;
 		nl++;
 	}
 	while (token && token->type == T_STR)
