@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 18:02:47 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/06 14:37:32 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/09 15:59:03 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,14 @@ void	ft_update_pwd(t_bash *bash, char *old, char *new)
 	ft_update_old_pwd(bash, old);
 }
 
-void	ft_cd(t_pipe *pipe, t_bash *bash)
+void	ft_cd(t_pipe *pipe, t_bash *bash, char *old, char buf[MAX_LINE_LEN])
 {
 	int		c;
-	char	*old;
 	char	*new;
-	char	buf[MAX_LINE_LEN];
 	t_token	*token;
+	char	*temp;
 
-	old = ft_strdup(getcwd(buf, MAX_LINE_LEN));
+	temp = ft_strdup(old);
 	token = pipe->first_token;
 	while (token->type != T_CMD)
 		token = token->next;
@@ -91,7 +90,7 @@ void	ft_cd(t_pipe *pipe, t_bash *bash)
 	else
 	{
 		new = getcwd(buf, MAX_LINE_LEN);
-		ft_update_pwd(bash, old, new);
+		ft_update_pwd(bash, temp, new);
 	}
-	free(old);
+	free(temp);
 }

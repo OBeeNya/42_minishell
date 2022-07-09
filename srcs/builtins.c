@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 17:03:14 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 15:18:55 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/09 15:59:18 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,14 @@ int	ft_is_builtin(char *cmd)
 
 void	ft_dispatch_builtins(t_pipe *pipe, t_bash *bash)
 {
+	char	buf[MAX_LINE_LEN];
+	char	*old;
+
+	old = getcwd(buf, MAX_LINE_LEN);
 	if (!ft_strcmp(pipe->cmd, "echo"))
 		ft_echo(pipe);
 	if (!ft_strcmp(pipe->cmd, "cd"))
-		ft_cd(pipe, bash);
+		ft_cd(pipe, bash, old, buf);
 	if (!ft_strcmp(pipe->cmd, "pwd"))
 		ft_pwd();
 	if (!ft_strcmp(pipe->cmd, "export"))
