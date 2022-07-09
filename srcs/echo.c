@@ -6,11 +6,27 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 18:01:43 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 14:31:18 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/09 14:36:27 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	ft_is_nl_option(char *str)
+{
+	size_t	i;
+
+	if (str[0] != '-')
+		return (0);
+	i = 1;
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 void	ft_echo(t_pipe *pipe)
 {
@@ -23,9 +39,9 @@ void	ft_echo(t_pipe *pipe)
 		token = token->next;
 	if (token->next)
 		token = token->next;
-	if (!ft_strncmp(token->str, "-n", 2))
+	if (ft_is_nl_option(token->str))
 	{
-		while (!ft_strncmp(token->str, "-n", 2))
+		while (ft_is_nl_option(token->str))
 			token = token->next;
 		nl++;
 	}
