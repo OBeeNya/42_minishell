@@ -16,6 +16,8 @@ suppression du dossier dans lequel on se trouve
 rm -rf ../dir
 puis cd
 => crash
+doit supprimer mais si cd
+"cd: stale file handle: %s", dir
 
 ////////////////////////////////
 
