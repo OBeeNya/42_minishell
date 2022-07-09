@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   err.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 14:27:54 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/08 13:46:27 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/08 22:34:37 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_check_export(char *str)
 	size_t	i;
 
 	i = 0;
-	while (str[i])
+	while (str[i] && str[i] != '=')
 	{
 		if (str[i] != '_' && str[i] != '=' && !ft_isalpha(str[i]))
 			return (1);
@@ -55,7 +55,7 @@ void	ft_clean_err(t_bash *bash)
 	pipe = bash->pipes->next;
 	while (pipe)
 	{
-		if (!ft_strncmp(pipe->cmd, "echo", 4) && !bash->echo)
+		if (!ft_strncmp(pipe->cmd, "echo", 4) && !bash->echo && !pipe->next)
 			bash->err = 0;
 		pipe = pipe->next;
 	}

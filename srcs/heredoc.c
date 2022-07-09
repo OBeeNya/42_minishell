@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:38:15 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/08 11:10:21 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/08 15:08:35 by hcherpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,29 +50,19 @@ int	ft_is_there_dolls(char *line)
 void	ft_fork_heredoc(t_bash *bash, int quotes, char *unquoted, int fd)
 {
 	char	*line;
-	// pid_t	pid;
 
-	// pid = fork();
-	// if (pid == -1)
-	// 	return ;
-	// else if (!pid)
-	// {
-		while (1)
-		{
-			line = readline("> ");
-			if (!line)
-				exit(0);
-			line = ft_expand_heredoc(line, bash, quotes);
-			if (!ft_strcmp(line, unquoted))
-				break ;
-			write(fd, line, ft_strlen(line) * sizeof(char));
-			write(fd, "\n", 1);
-			free(line);
-		}
-	// }
-	// if (0 < waitpid(pid, &bash->err, 0) && WIFEXITED(bash->err))
-	// 	bash->err = WEXITSTATUS(bash->err);
-	// close(pid);
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+			exit(0);
+		line = ft_expand_heredoc(line, bash, quotes);
+		if (!ft_strcmp(line, unquoted))
+			break ;
+		write(fd, line, ft_strlen(line) * sizeof(char));
+		write(fd, "\n", 1);
+		free(line);
+	}
 }
 
 void	ft_heredoc(t_pipe *pipe, char *delim, t_bash *bash)

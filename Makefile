@@ -6,7 +6,7 @@
 #    By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/27 14:40:09 by hcherpre          #+#    #+#              #
-#    Updated: 2022/07/07 18:44:55 by baubigna         ###   ########.fr        #
+#    Updated: 2022/07/09 12:59:06 by baubigna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,9 +62,9 @@ all:         ${NAME}
 .c.o:
 			${GCC} ${GFLAGS} -c $< -o ${<:.c=.o}
 
-${NAME}:    lib
+${NAME}:    ${OBJS} ${LIBFT}
 			${GCC} ${GFLAGS} ${SRCS} ${LIBFT} -lreadline -o ${NAME}
-lib:
+${LIBFT}:
 			make -C libft
 
 clean:

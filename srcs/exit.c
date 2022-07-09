@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 17:53:41 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/06 18:40:10 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/09 13:01:54 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	ft_exit(t_pipe *pipe)
 			ft_putstr_fd("bash: exit: ", 2);
 			ft_putstr_fd(pipe->args[0], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
+			exit(2);
 		}
 	}
-	exit(1);
+	exit(ft_atoi(pipe->args[0]));
 }

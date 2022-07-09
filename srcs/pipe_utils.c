@@ -6,7 +6,7 @@
 /*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 17:23:42 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/07/08 12:57:19 by hcherpre         ###   ########.fr       */
+/*   Updated: 2022/07/08 15:08:02 by hcherpre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_close(t_bash *bash, int i)
 {
 	int		j;
 	t_pipe	*pass;
-	
+
 	pass = bash->pipes->next;
 	j = 0;
 	while (j < i)

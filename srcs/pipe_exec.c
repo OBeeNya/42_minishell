@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 17:47:12 by hugoo             #+#    #+#             */
-/*   Updated: 2022/07/08 12:57:09 by hcherpre         ###   ########.fr       */
+/*   Updated: 2022/07/08 22:44:18 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,14 @@ void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k)
 
 void	ft_pipe_2(t_pipe *pass, t_bash *bash, int i)
 {
-	pid_t	pid;
-
 	if (ft_is_builtin(pass->cmd))
 		ft_dispatch_builtins(pass, bash);
 	else
 	{
-		pid = fork();
-		if (pid == -1)
+		pass->pid = fork();
+		if (pass->pid == -1)
 			return ;
-		if (!pid)
+		else if (!pass->pid)
 		{
 			ft_close(bash, i);
 			ft_execute_cmd(pass, bash);
@@ -61,6 +59,14 @@ void	ft_pipe_2(t_pipe *pass, t_bash *bash, int i)
 
 void	ft_pipe_3(t_bash *bash, int i)
 {
+	t_pipe	*pass;
+
+	pass = bash->pipes->next;
+	if (!ft_is_builtin(pass->cmd))
+	{
+		if (0 < waitpid(pass->pid, &bash->err, 0) && WIFEXITED(bash->err))
+			bash->err = WEXITSTATUS(bash->err);
+	}
 	ft_close(bash, i);
 	wait(0);
 }
