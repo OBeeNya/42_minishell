@@ -6,15 +6,16 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:26:44 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/08 13:48:18 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/09 17:23:34 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+t_bash	g_bash;
+
 int	main(int ac, char **av, char **envp)
 {
-	t_bash	bash;
 	bool	first;
 	bool	last;
 
@@ -26,8 +27,8 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	}
 	(void) av;
-	bash.err = 0;
-	bash.echo = 0;
-	ft_prompt(&bash, envp, first, last);
+	g_bash.err = 0;
+	g_bash.echo = 0;
+	ft_prompt(&g_bash, envp, first, last);
 	return (0);
 }
