@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   err.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 14:27:54 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/08 22:34:37 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/09 18:24:22 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,15 @@ int	ft_check_export(char *str)
 	size_t	i;
 
 	i = 0;
-	while (str[i] && str[i] != '=')
+	while (str[i] && str[i] != '=' && str[i] != '+')
 	{
-		if (str[i] != '_' && str[i] != '=' && !ft_isalpha(str[i]))
+		if (str[i] != '_' && str[i] != '=' && str[i] != '+'
+			&& !ft_isalpha(str[i]))
 			return (1);
 		i++;
 	}
+	if (str[i] == '+' && str[i + 1] != '=')
+		return (1);
 	return (0);
 }
 

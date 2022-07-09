@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 17:51:04 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/09 18:25:11 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,10 +173,10 @@ char	*ft_expand_heredoc_3(char *line, int *i, char *temp2, t_bash *bash);
 char	*ft_expand_heredoc_4(int *i, char *temp2, t_bash *bash);
 
 /* export.c */
-void	ft_update_env(t_bash *bash, char *key, char *value);
+void	ft_update_env(t_bash *bash, char *key, char *value, int p);
 void	ft_export_new_env(t_bash *bash, char *key, char *value);
-void	ft_create_env(t_bash *bash, char *str, char *key, char *value);
-void	ft_dispatch_exporting(t_bash *bash, char *str, int i);
+void	ft_create_env(t_bash *bash, char *key, char *value);
+void	ft_dispatch_exporting(t_bash *bash, char *str, int i, int p);
 void	ft_export(t_pipe *pipe, t_bash *bash);
 
 /* fd.c */
