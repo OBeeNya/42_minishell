@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 14:27:54 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 18:24:22 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/09 18:33:12 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void	ft_clean_err(t_bash *bash)
 	pipe = bash->pipes->next;
 	while (pipe)
 	{
-		if (!ft_strncmp(pipe->cmd, "echo", 4) && !bash->echo && !pipe->next)
+		if (pipe->cmd && !ft_strncmp(pipe->cmd, "echo", 4)
+			&& !bash->echo && !pipe->next)
 			bash->err = 0;
 		pipe = pipe->next;
 	}

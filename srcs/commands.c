@@ -6,33 +6,16 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 17:13:58 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/07/09 14:50:16 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/09 18:57:30 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ft_assign_cmd(t_pipe *next, t_token *lst, int *chev, int *cmd)
+int	ft_check_cmd_2(t_bash *bash)
 {
-	while (lst)
-	{
-		if ((!lst->previous) && lst->type == T_STR)
-		{
-			lst->type = T_CMD;
-			next->cmd = ft_strdup(lst->str);
-			*cmd = 1;
-		}
-		else if ((!lst->previous) && lst->type != T_STR)
-			*chev = 1;
-		else if (*chev == 1 && lst->previous->type == T_STR && \
-			lst->previous->previous->type != T_STR && lst->type == T_STR)
-		{
-			lst->type = T_CMD;
-			next->cmd = ft_strdup(lst->str);
-			*cmd = 1;
-		}
-		lst = lst->next;
-	}
+	ft_executable(bash);
+	return (ft_check_cmd_exec(bash));
 }
 
 int	ft_check_cmd(t_bash *bash)
@@ -56,12 +39,10 @@ int	ft_check_cmd(t_bash *bash)
 		next = next->next;
 	}
 	if (cmd)
-	{
-		ft_executable(bash);
-		err = ft_check_cmd_exec(bash);
-		return (err);
-	}
-	return (1);
+		err = ft_check_cmd_2(bash);
+	if (!cmd && !err)
+		return (0);
+	return (err);
 }
 
 void	ft_cmd_err(t_pipe *list, t_bash *bash)
@@ -90,16 +71,19 @@ int	ft_is_it_exec(t_bash *bash, t_pipe *list)
 
 	comp = 0;
 	err = 0;
-	if (list->cmd[0] == '/')
-		return (err);
-	if (!ft_is_builtin(list->cmd))
+	if (list->cmd)
 	{
-		if (bash->exec)
-			ft_check_exec(bash, list, &comp, &err);
-		else
+		if (list->cmd[0] == '/')
+			return (err);
+		if (!ft_is_builtin(list->cmd))
 		{
-			ft_cmd_err(list, bash);
-			err++;
+			if (bash->exec)
+				ft_check_exec(bash, list, &comp, &err);
+			else
+			{
+				ft_cmd_err(list, bash);
+				err++;
+			}
 		}
 	}
 	return (err);

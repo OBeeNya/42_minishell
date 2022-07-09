@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 13:44:38 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/07/09 14:52:45 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/09 18:56:38 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,15 @@ void	ft_executable(t_bash *bash)
 	pass = bash->pipes->next;
 	while (pass)
 	{
-		if (pass->cmd[0] == '.' && pass->cmd[1] != '.')
-			ft_executable_2(pass, bash);
-		else if (pass->cmd[0] == '/')
+		if (pass->cmd)
 		{
-			if (access(pass->cmd, F_OK))
-				ft_err_no_exec(pass->cmd, bash);
+			if (pass->cmd[0] == '.' && pass->cmd[1] != '.')
+				ft_executable_2(pass, bash);
+			else if (pass->cmd[0] == '/')
+			{
+				if (access(pass->cmd, F_OK))
+					ft_err_no_exec(pass->cmd, bash);
+			}
 		}
 		pass = pass->next;
 	}

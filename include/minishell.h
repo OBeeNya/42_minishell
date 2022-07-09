@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 18:25:11 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/09 18:55:22 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	ft_free_pipes(t_bash *bash);
 void	ft_free_all(t_bash *bash, bool last);
 
 /* commands.c */
-void	ft_assign_cmd(t_pipe *next, t_token *lst, int *chev, int *cmd);
+int		ft_check_cmd_2(t_bash *bash);
 int		ft_check_cmd(t_bash *bash);
 void	ft_cmd_err(t_pipe *list, t_bash *bash);
 int		ft_is_it_exec(t_bash *bash, t_pipe *list);
@@ -226,6 +226,7 @@ void	ft_pipe_3(t_bash *bash, int i);
 void	init_pipe(int i, t_pipe *pass);
 
 /* pipe_utils.c */
+void	ft_assign_cmd(t_pipe *next, t_token *lst, int *chev, int *cmd);
 int		nb_pipes(t_pipe *pass);
 void	ft_close(t_bash *bash, int i);
 

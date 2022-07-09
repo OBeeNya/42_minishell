@@ -9,6 +9,10 @@ vraiment a gerer ?
 
 heredoc en debut de t_pipe
 => crash
+c'est parce qu'il n'y a pas de cmd
+
+DONE
+/!\ MAIS A TESTER
 
 ////////////////////////////////
 
