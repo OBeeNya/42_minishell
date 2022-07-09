@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executable.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 13:44:38 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/07/07 18:26:10 by hcherpre         ###   ########.fr       */
+/*   Updated: 2022/07/09 14:52:45 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_executable(t_bash *bash)
 	pass = bash->pipes->next;
 	while (pass)
 	{
-		if (pass->cmd[0] == '.')
+		if (pass->cmd[0] == '.' && pass->cmd[1] != '.')
 			ft_executable_2(pass, bash);
 		else if (pass->cmd[0] == '/')
 		{

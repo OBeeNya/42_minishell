@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/08 15:07:12 by hcherpre         ###   ########.fr       */
+/*   Updated: 2022/07/09 14:38:14 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ char	*ft_is_var(t_bash *bash, char *str);
 void	ft_quotes_doll(t_bash *bash);
 
 /* echo.c */
+int		ft_is_nl_option(char *str);
 void	ft_echo(t_pipe *pipe);
 
 /* env.c */

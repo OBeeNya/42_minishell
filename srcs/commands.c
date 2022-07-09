@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 17:13:58 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/07/07 18:08:16 by hcherpre         ###   ########.fr       */
+/*   Updated: 2022/07/09 14:50:16 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,13 @@ void	ft_cmd_err(t_pipe *list, t_bash *bash)
 {
 	char	*temp;
 
-	if (list->cmd[0] != '.' && list->cmd[0] != '/')
+	if (!ft_strcmp("..", list->cmd))
+	{
+		ft_putstr_fd(list->cmd, 2);
+		ft_putstr_fd(": command not found\n", 2);
+		bash->err = 127;
+	}
+	else if (list->cmd[0] != '.' && list->cmd[0] != '/')
 	{
 		temp = ft_strjoin(list->cmd, ": command not found\n");
 		ft_putstr_fd(temp, 2);
