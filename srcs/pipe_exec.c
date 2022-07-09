@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 17:47:12 by hugoo             #+#    #+#             */
-/*   Updated: 2022/07/08 22:44:18 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/09 15:41:14 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,19 @@ void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k)
 
 void	ft_pipe_2(t_pipe *pass, t_bash *bash, int i)
 {
-	if (ft_is_builtin(pass->cmd))
-		ft_dispatch_builtins(pass, bash);
-	else
+	pass->pid = fork();
+	if (pass->pid == -1)
+		return ;
+	else if (!pass->pid)
 	{
-		pass->pid = fork();
-		if (pass->pid == -1)
-			return ;
-		else if (!pass->pid)
+		ft_close(bash, i);
+		if (ft_is_builtin(pass->cmd))
 		{
-			ft_close(bash, i);
-			ft_execute_cmd(pass, bash);
+			ft_dispatch_builtins(pass, bash);
+			exit(0);
 		}
+		else
+			ft_execute_cmd(pass, bash);
 	}
 	ft_close_fds(pass);
 }

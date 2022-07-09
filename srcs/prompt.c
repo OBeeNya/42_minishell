@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 17:42:27 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 15:23:28 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/09 15:39:27 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	ft_prompt(t_bash *bash, char **envp, bool first, bool last)
 			exit(0);
 		add_history(bash->input);
 		ft_prompt_2(bash);
-		free(bash->input);
 		bash->first_token = ft_first_token(bash->first_token);
 		ft_free_all(bash, last);
 	}
