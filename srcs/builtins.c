@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 17:03:14 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 15:59:18 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/11 19:13:04 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_dispatch_builtins(t_pipe *pipe, t_bash *bash)
 	if (!ft_strcmp(pipe->cmd, "unset"))
 		ft_unset(pipe, bash);
 	if (!ft_strcmp(pipe->cmd, "env"))
-		ft_env(bash);
+		ft_env(bash, pipe);
 	if (!ft_strcmp(pipe->cmd, "exit"))
 		ft_exit(pipe);
 }

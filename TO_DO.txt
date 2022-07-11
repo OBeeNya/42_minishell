@@ -12,7 +12,6 @@ heredoc en debut de t_pipe
 c'est parce qu'il n'y a pas de cmd
 
 DONE
-/!\ MAIS A TESTER
 
 ////////////////////////////////
 
@@ -22,6 +21,8 @@ puis cd
 => crash
 doit supprimer mais si cd
 "cd: stale file handle: %s", dir
+
+DONE
 
 ////////////////////////////////
 

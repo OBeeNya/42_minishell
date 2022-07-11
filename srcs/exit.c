@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 17:53:41 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 17:42:50 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/11 18:43:44 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ unsigned long long int	ft_long_atoi(const char *str)
 		nb = nb * 10 + (str[i] - 48);
 		i++;
 	}
+	(void) neg;
 	return (nb);
 }
 

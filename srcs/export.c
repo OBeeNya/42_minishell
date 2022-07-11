@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 15:24:13 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 18:28:34 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/11 19:15:41 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,5 @@ void	ft_export(t_pipe *pipe, t_bash *bash)
 			ft_wrong_identifier(token->str, bash);
 	}
 	else
-		ft_env(bash);
+		ft_env(bash, pipe);
 }

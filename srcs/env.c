@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 11:00:57 by benjamin          #+#    #+#             */
-/*   Updated: 2022/07/06 14:44:58 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/11 19:16:05 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,16 @@ void	ft_cpy_envp(t_bash *bash, char **cpy)
 		return ;
 }
 
-void	ft_env(t_bash *bash)
+void	ft_env(t_bash *bash, t_pipe *pipe)
 {
 	int	i;
 
 	i = 0;
+	if (pipe->args)
+	{
+		ft_putstr_fd("this command does not take arguments\n", 2);
+		return ;
+	}
 	while (bash->envp[i])
 	{
 		ft_putstr_fd(bash->envp[i], 1);

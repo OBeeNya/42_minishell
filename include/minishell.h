@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 18:55:22 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/11 19:13:28 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	ft_echo(t_pipe *pipe);
 /* env.c */
 void	ft_wrong_identifier(char *str, t_bash *bash);
 void	ft_cpy_envp(t_bash *bash, char **cpy);
-void	ft_env(t_bash *bash);
+void	ft_env(t_bash *bash, t_pipe *pipe);
 
 /* err.c */
 int		ft_err_echo_dir(t_pipe *pipe, t_bash *bash);
