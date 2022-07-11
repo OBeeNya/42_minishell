@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 18:02:47 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/11 17:30:24 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/11 18:30:23 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_cd_msg_err(char *str, t_bash *bash)
 	char	*temp;
 	char	*temp2;
 
-	temp = ft_strjoin("cd: ", str);
+	temp = ft_strjoin("minishell: cd: ", str);
 	temp2 = ft_strjoin(temp, ": No such file or directory\n");
 	free(temp);
 	ft_putstr_fd(temp2, 2);
@@ -62,17 +62,23 @@ void	ft_update_pwd(t_bash *bash, char *old, char *new)
 
 	i = 0;
 	env = bash->env;
-	while (ft_strcmp(env->key, "PWD"))
+	while (env && ft_strcmp(env->key, "PWD"))
 		env = env->next;
-	free(env->string);
-	env->string = ft_strdup(new);
+	if (env)
+	{
+		free(env->string);
+		env->string = ft_strdup(new);
+	}
 	i = 0 ;
-	while (ft_strncmp(bash->envp[i], "PWD=", 4))
+	while (bash->envp[i] && ft_strncmp(bash->envp[i], "PWD=", 4))
 		i++;
-	free(bash->envp[i]);
-	temp = ft_strjoin("PWD=", new);
-	bash->envp[i] = ft_strdup(temp);
-	free(temp);
+	if (bash->envp[i])
+	{
+		free(bash->envp[i]);
+		temp = ft_strjoin("PWD=", new);
+		bash->envp[i] = ft_strdup(temp);
+		free(temp);
+	}
 	ft_update_old_pwd(bash, old);
 }
 
@@ -110,13 +116,11 @@ void	ft_cd(t_pipe *pipe, t_bash *bash, char *old, char buf[MAX_LINE_LEN])
 	else
 		temp = NULL;
 	token = token->next;
+	new = getcwd(buf, MAX_LINE_LEN);
 	c = chdir(token->str);
-	if (c)
+	if (c || (!new && token->str[0] == '.'))
 		ft_cd_msg_err(token->str, bash);
 	else
-	{
-		new = getcwd(buf, MAX_LINE_LEN);
 		ft_update_pwd(bash, temp, new);
-	}
 	free(temp);
 }
