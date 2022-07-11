@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 18:02:47 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 17:52:00 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/11 17:30:24 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,27 @@ void	ft_update_old_pwd(t_bash *bash, char *old)
 	char	*temp;
 	int		i;
 
-	i = 0;
-	env = bash->env;
-	while (ft_strcmp(env->key, "OLDPWD"))
-		env = env->next;
-	free(env->string);
-	env->string = ft_strdup(old);
-	while (ft_strncmp(bash->envp[i], "OLDPWD=", 7))
-		i++;
-	free(bash->envp[i]);
-	temp = ft_strjoin("OLDPWD=", old);
-	bash->envp[i] = ft_strdup(temp);
-	free(temp);
+	if (old)
+	{
+		env = bash->env;
+		while (env && ft_strcmp(env->key, "OLDPWD"))
+			env = env->next;
+		if (env)
+		{
+			free(env->string);
+			env->string = ft_strdup(old);
+		}
+		i = 0;
+		while (bash->envp[i] && ft_strncmp(bash->envp[i], "OLDPWD=", 7))
+			i++;
+		if (bash->envp[i])
+		{
+			free(bash->envp[i]);
+			temp = ft_strjoin("OLDPWD=", old);
+			bash->envp[i] = ft_strdup(temp);
+			free(temp);
+		}
+	}
 }
 
 void	ft_update_pwd(t_bash *bash, char *old, char *new)
@@ -96,7 +105,10 @@ void	ft_cd(t_pipe *pipe, t_bash *bash, char *old, char buf[MAX_LINE_LEN])
 		token = token->next;
 	if (ft_check_cd_args(token, bash))
 		return ;
-	temp = ft_strdup(old);
+	if (old)
+		temp = ft_strdup(old);
+	else
+		temp = NULL;
 	token = token->next;
 	c = chdir(token->str);
 	if (c)
