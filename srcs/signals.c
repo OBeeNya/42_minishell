@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 15:36:01 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 17:24:07 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/13 19:46:32 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	ctrl_handler(int signum)
 	}
 	else if (signum == SIGSEGV)
 	{
+		ft_free_all(&g_bash, true);
 		ft_putstr_fd("exit\n", 1);
 		exit(1);
 	}
