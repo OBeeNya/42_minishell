@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/18 14:01:13 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/24 19:20:18 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,11 @@ void	ft_free_pipes(t_bash *bash);
 void	ft_free_all(t_bash *bash, bool last);
 
 /* commands.c */
-int		ft_check_cmd_2(t_bash *bash);
+int		ft_check_cmd_2(t_bash *bash, t_pipe *pipe);
 int		ft_check_cmd(t_bash *bash, t_pipe *pipe);
 void	ft_cmd_err(t_pipe *list, t_bash *bash);
 int		ft_is_it_exec(t_bash *bash, t_pipe *list);
-int		ft_check_cmd_exec(t_bash *bash);
+int		ft_check_cmd_exec(t_bash *bash, t_pipe *list);
 
 /* dollars_utils.c */
 int		ft_which_doll_case(char *str, size_t *i, int qt);
@@ -150,7 +150,7 @@ void	ft_err_no_exec(char *cmd, t_bash *bash);
 void	ft_fd_in_err_no(t_token *token, t_bash *bash);
 
 /* executable.c */
-void	ft_executable(t_bash *bash);
+void	ft_executable(t_bash *bash, t_pipe *pipe);
 void	ft_executable_2(t_pipe *pass, t_bash *bash);
 char	*ft_executable_3(char *cmd);
 char	*ft_delete_dir(char *cwd);

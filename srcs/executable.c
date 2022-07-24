@@ -3,34 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   executable.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 13:44:38 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/07/09 18:56:38 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/24 19:21:19 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ft_executable(t_bash *bash)
+void	ft_executable(t_bash *bash, t_pipe *pass)
 {
-	t_pipe	*pass;
-
-	pass = bash->pipes->next;
-	while (pass)
+	if (pass->cmd)
 	{
-		if (pass->cmd)
+		if (pass->cmd[0] == '.' && (pass->cmd[1] == '.'
+				|| pass->cmd[1] == '/'))
+			ft_executable_2(pass, bash);
+		else if (pass->cmd[0] == '/')
 		{
-			if (pass->cmd[0] == '.' && (pass->cmd[1] == '.'
-					|| pass->cmd[1] == '/'))
-				ft_executable_2(pass, bash);
-			else if (pass->cmd[0] == '/')
-			{
-				if (access(pass->cmd, F_OK))
-					ft_err_no_exec(pass->cmd, bash);
-			}
+			if (access(pass->cmd, F_OK))
+				ft_err_no_exec(pass->cmd, bash);
 		}
-		pass = pass->next;
 	}
 }
 

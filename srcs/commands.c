@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 17:13:58 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/07/09 18:57:30 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/24 19:21:33 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	ft_check_cmd_2(t_bash *bash)
+int	ft_check_cmd_2(t_bash *bash, t_pipe *pipe)
 {
-	ft_executable(bash);
-	return (ft_check_cmd_exec(bash));
+	ft_executable(bash, pipe);
+	return (ft_check_cmd_exec(bash, pipe));
 }
 
 int	ft_check_cmd(t_bash *bash, t_pipe *pipe)
@@ -33,8 +33,8 @@ int	ft_check_cmd(t_bash *bash, t_pipe *pipe)
 	cmd = 0;
 	ft_assign_cmd(pipe, lst, &chev, &cmd);
 	if (cmd)
-		err = ft_check_cmd_2(bash);
-	if (!cmd && !err)
+		err = ft_check_cmd_2(bash, pipe);
+	if (cmd && !err)
 		return (0);
 	return (err);
 }
@@ -85,17 +85,11 @@ int	ft_is_it_exec(t_bash *bash, t_pipe *list)
 	return (err);
 }
 
-int	ft_check_cmd_exec(t_bash *bash)
+int	ft_check_cmd_exec(t_bash *bash, t_pipe *list)
 {
-	t_pipe	*list;
 	int		err;
 
 	err = 0;
-	list = bash->pipes->next;
-	while (list)
-	{
-		err += ft_is_it_exec(bash, list);
-		list = list->next;
-	}
+	err += ft_is_it_exec(bash, list);
 	return (err);
 }

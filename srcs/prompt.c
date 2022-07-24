@@ -34,10 +34,7 @@ void	ft_prompt(t_bash *bash, char **envp, bool first, bool last)
 		ft_handle_signals();
 		bash->input = readline("minishell ~ ");
 		if (!bash->input)
-		{
-			ft_putstr_fd("\n", 1);
 			ft_free_all(bash, true);
-		}
 		if (ft_strcmp(bash->input, ""))
 			add_history(bash->input);
 		ft_prompt_2(bash);
