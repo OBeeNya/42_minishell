@@ -6,11 +6,17 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 17:47:12 by hugoo             #+#    #+#             */
-/*   Updated: 2022/07/24 19:10:20 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/24 19:49:06 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	ft_dup_middle_pipe(t_pipe *pass)
+{
+	dup2(pass->previous->fd[0], pass->fdin);
+	dup2(pass->fd[1], pass->fdout);
+}
 
 void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k)
 {
@@ -30,10 +36,7 @@ void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k)
 			else if (k && !pass->next)
 				dup2(pass->previous->fd[0], pass->fdin);
 			else if (k && pass->next)
-			{
-				dup2(pass->previous->fd[0], pass->fdin);
-				dup2(pass->fd[1], pass->fdout);
-			}
+				ft_dup_middle_pipe(pass);
 			pid = ft_pipe_2(pass, bash, i);
 		}
 		k++;

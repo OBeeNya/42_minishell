@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/24 19:20:18 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/24 19:51:05 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,9 +195,11 @@ void	ft_execute_no_pipe(t_bash *bash, t_pipe *pass);
 void	ft_forking(t_bash *bash);
 
 /* heredoc.c */
-void	ft_heredoc(t_pipe *pipe, char *delim);
-void	ft_fork_heredoc(char *filename, int quotes, char *unquoted, int fd);
+char	*ft_unquote_delim(char *delim);
 int		ft_is_there_dolls(char *line);
+void	ft_eof_heredoc(char *unquoted);
+void	ft_fork_heredoc(char *filename, int quotes, char *unquoted, int fd);
+void	ft_heredoc(t_pipe *pipe, char *delim);
 
 /* initialize.c */
 void	ft_new_env(t_bash *bash, char *key, char *string);
@@ -221,6 +223,7 @@ int		ft_count_pipes(t_token *first);
 void	ft_create_pipe_list(t_bash *bash);
 
 /* pipe_exec.c */
+void	ft_dup_middle_pipe(t_pipe *pass);
 void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k);
 pid_t	ft_pipe_2(t_pipe *pass, t_bash *bash, int i);
 void	ft_pipe_3(t_bash *bash, int i, pid_t pid);

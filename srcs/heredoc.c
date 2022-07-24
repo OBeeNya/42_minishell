@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:38:15 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/18 14:02:31 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/24 19:52:03 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	ft_fork_heredoc(char *filename, int quotes, char *unquoted, int fd)
 	}
 	if (0 < waitpid(pid, &g_bash.err, 0) && WIFEXITED(g_bash.err))
 		g_bash.err = WEXITSTATUS(g_bash.err);
-	ft_handle_signals();
 }
 
 void	ft_heredoc(t_pipe *pipe, char *delim)
@@ -101,6 +100,7 @@ void	ft_heredoc(t_pipe *pipe, char *delim)
 	unquoted = ft_unquote_delim(delim);
 	signal(SIGINT, SIG_IGN);
 	ft_fork_heredoc(filename, quotes, unquoted, fd);
+	ft_handle_signals();
 	if (pipe->fdin)
 		close(pipe->fdin);
 	pipe->fdin = open(filename, O_RDONLY);
