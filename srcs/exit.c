@@ -45,6 +45,8 @@ int	ft_is_str_num(char *s)
 	int	i;
 
 	i = 0;
+	if (s[i] == '+' || s[i] == '-')
+		i++;
 	while (s[i])
 	{
 		if (s[i] < 48 || s[i] > 57)
@@ -85,11 +87,12 @@ void	ft_exit(t_pipe *pipe)
 			ft_putstr_fd("minishell: exit: ", 2);
 			ft_putstr_fd(pipe->args[0], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
+			ft_free_all(&g_bash, true);
 			exit(2);
 		}
-		ft_putstr_fd("exit\n", 1);
-		exit(ft_atoi(pipe->args[0]));
+		g_bash.err = ft_atoi(pipe->args[0]);
+		ft_free_all(&g_bash, true);
 	}
-	ft_putstr_fd("exit\n", 1);
-	exit(2);
+	ft_free_all(&g_bash, true);
+	exit(0);
 }

@@ -6,7 +6,7 @@
 #    By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/27 14:40:09 by hcherpre          #+#    #+#              #
-#    Updated: 2022/07/09 12:59:06 by baubigna         ###   ########.fr        #
+#    Updated: 2022/07/23 19:29:23 by baubigna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,5 +76,9 @@ fclean: clean
 			${RM} $(LIBFT)
 
 re:     fclean all
+
+valgrind: ${NAME}
+	@valgrind --suppressions=suppressed_leaks --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --verbose --log-file=valgrind.txt ./minishell
+	@vi valgrind.txt
 
 .PHONY: all fclean clean re

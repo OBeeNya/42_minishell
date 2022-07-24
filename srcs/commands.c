@@ -18,26 +18,20 @@ int	ft_check_cmd_2(t_bash *bash)
 	return (ft_check_cmd_exec(bash));
 }
 
-int	ft_check_cmd(t_bash *bash)
+int	ft_check_cmd(t_bash *bash, t_pipe *pipe)
 {
-	t_pipe	*next;
 	t_token	*lst;
 	int		chev;
 	int		cmd;
 	int		err;
 
-	next = bash->pipes->next;
 	chev = 0;
 	cmd = 0;
 	err = 0;
-	while (next)
-	{
-		lst = next->first_token;
-		chev = 0;
-		cmd = 0;
-		ft_assign_cmd(next, lst, &chev, &cmd);
-		next = next->next;
-	}
+	lst = pipe->first_token;
+	chev = 0;
+	cmd = 0;
+	ft_assign_cmd(pipe, lst, &chev, &cmd);
 	if (cmd)
 		err = ft_check_cmd_2(bash);
 	if (!cmd && !err)
@@ -55,7 +49,9 @@ void	ft_cmd_err(t_pipe *list, t_bash *bash)
 		ft_putstr_fd(": command not found\n", 2);
 		bash->err = 127;
 	}
-	else if (list->cmd[0] != '.' && list->cmd[0] != '/')
+	else if ((list->cmd[0] != '.' && list->cmd[0] != '/')
+		|| (list->cmd[0] == '.' && list->cmd[1] != '.'
+			&& list->cmd[1] != '/'))
 	{
 		temp = ft_strjoin(list->cmd, ": command not found\n");
 		ft_putstr_fd(temp, 2);

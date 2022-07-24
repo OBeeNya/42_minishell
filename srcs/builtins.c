@@ -30,16 +30,34 @@ void	ft_dispatch_builtins(t_pipe *pipe, t_bash *bash)
 	old = getcwd(buf, MAX_LINE_LEN);
 	if (!ft_strcmp(pipe->cmd, "echo"))
 		ft_echo(pipe);
-	if (!ft_strcmp(pipe->cmd, "cd"))
+	else if (!ft_strcmp(pipe->cmd, "cd"))
 		ft_cd(pipe, bash, old, buf);
-	if (!ft_strcmp(pipe->cmd, "pwd"))
+	else if (!ft_strcmp(pipe->cmd, "pwd"))
 		ft_pwd();
-	if (!ft_strcmp(pipe->cmd, "export"))
-		ft_export(pipe, bash);
-	if (!ft_strcmp(pipe->cmd, "unset"))
+	else if (!ft_strcmp(pipe->cmd, "export"))
+	{
+		if (ft_export(pipe, bash))
+			ft_env(bash, pipe, true);
+	}
+	else if (!ft_strcmp(pipe->cmd, "unset"))
 		ft_unset(pipe, bash);
-	if (!ft_strcmp(pipe->cmd, "env"))
-		ft_env(bash, pipe);
-	if (!ft_strcmp(pipe->cmd, "exit"))
+	else if (!ft_strcmp(pipe->cmd, "env"))
+		ft_env(bash, pipe, false);
+	else if (!ft_strcmp(pipe->cmd, "exit"))
 		ft_exit(pipe);
+}
+
+void	ft_close_int_fd(void)
+{
+	int	i;
+
+	i = 2;
+	close(0);
+	close(1);
+	while (i < 1024)
+	{
+		if (!read(i, 0, 0))
+			close(i);
+		i++;
+	}
 }

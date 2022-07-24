@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 17:47:12 by hugoo             #+#    #+#             */
-/*   Updated: 2022/07/09 18:50:43 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/21 20:36:43 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,62 +14,71 @@
 
 void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k)
 {
+	pid_t	pid;
+	int		j;
+
+	j = 0;
 	init_pipe(i, pass);
 	while (pass)
 	{
-		ft_dup_fds(pass);
-		if (!k)
-			dup2(pass->fd[1], pass->fdout);
-		else if (k && !pass->next)
-			dup2(pass->previous->fd[0], pass->fdin);
-		else if (k && pass->next)
+		if (!ft_check_cmd(bash, pass) && pass->cmd)
 		{
-			dup2(pass->previous->fd[0], pass->fdin);
-			dup2(pass->fd[1], pass->fdout);
+			j++;
+			ft_dup_fds(pass);
+			if (!k)
+				dup2(pass->fd[1], pass->fdout);
+			else if (k && !pass->next)
+				dup2(pass->previous->fd[0], pass->fdin);
+			else if (k && pass->next)
+			{
+				dup2(pass->previous->fd[0], pass->fdin);
+				dup2(pass->fd[1], pass->fdout);
+			}
+			pid = ft_pipe_2(pass, bash, i);
 		}
-		ft_pipe_2(pass, bash, i);
 		k++;
 		pass = pass->next;
 	}
-	ft_pipe_3(bash, i);
+	if (j - 1 == i)
+		ft_pipe_3(bash, i, pid);
 }
 
-void	ft_pipe_2(t_pipe *pass, t_bash *bash, int i)
+pid_t	ft_pipe_2(t_pipe *pass, t_bash *bash, int i)
 {
+	signal(SIGINT, SIG_IGN);
 	pass->pid = fork();
 	if (pass->pid == -1)
-		return ;
+		return (pass->pid);
 	else if (!pass->pid)
 	{
+		ft_handle_signals();
 		ft_close(bash, i);
-		if (pass->cmd)
+		ft_get_args(bash);
+		if (ft_is_builtin(pass->cmd))
 		{
-			if (ft_is_builtin(pass->cmd))
-			{
-				ft_dispatch_builtins(pass, bash);
-				exit(0);
-			}
-			else
-				ft_execute_cmd(pass, bash);
+			ft_dispatch_builtins(pass, bash);
+			exit(bash->err);
 		}
-		else
-			exit(0);
+		else if (pass->cmd)
+			ft_execute_cmd(pass, bash);
 	}
-	ft_close_fds(pass);
+	if (pass->cmd)
+		ft_close_fds(pass);
+	return (pass->pid);
 }
 
-void	ft_pipe_3(t_bash *bash, int i)
+void	ft_pipe_3(t_bash *bash, int i, pid_t pid)
 {
-	t_pipe	*pass;
+	int		j;
 
-	pass = bash->pipes->next;
-	if (pass->cmd && !ft_is_builtin(pass->cmd))
-	{
-		if (0 < waitpid(pass->pid, &bash->err, 0) && WIFEXITED(bash->err))
-			bash->err = WEXITSTATUS(bash->err);
-	}
+	j = 0;
 	ft_close(bash, i);
-	wait(0);
+	while (j < i)
+	{
+		if (0 < waitpid(pid, &bash->err, 0) && WIFEXITED(bash->err))
+			bash->err = WEXITSTATUS(bash->err);
+		j++;
+	}
 }
 
 void	init_pipe(int i, t_pipe *pass)

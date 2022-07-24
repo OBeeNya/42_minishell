@@ -83,9 +83,19 @@ void	ft_unset(t_pipe *pipe, t_bash *bash)
 		token = token->next;
 	if (token->next)
 		token = token->next;
-	if (ft_is_var(bash, token->str))
+	while (token && token->type == T_STR)
 	{
-		ft_unset_envp(bash, token->str);
-		ft_unset_env(bash, token->str);
+		if (ft_is_var(bash, token->str))
+		{
+			ft_unset_envp(bash, token->str);
+			ft_unset_env(bash, token->str);
+		}
+		else if (ft_check_export(token->str))
+		{
+			ft_putstr_fd("minishell: unset: ", 2);
+			ft_putstr_fd(token->str, 2);
+			ft_putstr_fd(": invalid option\n", 2);
+		}
+		token = token->next;
 	}
 }

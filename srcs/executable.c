@@ -21,7 +21,8 @@ void	ft_executable(t_bash *bash)
 	{
 		if (pass->cmd)
 		{
-			if (pass->cmd[0] == '.' && pass->cmd[1] != '.')
+			if (pass->cmd[0] == '.' && (pass->cmd[1] == '.'
+					|| pass->cmd[1] == '/'))
 				ft_executable_2(pass, bash);
 			else if (pass->cmd[0] == '/')
 			{

@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 17:42:27 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 18:38:43 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/18 17:04:30 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,8 @@ void	ft_prompt_2(t_bash *bash)
 	{
 		if (ft_tokenize(bash))
 		{
-			if (!ft_check_cmd(bash))
-			{
-				ft_get_args(bash);
-				if (!ft_update_fds(bash))
-					ft_forking(bash);
-			}
+			if (!ft_update_fds(bash))
+				ft_forking(bash);
 		}
 	}
 }
@@ -35,13 +31,14 @@ void	ft_prompt(t_bash *bash, char **envp, bool first, bool last)
 		bash->echo = 0;
 		ft_initialize_bash(bash, envp, first);
 		first = false;
-		signal(SIGINT, ctrl_handler);
-		signal(SIGSEGV, ctrl_handler);
-		signal(SIGQUIT, SIG_IGN);
+		ft_handle_signals();
 		bash->input = readline("minishell ~ ");
 		if (!bash->input)
-			exit(0);
-		if (bash->input)
+		{
+			ft_putstr_fd("\n", 1);
+			ft_free_all(bash, true);
+		}
+		if (ft_strcmp(bash->input, ""))
 			add_history(bash->input);
 		ft_prompt_2(bash);
 		bash->first_token = ft_first_token(bash->first_token);

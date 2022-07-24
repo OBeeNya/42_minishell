@@ -37,7 +37,7 @@ void	ft_cpy_envp(t_bash *bash, char **cpy)
 		return ;
 }
 
-void	ft_env(t_bash *bash, t_pipe *pipe)
+void	ft_env(t_bash *bash, t_pipe *pipe, bool export)
 {
 	int	i;
 
@@ -49,6 +49,8 @@ void	ft_env(t_bash *bash, t_pipe *pipe)
 	}
 	while (bash->envp[i])
 	{
+		if (export)
+			ft_putstr_fd("export ", 1);
 		ft_putstr_fd(bash->envp[i], 1);
 		ft_putstr_fd("\n", 1);
 		i++;

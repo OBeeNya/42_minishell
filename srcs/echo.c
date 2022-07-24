@@ -39,9 +39,9 @@ void	ft_echo(t_pipe *pipe)
 		token = token->next;
 	if (token->next)
 		token = token->next;
-	if (ft_is_nl_option(token->str))
+	if (token && ft_is_nl_option(token->str))
 	{
-		while (ft_is_nl_option(token->str))
+		while (token && ft_is_nl_option(token->str))
 			token = token->next;
 		nl++;
 	}

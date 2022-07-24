@@ -14,7 +14,7 @@
 
 void	ft_assign_cmd(t_pipe *next, t_token *lst, int *chev, int *cmd)
 {
-	while (lst)
+	while (lst && !(*cmd))
 	{
 		if ((!lst->previous) && lst->type == T_STR)
 		{
@@ -24,7 +24,10 @@ void	ft_assign_cmd(t_pipe *next, t_token *lst, int *chev, int *cmd)
 		}
 		else if ((!lst->previous) && lst->type != T_STR)
 			*chev = 1;
-		else if (*chev == 1 && lst->previous->type == T_STR && \
+		else if (*chev == 1 && (lst->previous->type == T_INPUT
+				|| lst->previous->type == T_OUTPUT
+				|| lst->previous->type == T_APPEND
+				|| lst->previous->type == T_HEREDOC) && \
 			lst->previous->previous->type != T_STR && lst->type == T_STR)
 		{
 			lst->type = T_CMD;

@@ -100,31 +100,31 @@ void	ft_dispatch_exporting(t_bash *bash, char *str, int i, int p)
 	free(value);
 }
 
-void	ft_export(t_pipe *pipe, t_bash *bash)
+int	ft_export(t_pipe *pipe, t_bash *bash)
 {
-	t_token	*token;
+	t_token	*t;
 	size_t	i;
 
-	token = pipe->first_token;
-	while (token->type != T_CMD)
-		token = token->next;
-	if (token->next && token->next->type == T_STR)
+	t = pipe->first_token;
+	while (t->type != T_CMD)
+		t = t->next;
+	if (!t->next || t->next->type != T_STR)
+		return (1);
+	while (t->next && t->next->type == T_STR)
 	{
-		token = token->next;
+		t = t->next;
 		i = 0;
-		if (!ft_check_export(token->str))
+		if (!ft_check_export(t->str))
 		{
-			while (token->str[i] != '=' && i < ft_strlen(token->str)
-				&& token->str[i] != '+')
+			while (t->str[i] && t->str[i] != '=' && t->str[i] != '+')
 				i++;
-			if (token->str[i] == '=')
-				ft_dispatch_exporting(bash, token->str, i, 0);
-			else if (token->str[i] == '+' && token->str[i + 1] == '=')
-				ft_dispatch_exporting(bash, token->str, i, 1);
+			if (t->str[i] == '=')
+				ft_dispatch_exporting(bash, t->str, i, 0);
+			else if (t->str[i] == '+' && t->str[i + 1] == '=')
+				ft_dispatch_exporting(bash, t->str, i, 1);
 		}
 		else
-			ft_wrong_identifier(token->str, bash);
+			ft_wrong_identifier(t->str, bash);
 	}
-	else
-		ft_env(bash, pipe);
+	return (0);
 }

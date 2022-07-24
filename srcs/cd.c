@@ -118,7 +118,7 @@ void	ft_cd(t_pipe *pipe, t_bash *bash, char *old, char buf[MAX_LINE_LEN])
 	token = token->next;
 	new = getcwd(buf, MAX_LINE_LEN);
 	c = chdir(token->str);
-	if (c || (!new && token->str[0] == '.'))
+	if (c || (!new))
 		ft_cd_msg_err(token->str, bash);
 	else
 		ft_update_pwd(bash, temp, new);

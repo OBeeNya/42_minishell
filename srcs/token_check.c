@@ -23,10 +23,11 @@ int	ft_check_first_and_last_token(t_token *token, t_bash *bash)
 			return (0);
 		}
 	}
-	else
+	if (token->type == T_RED_I_SGL || token->type == T_RED_I_DBL
+		|| token->type == T_RED_O_SGL || token->type == T_RED_O_DBL)
 	{
-		if (token->type == T_RED_I_SGL || token->type == T_RED_I_DBL
-			|| token->type == T_RED_O_SGL || token->type == T_RED_O_DBL)
+		if ((token->previous->type == T_BEG && !token->next)
+			|| (token->previous->type != T_BEG))
 		{
 			ft_putstr_fd("syntax error near unexpected token 'newline'\n", 2);
 			bash->err = 2;

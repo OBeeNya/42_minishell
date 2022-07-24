@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:26:44 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 17:23:34 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/18 13:07:21 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ int	main(int ac, char **av, char **envp)
 	bool	first;
 	bool	last;
 
+	if (!isatty(STDIN_FILENO))
+	{
+		ft_putstr_fd("error, the open file descriptor does not refer to a", 2);
+		ft_putstr_fd("terminal\n", 2);
+		exit(1);
+	}
 	first = true;
 	last = false;
 	if (ac != 1)

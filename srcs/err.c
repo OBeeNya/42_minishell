@@ -39,6 +39,8 @@ int	ft_check_export(char *str)
 	size_t	i;
 
 	i = 0;
+	if (!ft_isalpha(str[i]))
+		return (1);
 	while (str[i] && str[i] != '=' && str[i] != '+')
 	{
 		if (str[i] != '_' && str[i] != '=' && str[i] != '+'
