@@ -195,8 +195,8 @@ void	ft_execute_no_pipe(t_bash *bash, t_pipe *pass);
 void	ft_forking(t_bash *bash);
 
 /* heredoc.c */
-void	ft_heredoc(t_pipe *pipe, char *delim, t_bash *bash);
-void	ft_fork_heredoc(t_bash *bash, int quotes, char *unquoted, int fd);
+void	ft_heredoc(t_pipe *pipe, char *delim);
+void	ft_fork_heredoc(char *filename, int quotes, char *unquoted, int fd);
 int		ft_is_there_dolls(char *line);
 
 /* initialize.c */

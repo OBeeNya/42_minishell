@@ -69,7 +69,7 @@ int	ft_update_fd_in_out(t_pipe *pipe, t_bash *bash)
 			}
 		}
 		else if (token->type == T_RED_I_DBL)
-			ft_heredoc(pipe, token->next->str, bash);
+			ft_heredoc(pipe, token->next->str);
 		else if (token->type == T_RED_O_SGL || token->type == T_RED_O_DBL)
 			ft_update_fdout(pipe, token);
 		if (ft_err_echo_dir(pipe, bash))

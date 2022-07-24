@@ -12,6 +12,8 @@
 
 #include "../include/minishell.h"
 
+extern t_bash	g_bash;
+
 char	*ft_unquote_delim(char *delim)
 {
 	char	*unquoted;
@@ -56,7 +58,7 @@ void	ft_eof_heredoc(char *unquoted)
 	exit(0);
 }
 
-void	ft_fork_heredoc(t_bash *bash, int quotes, char *unquoted, int fd)
+void	ft_fork_heredoc(char *filename, int quotes, char *unquoted, int fd)
 {
 	char	*line;
 	pid_t	pid;
@@ -70,21 +72,23 @@ void	ft_fork_heredoc(t_bash *bash, int quotes, char *unquoted, int fd)
 			line = readline("> ");
 			if (!line)
 				ft_eof_heredoc(unquoted);
-			line = ft_expand_heredoc(line, bash, quotes);
+			line = ft_expand_heredoc(line, &g_bash, quotes);
 			if (!ft_strcmp(line, unquoted))
 				break ;
 			write(fd, line, ft_strlen(line) * sizeof(char));
 			write(fd, "\n", 1);
 			free(line);
 		}
-		exit(bash->err);
+		free(unquoted);
+		free(filename);
+		ft_free_all(&g_bash, true);
 	}
-	if (0 < waitpid(pid, &bash->err, 0) && WIFEXITED(bash->err))
-		bash->err = WEXITSTATUS(bash->err);
+	if (0 < waitpid(pid, &g_bash.err, 0) && WIFEXITED(g_bash.err))
+		g_bash.err = WEXITSTATUS(g_bash.err);
 	ft_handle_signals();
 }
 
-void	ft_heredoc(t_pipe *pipe, char *delim, t_bash *bash)
+void	ft_heredoc(t_pipe *pipe, char *delim)
 {
 	char	*filename;
 	char	*unquoted;
@@ -96,7 +100,7 @@ void	ft_heredoc(t_pipe *pipe, char *delim, t_bash *bash)
 	quotes = ft_are_there_quotes(delim);
 	unquoted = ft_unquote_delim(delim);
 	signal(SIGINT, SIG_IGN);
-	ft_fork_heredoc(bash, quotes, unquoted, fd);
+	ft_fork_heredoc(filename, quotes, unquoted, fd);
 	if (pipe->fdin)
 		close(pipe->fdin);
 	pipe->fdin = open(filename, O_RDONLY);
