@@ -57,7 +57,6 @@ pid_t	ft_pipe_2(t_pipe *pass, t_bash *bash, int i)
 		if (ft_is_builtin(pass->cmd))
 		{
 			ft_dispatch_builtins(pass, bash);
-			ft_free_all(bash, true);
 			exit(bash->err);
 		}
 		else if (pass->cmd)
