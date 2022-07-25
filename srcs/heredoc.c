@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:38:15 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/24 19:52:03 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/25 20:20:18 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ void	ft_fork_heredoc(char *filename, int quotes, char *unquoted, int fd)
 		}
 		free(unquoted);
 		free(filename);
-		ft_free_all(&g_bash, true);
+		ft_free_all(&g_bash, false);
+		ft_free_env(&g_bash);
+		ft_close_int_fd();
+		exit(g_bash.err);
 	}
 	if (0 < waitpid(pid, &g_bash.err, 0) && WIFEXITED(g_bash.err))
 		g_bash.err = WEXITSTATUS(g_bash.err);

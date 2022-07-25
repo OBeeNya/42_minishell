@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 17:47:12 by hugoo             #+#    #+#             */
-/*   Updated: 2022/07/24 19:59:46 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/25 20:22:10 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ pid_t	ft_pipe_2(t_pipe *pass, t_bash *bash, int i)
 		if (ft_is_builtin(pass->cmd))
 		{
 			ft_dispatch_builtins(pass, bash);
+			ft_free_all(bash, false);
+			ft_free_env(bash);
+			ft_close_int_fd();
 			exit(bash->err);
 		}
 		else if (pass->cmd)

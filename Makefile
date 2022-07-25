@@ -74,6 +74,7 @@ clean:
 fclean: clean
 			${RM} ${NAME}
 			${RM} $(LIBFT)
+			${RM} valgrind.txt
 
 re:     fclean all
 
