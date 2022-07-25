@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 17:53:41 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/13 20:07:16 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/25 08:24:51 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,25 @@ unsigned long long int	ft_long_atoi(const char *str)
 	return (nb);
 }
 
+int	ft_check_min_long(char *s)
+{
+	int		i;
+	char	*min;
+	char	*str;
+
+	i = 0;
+	if (s[0] != '-')
+		return (0);
+	i++;
+	while (s[i] && s[i] == '0')
+		i++;
+	str = ft_strndup(s, i, ft_strlen(s) - i);
+	min = ft_strdup("9223372036854775808");
+	if (!ft_strcmp(min, str))
+		return (free(str), free(min), 1);
+	return (free(str), free(min), 0);
+}
+
 int	ft_is_str_num(char *s)
 {
 	int	i;
@@ -53,6 +72,8 @@ int	ft_is_str_num(char *s)
 			return (0);
 		i++;
 	}
+	if (ft_check_min_long(s))
+		return (1);
 	if (ft_long_atoi(s) > 9223372036854775807)
 		return (0);
 	return (1);
@@ -87,12 +108,12 @@ void	ft_exit(t_pipe *pipe)
 			ft_putstr_fd("minishell: exit: ", 2);
 			ft_putstr_fd(pipe->args[0], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
+			g_bash.err = 2;
 			ft_free_all(&g_bash, true);
-			exit(2);
 		}
 		g_bash.err = ft_atoi(pipe->args[0]);
 		ft_free_all(&g_bash, true);
 	}
+	g_bash.err = 0;
 	ft_free_all(&g_bash, true);
-	exit(0);
 }
