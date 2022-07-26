@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 17:47:12 by hugoo             #+#    #+#             */
-/*   Updated: 2022/07/26 11:43:03 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 11:48:01 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,13 @@ void	ft_wait_child(t_bash *bash, int i)
 	while (pipe)
 	{
 		if (pipe->pid != -1 && (0 < waitpid(pipe->pid, &status, 0)))
-		{
 			bash->err = WEXITSTATUS(status);
-			// if (WIFSIGNALED(status))
-			// {
-			// 	if (WTERMSIG(status) == 2)
-			// 	{
-			// 		bash->err = 130;
-			// 		ft_putstr_fd("\n", 1);
-			// 	}
-			// 	else if (WTERMSIG(status) == 3)
-			// 	{
-			// 		ft_putstr_fd("Quit (core dumped)\n", 2);
-			// 		bash->err = 131;
-			// 	}
-			// }
-		}
 		pipe = pipe->next;
 	}
 }
 
 void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k)
 {
-	pid_t	pid;
 	int		j;
 
 	j = 0;
@@ -68,22 +52,21 @@ void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k)
 				dup2(pass->previous->fd[0], pass->fdin);
 			else if (k && pass->next)
 				ft_dup_middle_pipe(pass);
-			pid = ft_pipe_2(pass, bash, i);
+			ft_pipe_2(pass, bash, i);
 		}
 		k++;
 		pass = pass->next;
 	}
-	(void)pid;
 	if (j - 1 == i)
 		ft_wait_child(bash, i);
 }
 
-pid_t	ft_pipe_2(t_pipe *pass, t_bash *bash, int i)
+void	ft_pipe_2(t_pipe *pass, t_bash *bash, int i)
 {
 	signal(SIGINT, SIG_IGN);
 	pass->pid = fork();
 	if (pass->pid == -1)
-		return (pass->pid);
+		return ;
 	else if (!pass->pid)
 	{
 		ft_handle_signals();
@@ -102,7 +85,6 @@ pid_t	ft_pipe_2(t_pipe *pass, t_bash *bash, int i)
 	}
 	if (pass->cmd)
 		ft_close_fds(pass);
-	return (pass->pid);
 }
 
 void	init_pipe(int i, t_pipe *pass)

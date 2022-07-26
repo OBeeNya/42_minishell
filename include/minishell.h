@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 11:40:24 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 11:48:08 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,7 @@ void	ft_create_pipe_list(t_bash *bash);
 void	ft_dup_middle_pipe(t_pipe *pass);
 void	ft_wait_child(t_bash *bash, int i);
 void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k);
-pid_t	ft_pipe_2(t_pipe *pass, t_bash *bash, int i);
+void	ft_pipe_2(t_pipe *pass, t_bash *bash, int i);
 void	init_pipe(int i, t_pipe *pass);
 
 /* pipe_utils.c */
