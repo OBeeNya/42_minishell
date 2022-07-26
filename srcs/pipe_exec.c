@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 17:47:12 by hugoo             #+#    #+#             */
-/*   Updated: 2022/07/26 14:13:49 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 14:21:28 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,10 @@ void	ft_wait_child(t_bash *bash, int i)
 			&& pipe->cmd_ok)
 		{
 			bash->err = WEXITSTATUS(status);
-			if (WIFSIGNALED(status))
+			if (WIFSIGNALED(status) && WTERMSIG(status) == 2)
 			{
-				if (WTERMSIG(status) == 2)
-				{
-					bash->err = 130;
-					ft_putstr_fd("\n", 1);
-				}
+				bash->err = 130;
+				ft_putstr_fd("\n", 1);
 			}
 		}
 		pipe = pipe->next;

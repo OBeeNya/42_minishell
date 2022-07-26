@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 14:05:04 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 13:51:10 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 14:19:19 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,10 @@ void	ft_execute_no_pipe(t_bash *bash, t_pipe *pass)
 			if (pid != -1 && (0 < waitpid(pid, &bash->err, 0)) && pass->cmd_ok)
 				bash->err = WEXITSTATUS(bash->err);
 			if (WIFSIGNALED(bash->err) && WTERMSIG(bash->err) == 2)
+			{
+				ft_putstr_fd("\n", 2);
 				bash->err = 130;
+			}
 			ft_handle_signals();
 		}
 		ft_close_fds(pass);
