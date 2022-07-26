@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 14:05:04 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/18 14:11:34 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/26 11:03:18 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,9 @@ void	ft_execute_cmd(t_pipe *pipe, t_bash *bash)
 		{
 			cmd = ft_strjoin(path, pipe->cmd);
 			e = execve(cmd, args, bash->envp);
-			e = 0;
-			while (args[e])
-				free(args[e++]);
-			free(args[e]);
-			free(args);
-			free(path);
-			free(cmd);
+			(void)e;
 		}
 	}
-	signal(SIGINT, SIG_IGN);
 }
 
 void	ft_execute_no_pipe(t_bash *bash, t_pipe *pass)

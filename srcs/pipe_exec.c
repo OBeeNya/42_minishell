@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 17:47:12 by hugoo             #+#    #+#             */
-/*   Updated: 2022/07/25 20:22:10 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 11:14:36 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ pid_t	ft_pipe_2(t_pipe *pass, t_bash *bash, int i)
 		else if (pass->cmd)
 			ft_execute_cmd(pass, bash);
 	}
+	// else
+	// 	wait(0);
 	if (pass->cmd)
 		ft_close_fds(pass);
 	return (pass->pid);
