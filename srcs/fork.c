@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 14:05:04 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 14:44:10 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 16:18:39 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ void	ft_execute_no_pipe(t_bash *bash, t_pipe *pass)
 				ft_putstr_fd("Quit (core dumped)\n", 2);
 				bash->err = 131;
 			}
+			ft_convert_err(bash);
 			ft_handle_signals(0);
 		}
 		ft_close_fds(pass);

@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 14:44:31 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 16:18:14 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ char	*ft_is_var(t_bash *bash, char *str);
 void	ft_quotes_doll(t_bash *bash);
 
 /* echo.c */
+void	ft_convert_err(t_bash *bash);
 int		ft_is_nl_option(char *str);
 void	ft_echo(t_pipe *pipe);
 
