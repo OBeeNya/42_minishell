@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 17:47:12 by hugoo             #+#    #+#             */
-/*   Updated: 2022/07/26 14:12:49 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 14:13:49 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,6 @@ void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k)
 		k++;
 		pass = pass->next;
 	}
-<<<<<<< HEAD
-=======
-	(void)pid;
->>>>>>> 20220726_waitpid
 	ft_wait_child(bash, i);
 }
 
