@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 17:47:12 by hugoo             #+#    #+#             */
-/*   Updated: 2022/07/26 13:53:24 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 14:12:49 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,17 @@ void	ft_wait_child(t_bash *bash, int i)
 	{
 		if (pipe->pid != -1 && (0 < waitpid(pipe->pid, &status, 0))
 			&& pipe->cmd_ok)
+		{
 			bash->err = WEXITSTATUS(status);
-		if (WIFSIGNALED(bash->err) && WTERMSIG(bash->err) == 2)
-			bash->err = 130;
+			if (WIFSIGNALED(status))
+			{
+				if (WTERMSIG(status) == 2)
+				{
+					bash->err = 130;
+					ft_putstr_fd("\n", 1);
+				}
+			}
+		}
 		pipe = pipe->next;
 	}
 }
@@ -56,6 +64,10 @@ void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k)
 		k++;
 		pass = pass->next;
 	}
+<<<<<<< HEAD
+=======
+	(void)pid;
+>>>>>>> 20220726_waitpid
 	ft_wait_child(bash, i);
 }
 
