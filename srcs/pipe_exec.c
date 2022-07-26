@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 17:47:12 by hugoo             #+#    #+#             */
-/*   Updated: 2022/07/26 11:48:01 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 12:25:57 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	ft_wait_child(t_bash *bash, int i)
 	ft_close(bash, i);
 	while (pipe)
 	{
-		if (pipe->pid != -1 && (0 < waitpid(pipe->pid, &status, 0)))
+		if (pipe->pid != -1 && (0 < waitpid(pipe->pid, &status, 0))
+			&& pipe->cmd_ok)
 			bash->err = WEXITSTATUS(status);
 		pipe = pipe->next;
 	}
@@ -36,15 +37,11 @@ void	ft_wait_child(t_bash *bash, int i)
 
 void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k)
 {
-	int		j;
-
-	j = 0;
 	init_pipe(i, pass);
 	while (pass)
 	{
 		if (!ft_check_cmd(bash, pass) && pass->cmd)
 		{
-			j++;
 			ft_dup_fds(pass);
 			if (!k)
 				dup2(pass->fd[1], pass->fdout);
@@ -57,8 +54,7 @@ void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k)
 		k++;
 		pass = pass->next;
 	}
-	if (j - 1 == i)
-		ft_wait_child(bash, i);
+	ft_wait_child(bash, i);
 }
 
 void	ft_pipe_2(t_pipe *pass, t_bash *bash, int i)

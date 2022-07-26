@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 17:13:58 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/07/24 19:21:33 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 12:24:08 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ int	ft_check_cmd(t_bash *bash, t_pipe *pipe)
 	if (cmd)
 		err = ft_check_cmd_2(bash, pipe);
 	if (cmd && !err)
+	{
+		pipe->cmd_ok = 0;
 		return (0);
+	}
 	return (err);
 }
 

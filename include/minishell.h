@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 11:48:08 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 12:27:19 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_pipe
 	int				fdout;	
 	int				fdin_init;
 	int				fdout_init;
+	int				cmd_ok;
 	struct s_pipe	*next;
 	struct s_pipe	*previous;
 }	t_pipe;
@@ -241,6 +242,7 @@ void	ft_print_pipes(t_bash *bash);
 void	ft_print_envp(t_bash *bash, char *key);
 
 /* prompt.c */
+void	ft_heredoc_loop(char *unquoted, int quotes, int fd);
 void	ft_prompt_2(t_bash *bash);
 void	ft_prompt(t_bash *bash, char **envp, bool first, bool last);
 

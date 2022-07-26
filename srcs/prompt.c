@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 17:42:27 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/18 17:04:30 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/26 12:27:08 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+extern t_bash	g_bash;
+
+void	ft_heredoc_loop(char *unquoted, int quotes, int fd)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+			ft_eof_heredoc(unquoted);
+		line = ft_expand_heredoc(line, &g_bash, quotes);
+		if (!ft_strcmp(line, unquoted))
+			break ;
+		write(fd, line, ft_strlen(line) * sizeof(char));
+		write(fd, "\n", 1);
+		free(line);
+	}
+}
 
 void	ft_prompt_2(t_bash *bash)
 {
