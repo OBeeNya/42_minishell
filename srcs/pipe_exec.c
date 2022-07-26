@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 17:47:12 by hugoo             #+#    #+#             */
-/*   Updated: 2022/07/26 14:45:37 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 16:46:48 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,23 @@ void	ft_dup_middle_pipe(t_pipe *pass)
 
 void	ft_wait_child(t_bash *bash, int i)
 {
-	int		status;
 	t_pipe	*pipe;
 
 	pipe = bash->pipes->next;
-	status = 0;
 	ft_close(bash, i);
 	while (pipe)
 	{
-		if (pipe->pid != -1 && (0 < waitpid(pipe->pid, &status, 0))
+		if (pipe->pid != -1 && (0 < waitpid(pipe->pid, &bash->err, 0))
 			&& pipe->cmd_ok)
 		{
-			bash->err = WEXITSTATUS(status);
-			if (WIFSIGNALED(status) && WTERMSIG(status) == 2)
+			bash->err = WEXITSTATUS(bash->err);
+			if (WIFSIGNALED(bash->err) && WTERMSIG(bash->err) == 2)
 			{
 				bash->err = 130;
 				ft_putstr_fd("\n", 1);
 			}
 		}
+		ft_convert_err(bash);
 		pipe = pipe->next;
 	}
 }
