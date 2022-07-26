@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 18:13:57 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 19:23:37 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct s_bash
 	char	**exec;
 	char	**envp;
 	char	*input;
+	char	*f;
+	char	*u;
 	t_env	*env;
 	t_token	*first_token;
 	t_pipe	*pipes;

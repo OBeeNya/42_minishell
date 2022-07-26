@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:38:15 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 18:13:32 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 19:23:54 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	ft_fork_heredoc(char *filename, int quotes, char *unquoted, int fd)
 	if (!pid)
 	{
 		signal(SIGINT, heredoc_handler);
+		g_bash.f = filename;
+		g_bash.u = unquoted;
 		ft_heredoc_loop(unquoted, quotes, fd, filename);
 		free(unquoted);
 		free(filename);
