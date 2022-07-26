@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 17:53:41 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 18:46:22 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 18:56:22 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	ft_check_min_long(char *s)
 	while (s[i] && s[i] == '0')
 		i++;
 	str = ft_strndup(s, i, ft_strlen(s) - i);
+	if (ft_strlen(str) > 19)
+		return (0);
 	min = ft_strdup("9223372036854775808");
 	if (!ft_strcmp(min, str))
 		return (free(str), free(min), 1);
@@ -111,8 +113,10 @@ void	ft_exit(t_pipe *pipe)
 			g_bash.err = 2;
 			ft_free_all(&g_bash, true);
 		}
-		g_bash.err = ft_atoi(pipe->args[0]);
-		printf("err: %d\n", g_bash.err);
+		if (pipe->args[0][0] == '-')
+			g_bash.err = -ft_long_atoi(pipe->args[0]);
+		else
+			g_bash.err = ft_long_atoi(pipe->args[0]);
 		ft_free_all(&g_bash, true);
 	}
 	g_bash.err = 0;
