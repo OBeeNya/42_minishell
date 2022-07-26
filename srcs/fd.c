@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 17:29:58 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 18:10:34 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 19:58:26 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,8 @@ void	ft_update_fdout(t_pipe *pipe, t_token *token)
 	}
 }
 
-int	ft_update_fd_in_out(t_pipe *pipe, t_bash *bash)
+int	ft_update_fd_in_out(t_pipe *pipe, t_bash *bash, t_token *token)
 {
-	t_token	*token;
-
-	token = pipe->first_token;
 	while (token)
 	{
 		if (token->type == T_RED_I_SGL)
@@ -85,12 +82,14 @@ int	ft_update_fd_in_out(t_pipe *pipe, t_bash *bash)
 int	ft_update_fds(t_bash *bash)
 {
 	t_pipe	*pipe;
+	t_token	*token;
 	int		i;
 
 	pipe = bash->pipes->next;
 	while (pipe)
 	{
-		i = ft_update_fd_in_out(pipe, bash);
+		token = pipe->first_token;
+		i = ft_update_fd_in_out(pipe, bash, token);
 		if (i == 2)
 			return (2);
 		else if (i)

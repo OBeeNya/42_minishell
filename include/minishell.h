@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 19:23:37 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 19:58:36 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ int		ft_export(t_pipe *pipe, t_bash *bash);
 void	ft_dup_fds(t_pipe *pipe);
 void	ft_close_fds(t_pipe *pipe);
 void	ft_update_fdout(t_pipe *pipe, t_token *token);
-int		ft_update_fd_in_out(t_pipe *pipe, t_bash *bash);
+int		ft_update_fd_in_out(t_pipe *pipe, t_bash *bash, t_token *token);
 int		ft_update_fds(t_bash *bash);
 
 /* fork.c */
@@ -273,8 +273,10 @@ size_t	ft_ignore_quotes(char *str, size_t i);
 int		ft_analyze_quotes(t_bash *bash);
 
 /* signals.c */
+void	ft_check_signal_exit(t_bash *bash);
 void	heredoc_handler(int signum);
 void	ctrl_handler(int signum);
+void	ft_sig_quit(int signum);
 void	ft_handle_signals(int quit);
 
 /* token_check.c */

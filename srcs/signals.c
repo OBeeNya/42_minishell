@@ -6,13 +6,27 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 15:36:01 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 19:24:09 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 19:51:58 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 extern t_bash	g_bash;
+
+void	ft_check_signal_exit(t_bash *bash)
+{
+	if (WIFSIGNALED(bash->err) && WTERMSIG(bash->err) == 2)
+	{
+		ft_putstr_fd("\n", 2);
+		bash->err = 130;
+	}
+	else if (WIFSIGNALED(bash->err) && WTERMSIG(bash->err) == 3)
+	{
+		ft_putstr_fd("Quit (core dumped)\n", 2);
+		bash->err = 131;
+	}
+}
 
 void	heredoc_handler(int signum)
 {
