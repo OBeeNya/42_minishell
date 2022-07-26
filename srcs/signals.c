@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 15:36:01 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/18 17:04:58 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/26 14:43:33 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,22 @@ void	ctrl_handler(int signum)
 	}
 }
 
-void	ft_handle_signals(void)
+void	ft_sig_quit(int signum)
+{
+	if (signum == SIGQUIT)
+	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		g_bash.err = 131;
+		exit(g_bash.err);
+	}
+}
+
+void	ft_handle_signals(int quit)
 {
 	signal(SIGINT, ctrl_handler);
-	signal(SIGQUIT, SIG_IGN);
+	if (quit)
+		signal(SIGQUIT, ft_sig_quit);
+	else
+		signal(SIGQUIT, SIG_IGN);
 }

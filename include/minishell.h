@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 14:11:34 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 14:44:31 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,7 +272,7 @@ int		ft_analyze_quotes(t_bash *bash);
 /* signals.c */
 void	heredoc_handler(int signum);
 void	ctrl_handler(int signum);
-void	ft_handle_signals(void);
+void	ft_handle_signals(int quit);
 
 /* token_check.c */
 int		ft_check_first_and_last_token(t_token *token, t_bash *bash);

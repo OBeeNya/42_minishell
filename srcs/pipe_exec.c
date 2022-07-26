@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 17:47:12 by hugoo             #+#    #+#             */
-/*   Updated: 2022/07/26 14:21:28 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 14:45:37 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	ft_pipe_2(t_pipe *pass, t_bash *bash, int i)
 		return ;
 	else if (!pass->pid)
 	{
-		ft_handle_signals();
+		ft_handle_signals(0);
 		ft_close(bash, i);
 		ft_get_args(bash);
 		if (ft_is_builtin(pass->cmd))

@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 17:42:27 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 14:11:41 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 14:43:53 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_prompt(t_bash *bash, char **envp, bool first, bool last)
 		bash->echo = 0;
 		ft_initialize_bash(bash, envp, first);
 		first = false;
-		ft_handle_signals();
+		ft_handle_signals(0);
 		bash->input = readline("minishell ~ ");
 		if (!bash->input)
 		{

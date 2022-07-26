@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:38:15 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 14:14:07 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 14:45:15 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	ft_heredoc(t_pipe *pipe, char *delim)
 	unquoted = ft_unquote_delim(delim);
 	signal(SIGINT, SIG_IGN);
 	ft_fork_heredoc(filename, quotes, unquoted, fd);
-	ft_handle_signals();
+	ft_handle_signals(0);
 	if (pipe->fdin)
 		close(pipe->fdin);
 	pipe->fdin = open(filename, O_RDONLY);

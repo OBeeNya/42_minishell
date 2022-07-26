@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 14:05:04 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 14:24:44 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 14:44:10 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	ft_execute_cmd(t_pipe *pipe, t_bash *bash)
 	char	*cmd;
 	int		e;
 
-	ft_handle_signals();
+	ft_handle_signals(1);
 	args = ft_join_args(pipe);
 	if (args)
 	{
@@ -118,7 +118,7 @@ void	ft_execute_no_pipe(t_bash *bash, t_pipe *pass)
 				ft_putstr_fd("Quit (core dumped)\n", 2);
 				bash->err = 131;
 			}
-			ft_handle_signals();
+			ft_handle_signals(0);
 		}
 		ft_close_fds(pass);
 	}
