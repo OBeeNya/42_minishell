@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 17:47:12 by hugoo             #+#    #+#             */
-/*   Updated: 2022/07/26 11:36:38 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 14:05:04 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,6 @@ void	ft_wait_child(t_bash *bash, int i)
 				{
 					bash->err = 130;
 					ft_putstr_fd("\n", 1);
-				}
-				else if (WTERMSIG(status) == 3)
-				{
-					ft_putstr_fd("Quit (core dumped)\n", 2);
-					bash->err = 131;
 				}
 			}
 		}
