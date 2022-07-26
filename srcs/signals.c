@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 15:36:01 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 14:43:33 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 17:32:00 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ void	heredoc_handler(int signum)
 		rl_replace_line("", 0);
 		ft_putstr_fd("\n", 1);
 		g_bash.err = 130;
+		ft_free_all(&g_bash, false);
+		ft_free_env(&g_bash);
+		ft_close_int_fd();
 		exit(g_bash.err);
 	}
 }
