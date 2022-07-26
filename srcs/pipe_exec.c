@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 17:47:12 by hugoo             #+#    #+#             */
-/*   Updated: 2022/07/26 16:46:48 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 16:59:57 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,22 @@ void	ft_wait_child(t_bash *bash, int i)
 	ft_close(bash, i);
 	while (pipe)
 	{
+		waitpid(pipe->pid, &bash->err, 0);
+		if (WIFSIGNALED(bash->err) && WTERMSIG(bash->err) == 2)
+		{
+			ft_putstr_fd("\n", 2);
+			bash->err = 130;
+			break ;
+		}
+		else if (WIFSIGNALED(bash->err) && WTERMSIG(bash->err) == 3)
+		{
+			ft_putstr_fd("Quit (core dumped)\n", 2);
+			bash->err = 131;
+			break ;
+		}
 		if (pipe->pid != -1 && (0 < waitpid(pipe->pid, &bash->err, 0))
 			&& pipe->cmd_ok)
-		{
 			bash->err = WEXITSTATUS(bash->err);
-			if (WIFSIGNALED(bash->err) && WTERMSIG(bash->err) == 2)
-			{
-				bash->err = 130;
-				ft_putstr_fd("\n", 1);
-			}
-		}
 		ft_convert_err(bash);
 		pipe = pipe->next;
 	}
