@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 17:13:22 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 18:13:57 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ void	ft_forking(t_bash *bash);
 /* heredoc.c */
 char	*ft_unquote_delim(char *delim);
 int		ft_is_there_dolls(char *line);
-void	ft_eof_heredoc(char *unquoted);
+void	ft_eof_heredoc(char *unquoted, char *filename);
 int		ft_fork_heredoc(char *filename, int quotes, char *unquoted, int fd);
 int		ft_heredoc(t_pipe *pipe, char *delim);
 
@@ -243,7 +243,7 @@ void	ft_print_pipes(t_bash *bash);
 void	ft_print_envp(t_bash *bash, char *key);
 
 /* prompt.c */
-void	ft_heredoc_loop(char *unquoted, int quotes, int fd);
+void	ft_heredoc_loop(char *unquoted, int quotes, int fd, char *filename);
 void	ft_prompt_2(t_bash *bash);
 void	ft_prompt(t_bash *bash, char **envp, bool first, bool last);
 

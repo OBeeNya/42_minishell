@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 17:29:58 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 17:14:24 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 18:10:34 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,15 @@ int	ft_update_fd_in_out(t_pipe *pipe, t_bash *bash)
 int	ft_update_fds(t_bash *bash)
 {
 	t_pipe	*pipe;
+	int		i;
 
 	pipe = bash->pipes->next;
 	while (pipe)
 	{
-		if (ft_update_fd_in_out(pipe, bash) == 2)
+		i = ft_update_fd_in_out(pipe, bash);
+		if (i == 2)
 			return (2);
-		else if (ft_update_fd_in_out(pipe, bash))
+		else if (i)
 			return (1);
 		pipe = pipe->next;
 	}

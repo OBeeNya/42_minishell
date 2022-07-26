@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 17:42:27 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 17:18:54 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 18:13:24 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern t_bash	g_bash;
 
-void	ft_heredoc_loop(char *unquoted, int quotes, int fd)
+void	ft_heredoc_loop(char *unquoted, int quotes, int fd, char *filename)
 {
 	char	*line;
 
@@ -22,7 +22,7 @@ void	ft_heredoc_loop(char *unquoted, int quotes, int fd)
 	{
 		line = readline("> ");
 		if (!line)
-			ft_eof_heredoc(unquoted);
+			ft_eof_heredoc(unquoted, filename);
 		line = ft_expand_heredoc(line, &g_bash, quotes);
 		if (!ft_strcmp(line, unquoted))
 			break ;
@@ -34,13 +34,16 @@ void	ft_heredoc_loop(char *unquoted, int quotes, int fd)
 
 void	ft_prompt_2(t_bash *bash)
 {
+	int	i;
+
 	if (!ft_is_just_spaces(bash->input))
 	{
 		if (ft_tokenize(bash))
 		{
-			if (ft_update_fds(bash) == 2)
+			i = ft_update_fds(bash);
+			if (i == 2)
 				return ;
-			else if (!ft_update_fds(bash))
+			else if (!i)
 				ft_forking(bash);
 		}
 	}

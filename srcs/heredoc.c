@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:38:15 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 17:31:44 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 18:13:32 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,17 @@ int	ft_is_there_dolls(char *line)
 		return (1);
 }
 
-void	ft_eof_heredoc(char *unquoted)
+void	ft_eof_heredoc(char *unquoted, char *filename)
 {
 	ft_putstr_fd("> minishell: warning: here-document at line delimited", 2);
 	ft_putstr_fd(" by end-of-file (wanted `", 2);
 	ft_putstr_fd(unquoted, 2);
 	ft_putstr_fd("')\n", 2);
+	free(unquoted);
+	free(filename);
+	ft_free_all(&g_bash, false);
+	ft_free_env(&g_bash);
+	ft_close_int_fd();
 	exit(0);
 }
 
@@ -66,7 +71,7 @@ int	ft_fork_heredoc(char *filename, int quotes, char *unquoted, int fd)
 	if (!pid)
 	{
 		signal(SIGINT, heredoc_handler);
-		ft_heredoc_loop(unquoted, quotes, fd);
+		ft_heredoc_loop(unquoted, quotes, fd, filename);
 		free(unquoted);
 		free(filename);
 		ft_free_all(&g_bash, false);
