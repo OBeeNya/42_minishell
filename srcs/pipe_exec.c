@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 17:47:12 by hugoo             #+#    #+#             */
-/*   Updated: 2022/07/26 14:05:04 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 14:08:36 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	ft_wait_child(t_bash *bash, int i)
 	ft_close(bash, i);
 	while (pipe)
 	{
-		if (pipe->pid != -1 && (0 < waitpid(pipe->pid, &status, 0)))
+		if (pipe->pid != -1 && (0 < waitpid(pipe->pid, &status, 0))
+			&& pipe->cmd_ok)
 		{
 			bash->err = WEXITSTATUS(status);
 			if (WIFSIGNALED(status))
@@ -69,9 +70,7 @@ void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k)
 		pass = pass->next;
 	}
 	(void)pid;
-	// if (j - 1 == i)
-		// ft_pipe_3(bash, i, pid);
-		ft_wait_child(bash, i);
+	ft_wait_child(bash, i);
 }
 
 pid_t	ft_pipe_2(t_pipe *pass, t_bash *bash, int i)
@@ -100,20 +99,6 @@ pid_t	ft_pipe_2(t_pipe *pass, t_bash *bash, int i)
 		ft_close_fds(pass);
 	return (pass->pid);
 }
-
-// void	ft_pipe_3(t_bash *bash, int i, pid_t pid)
-// {
-// 	int		j;
-
-// 	j = 0;
-// 	ft_close(bash, i);
-// 	while (j < i)
-// 	{
-// 		if (0 < waitpid(pid, &bash->err, 0) && WIFEXITED(bash->err))
-// 			bash->err = WEXITSTATUS(bash->err);
-// 		j++;
-// 	}
-// }
 
 void	init_pipe(int i, t_pipe *pass)
 {

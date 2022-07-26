@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:38:15 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/25 20:30:21 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 14:10:08 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,25 +60,12 @@ void	ft_eof_heredoc(char *unquoted)
 
 void	ft_fork_heredoc(char *filename, int quotes, char *unquoted, int fd)
 {
-	char	*line;
 	pid_t	pid;
 
 	pid = fork();
 	if (!pid)
 	{
 		signal(SIGINT, heredoc_handler);
-		while (1)
-		{
-			line = readline("> ");
-			if (!line)
-				ft_eof_heredoc(unquoted);
-			line = ft_expand_heredoc(line, &g_bash, quotes);
-			if (!ft_strcmp(line, unquoted))
-				break ;
-			write(fd, line, ft_strlen(line) * sizeof(char));
-			write(fd, "\n", 1);
-			free(line);
-		}
 		free(unquoted);
 		free(filename);
 		ft_free_all(&g_bash, false);
