@@ -1,0 +1,760 @@
+==134234== Memcheck, a memory error detector
+==134234== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==134234== Using Valgrind-3.18.1-42b08ed5bd-20211015 and LibVEX; rerun with -h for copyright info
+==134234== Command: ./minishell
+==134234== Parent PID: 134233
+==134234== 
+--134234-- 
+--134234-- Valgrind options:
+--134234--    --suppressions=suppressed_leaks
+--134234--    --leak-check=full
+--134234--    --show-leak-kinds=all
+--134234--    --track-fds=yes
+--134234--    --track-origins=yes
+--134234--    --verbose
+--134234--    --log-file=valgrind.txt
+--134234-- Contents of /proc/version:
+--134234--   Linux version 5.15.0-25-generic (buildd@ubuntu) (gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #25-Ubuntu SMP Wed Mar 30 15:54:22 UTC 2022
+--134234-- 
+--134234-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-sse3-ssse3-avx-avx2-bmi-f16c-rdrand-rdseed
+--134234-- Page sizes: currently 4096, max supported 4096
+--134234-- Valgrind library directory: /usr/libexec/valgrind
+--134234-- Reading syms from /Users/benjamin/Documents/42/gh_minishell/minishell
+--134234-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+--134234--   Considering /usr/lib/debug/.build-id/aa/1b0b998999c397062e1016f0c95dc0e8820117.debug ..
+--134234--   .. build-id is valid
+--134234-- Reading syms from /usr/libexec/valgrind/memcheck-amd64-linux
+--134234--    object doesn't have a symbol table
+--134234--    object doesn't have a dynamic symbol table
+--134234-- Scheduler: using generic scheduler lock implementation.
+--134234-- Reading suppressions file: suppressed_leaks
+--134234-- Reading suppressions file: /usr/libexec/valgrind/default.supp
+==134234== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-134234-by-benjamin-on-???
+==134234== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-134234-by-benjamin-on-???
+==134234== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-134234-by-benjamin-on-???
+==134234== 
+==134234== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==134234== don't want to do, unless you know exactly what you're doing,
+==134234== or are doing some strange experiment):
+==134234==   /usr/bin/vgdb --pid=134234 ...command...
+==134234== 
+==134234== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==134234==   /path/to/gdb ./minishell
+==134234== and then give GDB the following command
+==134234==   target remote | /usr/bin/vgdb --pid=134234
+==134234== --pid is optional if only one valgrind process is running
+==134234== 
+--134234-- REDIR: 0x402aa60 (ld-linux-x86-64.so.2:strlen) redirected to 0x580bcec2 (???)
+--134234-- REDIR: 0x402a830 (ld-linux-x86-64.so.2:index) redirected to 0x580bcedc (???)
+--134234-- Reading syms from /usr/libexec/valgrind/vgpreload_core-amd64-linux.so
+--134234--    object doesn't have a symbol table
+--134234-- Reading syms from /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so
+--134234--    object doesn't have a symbol table
+==134234== WARNING: new redirection conflicts with existing -- ignoring it
+--134234--     old: 0x0402aa60 (strlen              ) R-> (0000.0) 0x580bcec2 ???
+--134234--     new: 0x0402aa60 (strlen              ) R-> (2007.0) 0x0484ee30 strlen
+--134234-- REDIR: 0x4027240 (ld-linux-x86-64.so.2:strcmp) redirected to 0x484fcd0 (strcmp)
+--134234-- REDIR: 0x402afc0 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4853840 (mempcpy)
+--134234-- Reading syms from /usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+--134234--    object doesn't have a symbol table
+--134234-- Reading syms from /usr/lib/x86_64-linux-gnu/libc.so.6
+--134234--   Considering /usr/lib/debug/.build-id/89/c3cb85f9e55046776471fed05ec441581d1969.debug ..
+--134234--   .. build-id is valid
+==134234== WARNING: new redirection conflicts with existing -- ignoring it
+--134234--     old: 0x0495bce0 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--134234--     new: 0x0495bce0 (memalign            ) R-> (1017.0) 0x0484e050 aligned_alloc
+==134234== WARNING: new redirection conflicts with existing -- ignoring it
+--134234--     old: 0x0495bce0 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--134234--     new: 0x0495bce0 (memalign            ) R-> (1017.0) 0x0484e020 aligned_alloc
+==134234== WARNING: new redirection conflicts with existing -- ignoring it
+--134234--     old: 0x0495bce0 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--134234--     new: 0x0495bce0 (memalign            ) R-> (1017.0) 0x0484e050 aligned_alloc
+==134234== WARNING: new redirection conflicts with existing -- ignoring it
+--134234--     old: 0x0495bce0 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--134234--     new: 0x0495bce0 (memalign            ) R-> (1017.0) 0x0484e020 aligned_alloc
+--134234-- Reading syms from /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+--134234--    object doesn't have a symbol table
+--134234-- REDIR: 0x495e7a0 (libc.so.6:strnlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495ea60 (libc.so.6:strpbrk) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495e360 (libc.so.6:strcmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x497cd50 (libc.so.6:wcsnlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495f750 (libc.so.6:memset) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x497b5c0 (libc.so.6:wcslen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495fc90 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x497b3f0 (libc.so.6:wcschr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495e2e0 (libc.so.6:index) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495e9e0 (libc.so.6:rindex) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495f620 (libc.so.6:memmove) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+==134234== Preferring higher priority redirection:
+--134234--     old: 0x04a56940 (__memcpy_avx_unalign) R-> (2018.0) 0x04850f90 __memcpy_avx_unaligned_erms
+--134234--     new: 0x04a56940 (__memcpy_avx_unalign) R-> (2018.1) 0x04852880 memmove
+--134234-- REDIR: 0x497b470 (libc.so.6:wcscmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495fa60 (libc.so.6:stpncpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x497ba30 (libc.so.6:wmemchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495e8b0 (libc.so.6:strncmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495faf0 (libc.so.6:strcasecmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495e4a0 (libc.so.6:strcspn) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x497b4f0 (libc.so.6:wcscpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495e250 (libc.so.6:strcat) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495fbe0 (libc.so.6:strncasecmp_l) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495f500 (libc.so.6:bcmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x49675f0 (libc.so.6:memrchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x4961090 (libc.so.6:strchrnul) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495e410 (libc.so.6:strcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495fb90 (libc.so.6:strcasecmp_l) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495e720 (libc.so.6:strlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495e950 (libc.so.6:strncpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495f9d0 (libc.so.6:stpcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495f470 (libc.so.6:memchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495eb80 (libc.so.6:strspn) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495f850 (libc.so.6:mempcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495fb40 (libc.so.6:strncasecmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x4961000 (libc.so.6:rawmemchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495e820 (libc.so.6:strncat) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x49ea430 (libc.so.6:__memcpy_chk) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x495f390 (libc.so.6:strstr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--134234-- REDIR: 0x4a53790 (libc.so.6:__strrchr_avx2) redirected to 0x484e810 (rindex)
+--134234-- REDIR: 0x495b120 (libc.so.6:malloc) redirected to 0x4848820 (malloc)
+--134234-- REDIR: 0x495b460 (libc.so.6:free) redirected to 0x484b210 (free)
+--134234-- REDIR: 0x4a53960 (libc.so.6:__strlen_avx2) redirected to 0x484ed10 (strlen)
+--134234-- REDIR: 0x4a56940 (libc.so.6:__memcpy_avx_unaligned_erms) redirected to 0x4852880 (memmove)
+--134234-- REDIR: 0x4a53580 (libc.so.6:__strchrnul_avx2) redirected to 0x4853330 (strchrnul)
+--134234-- REDIR: 0x48fb150 (libc.so.6:setenv) redirected to 0x48542d0 (setenv)
+--134234-- REDIR: 0x4a53300 (libc.so.6:__strchr_avx2) redirected to 0x484e9f0 (index)
+--134234-- REDIR: 0x4a4ef00 (libc.so.6:__strncmp_avx2) redirected to 0x484f3e0 (strncmp)
+--134234-- REDIR: 0x495b7c0 (libc.so.6:realloc) redirected to 0x484dc50 (realloc)
+--134234-- REDIR: 0x4a56900 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4853440 (mempcpy)
+--134234-- REDIR: 0x4a4eac0 (libc.so.6:__strcmp_avx2) redirected to 0x484fbd0 (strcmp)
+--134234-- REDIR: 0x495c5a0 (libc.so.6:calloc) redirected to 0x484d9d0 (calloc)
+--134234-- REDIR: 0x4a53ae0 (libc.so.6:__strnlen_avx2) redirected to 0x484ecb0 (strnlen)
+--134234-- REDIR: 0x4a54e30 (libc.so.6:__strcpy_avx2) redirected to 0x484ee60 (strcpy)
+--134234-- REDIR: 0x495f040 (libc.so.6:__GI_strstr) redirected to 0x4853ae0 (__strstr_sse2)
+--134234-- REDIR: 0x4a56910 (libc.so.6:__memcpy_chk_avx_unaligned_erms) redirected to 0x4853940 (__memcpy_chk)
+--134234-- REDIR: 0x4a57100 (libc.so.6:__memset_avx2_unaligned_erms) redirected to 0x4852770 (memset)
+--134234-- REDIR: 0x4a551c0 (libc.so.6:__strncpy_avx2) redirected to 0x484efe0 (strncpy)
+--134234-- REDIR: 0x4a4f440 (libc.so.6:__memchr_avx2) redirected to 0x484fd50 (memchr)
+--134234-- REDIR: 0x4a502c4 (libc.so.6:__strcasecmp_l_avx) redirected to 0x484f7e0 (strcasecmp_l)
+--134234-- REDIR: 0x4a55b20 (libc.so.6:__stpcpy_avx2) redirected to 0x4852130 (stpcpy)
+--134234-- REDIR: 0x4a502b0 (libc.so.6:__strcasecmp_avx) redirected to 0x484f560 (strcasecmp)
+--134234-- REDIR: 0x4a51930 (libc.so.6:__strncasecmp_avx) redirected to 0x484f640 (strncasecmp)
+--134234-- REDIR: 0x4a4fc00 (libc.so.6:__memcmp_avx2_movbe) redirected to 0x4852010 (bcmp)
+==134235== 
+==134235== FILE DESCRIPTORS: 2 open (0 std) at exit.
+==134235== Open file descriptor 4:
+==134235==    at 0x49CB1CB: dup2 (syscall-template.S:120)
+==134235==    by 0x10DE46: ft_pipe (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134235==    by 0x10CEAB: ft_forking (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134235==    by 0x10E46E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134235==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134235==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134235== 
+==134235== Open file descriptor 3: /Users/benjamin/Documents/42/gh_minishell/valgrind.txt
+==134235==    <inherited from parent>
+==134235== 
+==134235== 
+==134235== HEAP SUMMARY:
+==134235==     in use at exit: 208,286 bytes in 225 blocks
+==134235==   total heap usage: 4,300 allocs, 4,075 frees, 968,962 bytes allocated
+==134235== 
+==134235== Searching for pointers to 225 not-freed blocks
+==134235== Checked 246,936 bytes
+==134235== 
+==134235== LEAK SUMMARY:
+==134235==    definitely lost: 0 bytes in 0 blocks
+==134235==    indirectly lost: 0 bytes in 0 blocks
+==134235==      possibly lost: 0 bytes in 0 blocks
+==134235==    still reachable: 0 bytes in 0 blocks
+==134235==         suppressed: 208,286 bytes in 225 blocks
+==134235== 
+==134235== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+--134235-- 
+--134235-- used_suppression:     62 leak readline suppressed_leaks:2 suppressed: 204,185 bytes in 221 blocks
+--134235-- used_suppression:      4 leak add_history suppressed_leaks:8 suppressed: 4,101 bytes in 4 blocks
+==134235== 
+==134235== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==134239== 
+==134239== FILE DESCRIPTORS: 5 open (3 std) at exit.
+==134239== Open file descriptor 4: h
+==134239==    at 0x49CA6EB: open (open64.c:41)
+==134239==    by 0x10D1BA: ft_heredoc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10C96B: ft_update_fd_in_out (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10CA09: ft_update_fds (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E45E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== Open file descriptor 3: /Users/benjamin/Documents/42/gh_minishell/valgrind.txt
+==134239==    <inherited from parent>
+==134239== 
+==134239== 
+==134239== HEAP SUMMARY:
+==134239==     in use at exit: 278,108 bytes in 3,618 blocks
+==134239==   total heap usage: 7,606 allocs, 3,988 frees, 1,689,303 bytes allocated
+==134239== 
+==134239== Searching for pointers to 3,618 not-freed blocks
+==134239== Checked 306,544 bytes
+==134239== 
+==134239== 2 bytes in 1 blocks are still reachable in loss record 1 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11093A: ft_strtrim (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F3C6: ft_new_token (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F52E: ft_gather_trim (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F65A: ft_token_separators (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F952: ft_tokenize (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E44E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 2 bytes in 1 blocks are still reachable in loss record 2 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10CEFC: ft_unquote_delim (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D1D8: ft_heredoc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10C96B: ft_update_fd_in_out (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10CA09: ft_update_fds (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E45E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 3 bytes in 1 blocks are still reachable in loss record 3 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D19B: ft_heredoc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10C96B: ft_update_fd_in_out (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10CA09: ft_update_fds (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E45E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 4 bytes in 1 blocks are still reachable in loss record 6 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11093A: ft_strtrim (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10AD2C: ft_quotes_doll (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F896: ft_tokenize (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E44E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 4 bytes in 1 blocks are still reachable in loss record 7 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F825: ft_unquote_tokens (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F9A2: ft_tokenize (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E44E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 7 bytes in 2 blocks are still reachable in loss record 8 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10DA0C: ft_add_back_token (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10DB51: ft_create_new_pipe (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10DC08: ft_create_pipe_list (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F142: ft_do_we_pipe (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F9AE: ft_tokenize (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E44E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 22 bytes in 1 blocks are still reachable in loss record 17 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D357: ft_create_first_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D3BB: ft_get_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D6A1: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 24 bytes in 1 blocks are still reachable in loss record 18 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D973: ft_create_first_pipe (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D669: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 24 bytes in 1 blocks are still reachable in loss record 19 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D32B: ft_create_first_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D3BB: ft_get_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D6A1: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 25 bytes in 1 blocks are still reachable in loss record 22 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F19C: ft_create_first_token (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D675: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 32 bytes in 1 blocks are still reachable in loss record 23 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F170: ft_create_first_token (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D675: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 32 bytes in 1 blocks are still reachable in loss record 24 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F34E: ft_new_token (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F52E: ft_gather_trim (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F65A: ft_token_separators (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F952: ft_tokenize (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E44E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 32 bytes in 1 blocks are still reachable in loss record 25 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F34E: ft_new_token (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F5D2: ft_token_separators (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F952: ft_tokenize (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E44E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 64 bytes in 2 blocks are still reachable in loss record 32 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D9E2: ft_add_back_token (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10DB51: ft_create_new_pipe (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10DC08: ft_create_pipe_list (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F142: ft_do_we_pipe (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F9AE: ft_tokenize (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E44E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 72 bytes in 1 blocks are still reachable in loss record 33 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D947: ft_create_first_pipe (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D669: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 72 bytes in 1 blocks are still reachable in loss record 34 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10DAA9: ft_create_new_pipe (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10DC08: ft_create_pipe_list (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F142: ft_do_we_pipe (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10F9AE: ft_tokenize (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E44E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 280 bytes in 1 blocks are still reachable in loss record 42 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D583: ft_cpy_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D68E: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 378 bytes in 34 blocks are still reachable in loss record 43 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D403: ft_get_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D6A1: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 816 bytes in 34 blocks are still reachable in loss record 47 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D2A5: ft_new_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D496: ft_get_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D6A1: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 2,128 bytes in 34 blocks are still reachable in loss record 60 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x1105AF: ft_substr (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D47B: ft_get_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D6A1: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 2,506 bytes in 34 blocks are still reachable in loss record 62 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D5D6: ft_cpy_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D68E: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 25,880 bytes in 1 blocks are still reachable in loss record 87 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10BBAE: ft_get_exec (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D6AD: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== 37,392 bytes in 3,234 blocks are still reachable in loss record 89 of 89
+==134239==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134239==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10BA6C: ft_copy_exec (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10BBDF: ft_get_exec (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10D6AD: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134239== 
+==134239== LEAK SUMMARY:
+==134239==    definitely lost: 0 bytes in 0 blocks
+==134239==    indirectly lost: 0 bytes in 0 blocks
+==134239==      possibly lost: 0 bytes in 0 blocks
+==134239==    still reachable: 69,801 bytes in 3,390 blocks
+==134239==         suppressed: 208,307 bytes in 228 blocks
+==134239== 
+==134239== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+--134239-- 
+--134239-- used_suppression:     62 leak readline suppressed_leaks:2 suppressed: 204,165 bytes in 221 blocks
+--134239-- used_suppression:      4 leak add_history suppressed_leaks:8 suppressed: 4,142 bytes in 7 blocks
+==134239== 
+==134239== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==134240== 
+==134240== FILE DESCRIPTORS: 2 open (0 std) at exit.
+==134240== Open file descriptor 4: h
+==134240==    at 0x49CA6EB: open (open64.c:41)
+==134240==    by 0x10D1BA: ft_heredoc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134240==    by 0x10C96B: ft_update_fd_in_out (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134240==    by 0x10CA09: ft_update_fds (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134240==    by 0x10E45E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134240==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134240==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134240== 
+==134240== Open file descriptor 3: /Users/benjamin/Documents/42/gh_minishell/valgrind.txt
+==134240==    <inherited from parent>
+==134240== 
+==134240== 
+==134240== HEAP SUMMARY:
+==134240==     in use at exit: 208,442 bytes in 238 blocks
+==134240==   total heap usage: 17,551 allocs, 17,313 frees, 3,850,739 bytes allocated
+==134240== 
+==134240== Searching for pointers to 238 not-freed blocks
+==134240== Checked 247,104 bytes
+==134240== 
+==134240== LEAK SUMMARY:
+==134240==    definitely lost: 0 bytes in 0 blocks
+==134240==    indirectly lost: 0 bytes in 0 blocks
+==134240==      possibly lost: 0 bytes in 0 blocks
+==134240==    still reachable: 0 bytes in 0 blocks
+==134240==         suppressed: 208,442 bytes in 238 blocks
+==134240== 
+==134240== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+--134240-- 
+--134240-- used_suppression:     63 leak readline suppressed_leaks:2 suppressed: 204,167 bytes in 222 blocks
+--134240-- used_suppression:      4 leak add_history suppressed_leaks:8 suppressed: 4,275 bytes in 16 blocks
+==134240== 
+==134240== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==134242== 
+==134242== FILE DESCRIPTORS: 6 open (3 std) at exit.
+==134242== Open file descriptor 4: h
+==134242==    at 0x49CA6EB: open (open64.c:41)
+==134242==    by 0x10D1BA: ft_heredoc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10C96B: ft_update_fd_in_out (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10CA09: ft_update_fds (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E45E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== Open file descriptor 5: h
+==134242==    at 0x49CA6EB: open (open64.c:41)
+==134242==    by 0x10D235: ft_heredoc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10C96B: ft_update_fd_in_out (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10CA09: ft_update_fds (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E45E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== Open file descriptor 3: /Users/benjamin/Documents/42/gh_minishell/valgrind.txt
+==134242==    <inherited from parent>
+==134242== 
+==134242== 
+==134242== HEAP SUMMARY:
+==134242==     in use at exit: 278,409 bytes in 3,637 blocks
+==134242==   total heap usage: 24,175 allocs, 20,538 frees, 5,291,573 bytes allocated
+==134242== 
+==134242== Searching for pointers to 3,637 not-freed blocks
+==134242== Checked 306,856 bytes
+==134242== 
+==134242== 2 bytes in 1 blocks are still reachable in loss record 1 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11093A: ft_strtrim (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F3C6: ft_new_token (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F52E: ft_gather_trim (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F65A: ft_token_separators (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F952: ft_tokenize (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E44E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 2 bytes in 1 blocks are still reachable in loss record 2 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10CEFC: ft_unquote_delim (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D1D8: ft_heredoc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10C96B: ft_update_fd_in_out (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10CA09: ft_update_fds (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E45E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 3 bytes in 1 blocks are still reachable in loss record 3 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D19B: ft_heredoc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10C96B: ft_update_fd_in_out (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10CA09: ft_update_fds (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E45E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 9 bytes in 1 blocks are still reachable in loss record 8 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11093A: ft_strtrim (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10AD2C: ft_quotes_doll (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F896: ft_tokenize (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E44E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 9 bytes in 2 blocks are still reachable in loss record 9 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F825: ft_unquote_tokens (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F9A2: ft_tokenize (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E44E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 12 bytes in 3 blocks are still reachable in loss record 10 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10DA0C: ft_add_back_token (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10DB51: ft_create_new_pipe (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10DC08: ft_create_pipe_list (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F142: ft_do_we_pipe (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F9AE: ft_tokenize (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E44E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 22 bytes in 1 blocks are still reachable in loss record 17 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D357: ft_create_first_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D3BB: ft_get_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D6A1: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 24 bytes in 1 blocks are still reachable in loss record 18 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D973: ft_create_first_pipe (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D669: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 24 bytes in 1 blocks are still reachable in loss record 19 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D32B: ft_create_first_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D3BB: ft_get_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D6A1: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 25 bytes in 1 blocks are still reachable in loss record 21 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F19C: ft_create_first_token (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D675: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 32 bytes in 1 blocks are still reachable in loss record 22 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F170: ft_create_first_token (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D675: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 32 bytes in 1 blocks are still reachable in loss record 23 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F34E: ft_new_token (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F5D2: ft_token_separators (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F952: ft_tokenize (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E44E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 64 bytes in 2 blocks are still reachable in loss record 28 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F34E: ft_new_token (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F52E: ft_gather_trim (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F65A: ft_token_separators (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F952: ft_tokenize (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E44E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 72 bytes in 1 blocks are still reachable in loss record 29 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D947: ft_create_first_pipe (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D669: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 72 bytes in 1 blocks are still reachable in loss record 30 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10DAA9: ft_create_new_pipe (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10DC08: ft_create_pipe_list (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F142: ft_do_we_pipe (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F9AE: ft_tokenize (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E44E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 96 bytes in 3 blocks are still reachable in loss record 35 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D9E2: ft_add_back_token (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10DB51: ft_create_new_pipe (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10DC08: ft_create_pipe_list (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F142: ft_do_we_pipe (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10F9AE: ft_tokenize (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E44E: ft_prompt_2 (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E527: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 280 bytes in 1 blocks are still reachable in loss record 42 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D583: ft_cpy_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D68E: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 378 bytes in 34 blocks are still reachable in loss record 43 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D403: ft_get_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D6A1: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 816 bytes in 34 blocks are still reachable in loss record 47 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D2A5: ft_new_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D496: ft_get_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D6A1: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 2,128 bytes in 34 blocks are still reachable in loss record 60 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x1105AF: ft_substr (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D47B: ft_get_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D6A1: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 2,506 bytes in 34 blocks are still reachable in loss record 62 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D5D6: ft_cpy_env (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D68E: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 25,880 bytes in 1 blocks are still reachable in loss record 87 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10BBAE: ft_get_exec (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D6AD: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== 37,392 bytes in 3,234 blocks are still reachable in loss record 89 of 89
+==134242==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==134242==    by 0x11042B: ft_calloc (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x1104A9: ft_strdup (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10BA6C: ft_copy_exec (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10BBDF: ft_get_exec (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10D6AD: ft_initialize_bash (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10E4AF: ft_prompt (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242==    by 0x10957A: main (in /Users/benjamin/Documents/42/gh_minishell/minishell)
+==134242== 
+==134242== LEAK SUMMARY:
+==134242==    definitely lost: 0 bytes in 0 blocks
+==134242==    indirectly lost: 0 bytes in 0 blocks
+==134242==      possibly lost: 0 bytes in 0 blocks
+==134242==    still reachable: 69,880 bytes in 3,394 blocks
+==134242==         suppressed: 208,529 bytes in 243 blocks
+==134242== 
+==134242== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+--134242-- 
+--134242-- used_suppression:     62 leak readline suppressed_leaks:2 suppressed: 204,165 bytes in 221 blocks
+--134242-- used_suppression:      4 leak add_history suppressed_leaks:8 suppressed: 4,364 bytes in 22 blocks
+==134242== 
+==134242== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==134234== 
+==134234== FILE DESCRIPTORS: 1 open (0 std) at exit.
+==134234== Open file descriptor 3: /Users/benjamin/Documents/42/gh_minishell/valgrind.txt
+==134234==    <inherited from parent>
+==134234== 
+==134234== 
+==134234== HEAP SUMMARY:
+==134234==     in use at exit: 208,772 bytes in 258 blocks
+==134234==   total heap usage: 44,034 allocs, 43,776 frees, 9,614,069 bytes allocated
+==134234== 
+==134234== Searching for pointers to 258 not-freed blocks
+==134234== Checked 247,272 bytes
+==134234== 
+==134234== LEAK SUMMARY:
+==134234==    definitely lost: 0 bytes in 0 blocks
+==134234==    indirectly lost: 0 bytes in 0 blocks
+==134234==      possibly lost: 0 bytes in 0 blocks
+==134234==    still reachable: 0 bytes in 0 blocks
+==134234==         suppressed: 208,772 bytes in 258 blocks
+==134234== 
+==134234== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+--134234-- 
+--134234-- used_suppression:     62 leak readline suppressed_leaks:2 suppressed: 204,185 bytes in 221 blocks
+--134234-- used_suppression:      4 leak add_history suppressed_leaks:8 suppressed: 4,587 bytes in 37 blocks
+==134234== 
+==134234== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

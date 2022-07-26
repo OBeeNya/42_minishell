@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/24 19:51:05 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 14:02:59 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_pipe
 	int				fdout;	
 	int				fdin_init;
 	int				fdout_init;
+	int				cmd_ok;
 	struct s_pipe	*next;
 	struct s_pipe	*previous;
 }	t_pipe;
