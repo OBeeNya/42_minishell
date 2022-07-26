@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 17:42:27 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 16:40:36 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 17:18:54 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ void	ft_prompt_2(t_bash *bash)
 	{
 		if (ft_tokenize(bash))
 		{
-			if (!ft_update_fds(bash))
+			if (ft_update_fds(bash) == 2)
+				return ;
+			else if (!ft_update_fds(bash))
 				ft_forking(bash);
 		}
 	}

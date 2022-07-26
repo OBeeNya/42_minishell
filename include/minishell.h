@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 16:18:14 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 17:13:22 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,8 +200,8 @@ void	ft_forking(t_bash *bash);
 char	*ft_unquote_delim(char *delim);
 int		ft_is_there_dolls(char *line);
 void	ft_eof_heredoc(char *unquoted);
-void	ft_fork_heredoc(char *filename, int quotes, char *unquoted, int fd);
-void	ft_heredoc(t_pipe *pipe, char *delim);
+int		ft_fork_heredoc(char *filename, int quotes, char *unquoted, int fd);
+int		ft_heredoc(t_pipe *pipe, char *delim);
 
 /* initialize.c */
 void	ft_new_env(t_bash *bash, char *key, char *string);

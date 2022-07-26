@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:38:15 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 14:45:15 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 17:15:19 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_eof_heredoc(char *unquoted)
 	exit(0);
 }
 
-void	ft_fork_heredoc(char *filename, int quotes, char *unquoted, int fd)
+int	ft_fork_heredoc(char *filename, int quotes, char *unquoted, int fd)
 {
 	pid_t	pid;
 
@@ -77,30 +77,36 @@ void	ft_fork_heredoc(char *filename, int quotes, char *unquoted, int fd)
 	if (pid != -1 && (0 < waitpid(pid, &g_bash.err, 0)))
 		g_bash.err = WEXITSTATUS(g_bash.err);
 	if (WIFSIGNALED(g_bash.err) && WTERMSIG(g_bash.err) == 2)
+	{
 		g_bash.err = 130;
+		return (1);
+	}
+	return (0);
 }
 
-void	ft_heredoc(t_pipe *pipe, char *delim)
+int	ft_heredoc(t_pipe *pipe, char *delim)
 {
 	char	*filename;
 	char	*unquoted;
 	int		fd;
 	int		quotes;
+	int		c;
 
 	filename = ft_strdup("h");
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 00644);
 	quotes = ft_are_there_quotes(delim);
 	unquoted = ft_unquote_delim(delim);
 	signal(SIGINT, SIG_IGN);
-	ft_fork_heredoc(filename, quotes, unquoted, fd);
+	c = ft_fork_heredoc(filename, quotes, unquoted, fd);
 	ft_handle_signals(0);
 	if (pipe->fdin)
 		close(pipe->fdin);
 	pipe->fdin = open(filename, O_RDONLY);
 	if (pipe->fdin == -1)
-		return ;
+		return (0);
 	free(filename);
 	free(unquoted);
 	close(fd);
 	unlink("h");
+	return (c);
 }
