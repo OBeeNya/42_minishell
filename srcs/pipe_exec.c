@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 17:47:12 by hugoo             #+#    #+#             */
-/*   Updated: 2022/07/26 16:59:57 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/26 17:36:25 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,15 @@ void	ft_wait_child(t_bash *bash, int i)
 
 void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k)
 {
+	int	j;
+
+	j = 0;
 	init_pipe(i, pass);
 	while (pass)
 	{
 		if (!ft_check_cmd(bash, pass) && pass->cmd)
 		{
+			j++;
 			ft_dup_fds(pass);
 			if (!k)
 				dup2(pass->fd[1], pass->fdout);
@@ -66,7 +70,8 @@ void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k)
 		k++;
 		pass = pass->next;
 	}
-	ft_wait_child(bash, i);
+	if (j - 1 == i)
+		ft_wait_child(bash, i);
 }
 
 void	ft_pipe_2(t_pipe *pass, t_bash *bash, int i)
