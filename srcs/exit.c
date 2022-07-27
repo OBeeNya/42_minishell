@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 17:53:41 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/27 14:45:44 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/27 15:01:57 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_check_min_long(char *s)
 		i++;
 	str = ft_strndup(s, i, ft_strlen(s) - i);
 	if (ft_strlen(str) > 19)
-		return (2);
+		return (free(str), 2);
 	min = ft_strdup("9223372036854775808");
 	if (!ft_strcmp(min, str) && neg)
 		return (free(str), free(min), 1);
