@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 17:53:41 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/26 18:56:22 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/27 14:45:44 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,23 @@ int	ft_check_min_long(char *s)
 	int		i;
 	char	*min;
 	char	*str;
+	bool	neg;
 
 	i = 0;
 	if (s[0] != '-')
-		return (0);
-	i++;
+		neg = false;
+	else
+	{
+		neg = true;
+		i++;
+	}
 	while (s[i] && s[i] == '0')
 		i++;
 	str = ft_strndup(s, i, ft_strlen(s) - i);
 	if (ft_strlen(str) > 19)
-		return (0);
+		return (2);
 	min = ft_strdup("9223372036854775808");
-	if (!ft_strcmp(min, str))
+	if (!ft_strcmp(min, str) && neg)
 		return (free(str), free(min), 1);
 	return (free(str), free(min), 0);
 }
@@ -74,6 +79,8 @@ int	ft_is_str_num(char *s)
 			return (0);
 		i++;
 	}
+	if (ft_check_min_long(s) == 2)
+		return (0);
 	if (ft_check_min_long(s))
 		return (1);
 	if (ft_long_atoi(s) > 9223372036854775807)
