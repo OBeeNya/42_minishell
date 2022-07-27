@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 17:53:41 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/27 15:01:57 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/27 15:11:16 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,5 @@ void	ft_exit(t_pipe *pipe)
 			g_bash.err = ft_long_atoi(pipe->args[0]);
 		ft_free_all(&g_bash, true);
 	}
-	g_bash.err = 0;
 	ft_free_all(&g_bash, true);
 }
