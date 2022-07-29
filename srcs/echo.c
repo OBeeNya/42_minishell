@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 18:01:43 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 14:36:27 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/26 16:29:48 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	ft_convert_err(t_bash *bash)
+{
+	while (bash->err > 255)
+		bash->err = bash->err % 255;
+}
 
 int	ft_is_nl_option(char *str)
 {
@@ -45,10 +51,11 @@ void	ft_echo(t_pipe *pipe)
 			token = token->next;
 		nl++;
 	}
-	while (token && token->type == T_STR)
+	while (token)
 	{
-		ft_putstr_fd(token->str, 1);
-		if (token->next)
+		if (token->type == T_STR)
+			ft_putstr_fd(token->str, 1);
+		if (token->next && token->next->type == T_STR)
 			ft_putstr_fd(" ", 1);
 		token = token->next;
 	}

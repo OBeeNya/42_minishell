@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+         #
+#    By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/27 14:40:09 by hcherpre          #+#    #+#              #
-#    Updated: 2022/07/23 19:29:23 by baubigna         ###   ########.fr        #
+#    Updated: 2022/07/28 16:33:19 by benjamin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCS    = srcs/main.c \
             srcs/fork.c \
             srcs/heredoc.c \
             srcs/initialize.c \
+            srcs/norme.c \
             srcs/parse_utils.c \
             srcs/pipe_creation.c \
             srcs/pipe_exec.c \
@@ -74,6 +75,7 @@ clean:
 fclean: clean
 			${RM} ${NAME}
 			${RM} $(LIBFT)
+			${RM} valgrind.txt
 
 re:     fclean all
 

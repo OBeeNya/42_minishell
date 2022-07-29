@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 14:05:04 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/18 14:11:34 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/28 16:20:20 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	ft_execute_cmd(t_pipe *pipe, t_bash *bash)
 	char	*cmd;
 	int		e;
 
-	ft_handle_signals();
+	ft_handle_signals(1);
 	args = ft_join_args(pipe);
 	if (args)
 	{
@@ -92,7 +92,6 @@ void	ft_execute_cmd(t_pipe *pipe, t_bash *bash)
 			free(cmd);
 		}
 	}
-	signal(SIGINT, SIG_IGN);
 }
 
 void	ft_execute_no_pipe(t_bash *bash, t_pipe *pass)
@@ -113,9 +112,11 @@ void	ft_execute_no_pipe(t_bash *bash, t_pipe *pass)
 				return ;
 			else if (!pid)
 				ft_execute_cmd(pass, bash);
-			if (0 < waitpid(pid, &bash->err, 0) && WIFEXITED(bash->err))
+			if (pid != -1 && (0 < waitpid(pid, &bash->err, 0)) && pass->cmd_ok)
 				bash->err = WEXITSTATUS(bash->err);
-			ft_handle_signals();
+			ft_check_signal_exit(bash);
+			ft_convert_err(bash);
+			ft_handle_signals(0);
 		}
 		ft_close_fds(pass);
 	}
@@ -134,4 +135,6 @@ void	ft_forking(t_bash *bash)
 		ft_execute_no_pipe(bash, pass);
 	else
 		ft_pipe(bash, i, pass, k);
+	if (bash->err == 13)
+		bash->err = 127;
 }

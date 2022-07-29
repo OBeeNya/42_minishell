@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 17:23:42 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/07/09 18:54:48 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/27 23:35:01 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,21 @@ void	ft_close(t_bash *bash, int i)
 		pass = pass->next;
 		j++;
 	}
+}
+
+void	ft_fork_pipe(t_bash *bash, int i, t_pipe *pass)
+{
+	ft_handle_signals(0);
+	ft_close(bash, i);
+	ft_get_args(bash);
+	if (ft_is_builtin(pass->cmd))
+	{
+		ft_dispatch_builtins(pass, bash);
+		ft_free_all(bash, false);
+		ft_free_env(bash);
+		ft_close_all_fd();
+		exit(bash->err);
+	}
+	else if (pass->cmd)
+		ft_execute_cmd(pass, bash);
 }

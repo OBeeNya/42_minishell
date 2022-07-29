@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 17:03:14 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/11 19:13:04 by benjamin         ###   ########.fr       */
+/*   Updated: 2022/07/27 19:02:19 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,18 @@ void	ft_close_int_fd(void)
 	{
 		if (!read(i, 0, 0))
 			close(i);
+		i++;
+	}
+}
+
+void	ft_close_all_fd(void)
+{
+	int	i;
+
+	i = 0;
+	while (i < 1024)
+	{
+		close(i);
 		i++;
 	}
 }

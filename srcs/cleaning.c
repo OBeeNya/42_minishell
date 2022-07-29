@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaning.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/30 17:44:30 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/18 16:42:14 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/27 21:31:32 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	ft_free_all(t_bash *bash, bool last)
 	{
 		ft_free_env(bash);
 		ft_putstr_fd("exit\n", 1);
-		ft_close_int_fd();
+		ft_close_all_fd();
 		exit(bash->err);
 	}
 }

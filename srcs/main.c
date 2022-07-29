@@ -22,9 +22,11 @@ int	main(int ac, char **av, char **envp)
 	if (!isatty(STDIN_FILENO))
 	{
 		ft_putstr_fd("error, the open file descriptor does not refer to a", 2);
-		ft_putstr_fd("terminal\n", 2);
+		ft_putstr_fd(" terminal\n", 2);
 		exit(1);
 	}
+	if (!isatty(STDOUT_FILENO))
+		exit(1);
 	first = true;
 	last = false;
 	if (ac != 1)

@@ -71,17 +71,20 @@ int	ft_get_nb_of_files(char **directories, DIR *dir, struct dirent *entry)
 	j = 0;
 	while (directories[i])
 	{
-		if (ft_strncmp(directories[i], "/mnt", 4))
+		if (!access(directories[i], F_OK))
 		{
-			dir = opendir(directories[i]);
-			entry = readdir(dir);
-			while (entry)
+			if (ft_strncmp(directories[i], "/mnt", 4))
 			{
-				if (entry->d_name[0] != '.')
-					j++;
+				dir = opendir(directories[i]);
 				entry = readdir(dir);
+				while (entry)
+				{
+					if (entry->d_name[0] != '.')
+						j++;
+					entry = readdir(dir);
+				}
+				closedir(dir);
 			}
-			closedir(dir);
 		}
 		i++;
 	}
@@ -97,7 +100,7 @@ void	ft_copy_exec(t_bash *bash, char **paths, DIR *dir, struct dirent *entry)
 	j = 0;
 	while (paths[i])
 	{
-		if (ft_strncmp(paths[i], "/mnt", 4))
+		if (!access(paths[i], F_OK) && ft_strncmp(paths[i], "/mnt", 4))
 		{
 			dir = opendir(paths[i]);
 			entry = readdir(dir);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   err.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 14:27:54 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/09 18:33:12 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/27 18:49:08 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ int	ft_check_export(char *str)
 	size_t	i;
 
 	i = 0;
-	if (!ft_isalpha(str[i]))
+	if (!ft_isalpha(str[i]) && str[i] != '_')
 		return (1);
 	while (str[i] && str[i] != '=' && str[i] != '+')
 	{
 		if (str[i] != '_' && str[i] != '=' && str[i] != '+'
-			&& !ft_isalpha(str[i]))
+			&& !ft_isalnum(str[i]))
 			return (1);
 		i++;
 	}
@@ -60,7 +60,7 @@ void	ft_clean_err(t_bash *bash)
 	pipe = bash->pipes->next;
 	while (pipe)
 	{
-		if (pipe->cmd && !ft_strncmp(pipe->cmd, "echo", 4)
+		if (pipe->cmd && !ft_strcmp(pipe->cmd, "echo")
 			&& !bash->echo && !pipe->next)
 			bash->err = 0;
 		pipe = pipe->next;

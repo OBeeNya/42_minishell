@@ -66,6 +66,8 @@ int	ft_check_middle_tokens(t_token *token, t_bash *bash)
 
 int	ft_check_tokens(t_bash *bash)
 {
+	if (ft_check_twice_redir(bash))
+		return (1);
 	bash->first_token = ft_first_token(bash->first_token);
 	bash->first_token = bash->first_token->next;
 	if (!ft_check_first_and_last_token(bash->first_token, bash))

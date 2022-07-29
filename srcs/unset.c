@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:56:51 by baubigna          #+#    #+#             */
-/*   Updated: 2022/06/22 18:16:54 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/28 15:59:57 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,22 @@ void	ft_unset_env(t_bash *bash, char *str)
 	free(env);
 }
 
+int	ft_check_unset(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	if (!ft_isalpha(str[i]) && str[i] != '_')
+		return (1);
+	while (str[i])
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void	ft_unset(t_pipe *pipe, t_bash *bash)
 {
 	t_token	*token;
@@ -90,11 +106,12 @@ void	ft_unset(t_pipe *pipe, t_bash *bash)
 			ft_unset_envp(bash, token->str);
 			ft_unset_env(bash, token->str);
 		}
-		else if (ft_check_export(token->str))
+		else if (ft_check_unset(token->str))
 		{
-			ft_putstr_fd("minishell: unset: ", 2);
+			ft_putstr_fd("minishell: unset: '", 2);
 			ft_putstr_fd(token->str, 2);
-			ft_putstr_fd(": invalid option\n", 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			bash->err = 1;
 		}
 		token = token->next;
 	}

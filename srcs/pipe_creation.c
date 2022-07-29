@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_creation.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcherpre <hcherpre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 15:50:26 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/08 12:39:24 by hcherpre         ###   ########.fr       */
+/*   Updated: 2022/07/26 14:12:59 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	ft_create_new_pipe(t_bash *bash, t_token *token)
 	pipe->next = NULL;
 	pipe->fdin = 0;
 	pipe->fdout = 1;
+	pipe->cmd_ok = 1;
 	next = bash->pipes;
 	while (next->next)
 		next = next->next;

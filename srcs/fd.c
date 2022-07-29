@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 17:29:58 by baubigna          #+#    #+#             */
-/*   Updated: 2022/07/08 13:48:23 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/28 17:16:31 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,8 @@ void	ft_update_fdout(t_pipe *pipe, t_token *token)
 	}
 }
 
-int	ft_update_fd_in_out(t_pipe *pipe, t_bash *bash)
+int	ft_update_fd_in_out(t_pipe *pipe, t_bash *bash, t_token *token)
 {
-	t_token	*token;
-
-	token = pipe->first_token;
 	while (token)
 	{
 		if (token->type == T_RED_I_SGL)
@@ -64,12 +61,15 @@ int	ft_update_fd_in_out(t_pipe *pipe, t_bash *bash)
 			pipe->fdin = open(token->next->str, O_RDONLY, 00644);
 			if (pipe->fdin == -1)
 			{
+				pipe->fdin = 0;
 				ft_fd_in_err_no(token, bash);
-				return (1);
 			}
 		}
 		else if (token->type == T_RED_I_DBL)
-			ft_heredoc(pipe, token->next->str);
+		{
+			if (ft_heredoc(pipe, token->next->str))
+				return (2);
+		}
 		else if (token->type == T_RED_O_SGL || token->type == T_RED_O_DBL)
 			ft_update_fdout(pipe, token);
 		if (ft_err_echo_dir(pipe, bash))
@@ -82,11 +82,17 @@ int	ft_update_fd_in_out(t_pipe *pipe, t_bash *bash)
 int	ft_update_fds(t_bash *bash)
 {
 	t_pipe	*pipe;
+	t_token	*token;
+	int		i;
 
 	pipe = bash->pipes->next;
 	while (pipe)
 	{
-		if (ft_update_fd_in_out(pipe, bash))
+		token = pipe->first_token;
+		i = ft_update_fd_in_out(pipe, bash, token);
+		if (i == 2)
+			return (2);
+		else if (i)
 			return (1);
 		pipe = pipe->next;
 	}

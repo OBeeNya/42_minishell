@@ -54,14 +54,15 @@ void	ft_update_old_pwd(t_bash *bash, char *old)
 	}
 }
 
-void	ft_update_pwd(t_bash *bash, char *old, char *new)
+void	ft_update_pwd(t_bash *bash, char *old, char buf[MAX_LINE_LEN])
 {
 	int		i;
 	char	*temp;
+	char	*new;
 	t_env	*env;
 
-	i = 0;
 	env = bash->env;
+	new = getcwd(buf, MAX_LINE_LEN);
 	while (env && ft_strcmp(env->key, "PWD"))
 		env = env->next;
 	if (env)
@@ -85,10 +86,7 @@ void	ft_update_pwd(t_bash *bash, char *old, char *new)
 int	ft_check_cd_args(t_token *token, t_bash *bash)
 {
 	if (!token->next || (token->next && token->next->type != T_STR))
-	{
-		ft_putstr_fd("this command only takes relative or absolute paths\n", 2);
 		return (1);
-	}
 	if (token->next && token->next->type == T_STR && token->next->next
 		&& token->next->next->type == T_STR)
 	{
@@ -118,9 +116,9 @@ void	ft_cd(t_pipe *pipe, t_bash *bash, char *old, char buf[MAX_LINE_LEN])
 	token = token->next;
 	new = getcwd(buf, MAX_LINE_LEN);
 	c = chdir(token->str);
-	if (c || (!new))
+	if (c == -1 || (!new))
 		ft_cd_msg_err(token->str, bash);
 	else
-		ft_update_pwd(bash, temp, new);
+		ft_update_pwd(bash, temp, buf);
 	free(temp);
 }

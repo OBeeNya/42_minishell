@@ -3,50 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   executable.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 13:44:38 by hcherpre          #+#    #+#             */
-/*   Updated: 2022/07/09 18:56:38 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/07/24 19:21:19 by benjamin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ft_executable(t_bash *bash)
+int	ft_executable(t_bash *bash, t_pipe *pass)
 {
-	t_pipe	*pass;
+	int	i;
 
-	pass = bash->pipes->next;
-	while (pass)
+	i = 0;
+	if (pass->cmd)
 	{
-		if (pass->cmd)
+		if (pass->cmd[0] == '.' && (pass->cmd[1] == '.'
+				|| pass->cmd[1] == '/'))
+			i = ft_executable_2(pass, bash);
+		else if (pass->cmd[0] == '/')
 		{
-			if (pass->cmd[0] == '.' && (pass->cmd[1] == '.'
-					|| pass->cmd[1] == '/'))
-				ft_executable_2(pass, bash);
-			else if (pass->cmd[0] == '/')
+			if (access(pass->cmd, F_OK))
 			{
-				if (access(pass->cmd, F_OK))
-					ft_err_no_exec(pass->cmd, bash);
+				ft_err_no_exec(pass->cmd, bash);
+				i = 1;
 			}
 		}
-		pass = pass->next;
 	}
+	return (i);
 }
 
-void	ft_executable_2(t_pipe *pass, t_bash *bash)
+int	ft_executable_2(t_pipe *pass, t_bash *bash)
 {
-	char	*temp;
+	char		*temp;
+	DIR			*dir;
+	struct stat	sb;
 
 	temp = ft_executable_3(pass->cmd);
-	if (!access(temp, F_OK))
+	dir = opendir(temp);
+	if (!access(temp, F_OK) && !dir)
 	{
-		free(pass->cmd);
-		pass->cmd = ft_strdup(temp);
+		closedir(dir);
+		if (!stat(temp, &sb) && sb.st_mode & S_IXUSR)
+		{
+			free(pass->cmd);
+			pass->cmd = ft_strdup(temp);
+			return (free(temp), 0);
+		}
 	}
 	else
+	{
+		closedir(dir);
 		ft_err_no_exec(pass->cmd, bash);
-	free(temp);
+	}
+	return (free(temp), 1);
 }
 
 char	*ft_executable_3(char *cmd)
