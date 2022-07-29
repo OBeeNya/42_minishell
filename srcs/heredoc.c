@@ -6,11 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 18:38:15 by baubigna          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2022/07/27 16:52:18 by benjamin         ###   ########.fr       */
-=======
-/*   Updated: 2022/07/26 19:23:54 by benjamin         ###   ########.fr       */
->>>>>>> 81778941ff90b564dbec9072d82aa6baabc4382b
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +49,13 @@ int	ft_is_there_dolls(char *line)
 		return (1);
 }
 
-<<<<<<< HEAD
 void	ft_eof_heredoc(char *unquoted, char *filename, int fd)
-=======
-void	ft_eof_heredoc(char *unquoted, char *filename)
->>>>>>> 81778941ff90b564dbec9072d82aa6baabc4382b
 {
 	ft_putstr_fd("minishell: warning: here-document at line delimited", 2);
 	ft_putstr_fd(" by end-of-file (wanted `", 2);
 	ft_putstr_fd(unquoted, 2);
 	ft_putstr_fd("')\n", 2);
-<<<<<<< HEAD
 	close(fd);
-=======
->>>>>>> 81778941ff90b564dbec9072d82aa6baabc4382b
 	free(unquoted);
 	free(filename);
 	ft_free_all(&g_bash, false);
@@ -86,10 +75,7 @@ int	ft_fork_heredoc(char *filename, int quotes, char *unquoted, int fd)
 		g_bash.f = filename;
 		g_bash.u = unquoted;
 		ft_heredoc_loop(unquoted, quotes, fd, filename);
-<<<<<<< HEAD
 		close(fd);
-=======
->>>>>>> 81778941ff90b564dbec9072d82aa6baabc4382b
 		free(unquoted);
 		free(filename);
 		ft_free_all(&g_bash, false);

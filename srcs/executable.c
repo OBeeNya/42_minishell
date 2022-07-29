@@ -12,21 +12,15 @@
 
 #include "../include/minishell.h"
 
-<<<<<<< HEAD
 int	ft_executable(t_bash *bash, t_pipe *pass)
 {
 	int	i;
 
 	i = 0;
-=======
-void	ft_executable(t_bash *bash, t_pipe *pass)
-{
->>>>>>> 81778941ff90b564dbec9072d82aa6baabc4382b
 	if (pass->cmd)
 	{
 		if (pass->cmd[0] == '.' && (pass->cmd[1] == '.'
 				|| pass->cmd[1] == '/'))
-<<<<<<< HEAD
 			i = ft_executable_2(pass, bash);
 		else if (pass->cmd[0] == '/')
 		{
@@ -35,13 +29,6 @@ void	ft_executable(t_bash *bash, t_pipe *pass)
 				ft_err_no_exec(pass->cmd, bash);
 				i = 1;
 			}
-=======
-			ft_executable_2(pass, bash);
-		else if (pass->cmd[0] == '/')
-		{
-			if (access(pass->cmd, F_OK))
-				ft_err_no_exec(pass->cmd, bash);
->>>>>>> 81778941ff90b564dbec9072d82aa6baabc4382b
 		}
 	}
 	return (i);

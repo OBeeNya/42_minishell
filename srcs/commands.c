@@ -14,7 +14,6 @@
 
 int	ft_check_cmd_2(t_bash *bash, t_pipe *pipe)
 {
-<<<<<<< HEAD
 	int	i;
 
 	i = ft_executable(bash, pipe);
@@ -22,10 +21,6 @@ int	ft_check_cmd_2(t_bash *bash, t_pipe *pipe)
 		return (1);
 	i = ft_check_cmd_exec(bash, pipe);
 	return (i);
-=======
-	ft_executable(bash, pipe);
-	return (ft_check_cmd_exec(bash, pipe));
->>>>>>> 81778941ff90b564dbec9072d82aa6baabc4382b
 }
 
 int	ft_check_cmd(t_bash *bash, t_pipe *pipe)

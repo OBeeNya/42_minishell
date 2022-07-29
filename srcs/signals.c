@@ -6,11 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 15:36:01 by baubigna          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2022/07/27 16:40:21 by benjamin         ###   ########.fr       */
-=======
-/*   Updated: 2022/07/27 11:43:02 by benjamin         ###   ########.fr       */
->>>>>>> 81778941ff90b564dbec9072d82aa6baabc4382b
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +35,7 @@ void	heredoc_handler(int signum)
 		rl_replace_line("", 0);
 		ft_putstr_fd("\n", 1);
 		g_bash.err = 130;
-<<<<<<< HEAD
 		close(g_bash.h_f);
-=======
->>>>>>> 81778941ff90b564dbec9072d82aa6baabc4382b
 		ft_free_all(&g_bash, false);
 		ft_free_env(&g_bash);
 		ft_close_int_fd();
