@@ -6,7 +6,11 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 11:27:02 by baubigna          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/07/28 16:33:06 by benjamin         ###   ########.fr       */
+=======
+/*   Updated: 2022/07/26 19:58:36 by benjamin         ###   ########.fr       */
+>>>>>>> 81778941ff90b564dbec9072d82aa6baabc4382b
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,8 +160,13 @@ void	ft_err_no_exec(char *cmd, t_bash *bash);
 void	ft_fd_in_err_no(t_token *token, t_bash *bash);
 
 /* executable.c */
+<<<<<<< HEAD
 int		ft_executable(t_bash *bash, t_pipe *pipe);
 int		ft_executable_2(t_pipe *pass, t_bash *bash);
+=======
+void	ft_executable(t_bash *bash, t_pipe *pipe);
+void	ft_executable_2(t_pipe *pass, t_bash *bash);
+>>>>>>> 81778941ff90b564dbec9072d82aa6baabc4382b
 char	*ft_executable_3(char *cmd);
 char	*ft_delete_dir(char *cwd);
 
@@ -203,7 +212,11 @@ void	ft_forking(t_bash *bash);
 /* heredoc.c */
 char	*ft_unquote_delim(char *delim);
 int		ft_is_there_dolls(char *line);
+<<<<<<< HEAD
 void	ft_eof_heredoc(char *unquoted, char *filename, int fd);
+=======
+void	ft_eof_heredoc(char *unquoted, char *filename);
+>>>>>>> 81778941ff90b564dbec9072d82aa6baabc4382b
 int		ft_fork_heredoc(char *filename, int quotes, char *unquoted, int fd);
 int		ft_heredoc(t_pipe *pipe, char *delim);
 
@@ -235,7 +248,11 @@ void	ft_create_pipe_list(t_bash *bash);
 
 /* pipe_exec.c */
 void	ft_dup_middle_pipe(t_pipe *pass);
+<<<<<<< HEAD
 void	ft_wait_child(t_bash *bash, int i, int j);
+=======
+void	ft_wait_child(t_bash *bash, int i);
+>>>>>>> 81778941ff90b564dbec9072d82aa6baabc4382b
 void	ft_pipe(t_bash *bash, int i, t_pipe *pass, int k);
 void	ft_pipe_2(t_pipe *pass, t_bash *bash, int i);
 void	init_pipe(int i, t_pipe *pass);

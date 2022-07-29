@@ -6,7 +6,11 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 17:42:27 by baubigna          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/07/28 16:08:06 by benjamin         ###   ########.fr       */
+=======
+/*   Updated: 2022/07/26 20:02:26 by benjamin         ###   ########.fr       */
+>>>>>>> 81778941ff90b564dbec9072d82aa6baabc4382b
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +26,11 @@ void	ft_heredoc_loop(char *unquoted, int quotes, int fd, char *filename)
 	{
 		line = readline("> ");
 		if (!line)
+<<<<<<< HEAD
 			ft_eof_heredoc(unquoted, filename, fd);
+=======
+			ft_eof_heredoc(unquoted, filename);
+>>>>>>> 81778941ff90b564dbec9072d82aa6baabc4382b
 		line = ft_expand_heredoc(line, &g_bash, quotes);
 		if (!ft_strcmp(line, unquoted))
 			break ;
@@ -32,6 +40,7 @@ void	ft_heredoc_loop(char *unquoted, int quotes, int fd, char *filename)
 	}
 }
 
+<<<<<<< HEAD
 void	ft_check_last_pipe(t_bash *bash)
 {
 	t_pipe	*pipe;
@@ -43,6 +52,8 @@ void	ft_check_last_pipe(t_bash *bash)
 		bash->err = 127;
 }
 
+=======
+>>>>>>> 81778941ff90b564dbec9072d82aa6baabc4382b
 void	ft_prompt_2(t_bash *bash)
 {
 	int	i;

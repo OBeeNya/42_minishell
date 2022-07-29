@@ -6,7 +6,11 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 14:05:04 by baubigna          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/07/28 16:20:20 by benjamin         ###   ########.fr       */
+=======
+/*   Updated: 2022/07/26 19:52:52 by benjamin         ###   ########.fr       */
+>>>>>>> 81778941ff90b564dbec9072d82aa6baabc4382b
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +87,7 @@ void	ft_execute_cmd(t_pipe *pipe, t_bash *bash)
 		{
 			cmd = ft_strjoin(path, pipe->cmd);
 			e = execve(cmd, args, bash->envp);
-			e = 0;
-			while (args[e])
-				free(args[e++]);
-			free(args[e]);
-			free(args);
-			free(path);
-			free(cmd);
+			(void)e;
 		}
 	}
 }
